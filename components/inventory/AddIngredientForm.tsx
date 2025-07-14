@@ -2,6 +2,7 @@
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { MobileHeader } from '@/components/ui/mobile-header';
 import {
   Select,
   SelectContent,
@@ -67,99 +68,102 @@ export default function AddIngredientForm({
   };
 
   return (
-    <div className="flex flex-col gap-6 p-4">
-      {/* Header */}
-      <div className="flex flex-col gap-2">
-        <h1 className="font-semibold text-2xl text-[#000000] leading-8 tracking-[-0.528px]">
-          Input Ingredients for Inventory
-        </h1>
-        <p className="text-[#a4a7ae] text-sm leading-5">
-          Enter each ingredient used in your inventory, specifying its amount
-          and how it's measured (e.g., Kg, Grams, Slices). This helps ensure
-          accurate stock tracking.
-        </p>
-      </div>
+    <div className="flex min-h-screen flex-col bg-white">
+      <MobileHeader
+        onBackClick={onClose}
+        showBackButton
+        title="Add Ingredient"
+      />
 
-      {/* Form Fields */}
-      <div className="flex flex-col gap-4">
-        {/* Name Field */}
+      <div className="flex flex-1 flex-col gap-6 p-4">
+        {/* Description */}
         <div className="flex flex-col gap-2">
-          <label
-            className="font-medium text-[#414651] text-lg leading-7"
-            htmlFor="ingredient-name"
-          >
-            Name
-          </label>
-          <Input
-            className="h-11 rounded-lg border-[#d5d7da] px-3.5 py-2.5 text-[#414651] text-base leading-6 shadow-[0px_1px_2px_0px_rgba(10,13,18,0.05)]"
-            id="ingredient-name"
-            onChange={(e) => setName(e.target.value)}
-            placeholder="Enter ingredient name"
-            value={name}
-          />
+          <p className="text-[#a4a7ae] text-sm leading-5">
+            Enter each ingredient used in your inventory, specifying its amount
+            and how it's measured (e.g., Kg, Grams, Slices). This helps ensure
+            accurate stock tracking.
+          </p>
         </div>
 
-        {/* Unit Field */}
-        <div className="flex flex-col gap-2">
-          <label
-            className="font-medium text-[#414651] text-lg leading-7"
-            htmlFor="ingredient-unit"
-          >
-            Unit
-          </label>
-          <Select onValueChange={setUnit} value={unit}>
-            <SelectTrigger
-              className="h-11 rounded-lg border-[#d5d7da] px-3.5 py-2.5 text-[#717680] text-base leading-6 shadow-[0px_1px_2px_0px_rgba(10,13,18,0.05)]"
-              id="ingredient-unit"
+        {/* Form Fields */}
+        <div className="flex flex-col gap-4">
+          {/* Name Field */}
+          <div className="flex flex-col gap-2">
+            <label
+              className="font-medium text-[#414651] text-lg leading-7"
+              htmlFor="ingredient-name"
             >
-              <SelectValue placeholder="Choose unit" />
-            </SelectTrigger>
-            <SelectContent>
-              {units.map((unitOption) => (
-                <SelectItem key={unitOption} value={unitOption}>
-                  {unitOption}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
+              Name
+            </label>
+            <Input
+              className="h-11 rounded-lg border-[#d5d7da] px-3.5 py-2.5 text-[#414651] text-base leading-6 shadow-[0px_1px_2px_0px_rgba(10,13,18,0.05)]"
+              id="ingredient-name"
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Enter ingredient name"
+              value={name}
+            />
+          </div>
 
-        {/* Quantity Field */}
-        <div className="flex flex-col gap-2">
-          <label
-            className="font-medium text-[#414651] text-lg leading-7"
-            htmlFor="ingredient-quantity"
-          >
-            Quantity
-          </label>
-          <div className="flex rounded-lg border border-[#d5d7da] shadow-[0px_1px_2px_0px_rgba(10,13,18,0.05)]">
-            {/* Quantity Display */}
-            <div className="flex flex-1 items-center border-[#d5d7da] border-r bg-white px-4 py-2">
-              <input
-                className="w-full border-0 bg-transparent text-[#414651] text-base leading-6 outline-none"
+          {/* Unit Field */}
+          <div className="flex flex-col gap-2">
+            <label
+              className="font-medium text-[#414651] text-lg leading-7"
+              htmlFor="ingredient-unit"
+            >
+              Unit
+            </label>
+            <Select onValueChange={setUnit} value={unit}>
+              <SelectTrigger
+                className="h-11 rounded-lg border-[#d5d7da] px-3.5 py-2.5 text-[#717680] text-base leading-6 shadow-[0px_1px_2px_0px_rgba(10,13,18,0.05)]"
+                id="ingredient-unit"
+              >
+                <SelectValue placeholder="Choose unit" />
+              </SelectTrigger>
+              <SelectContent>
+                {units.map((unitOption) => (
+                  <SelectItem key={unitOption} value={unitOption}>
+                    {unitOption}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
+          {/* Quantity Field */}
+          <div className="flex flex-col gap-2">
+            <label
+              className="font-medium text-[#414651] text-lg leading-7"
+              htmlFor="ingredient-quantity"
+            >
+              Quantity
+            </label>
+            <div className="flex items-center gap-3">
+              <Button
+                className="h-11 w-11 rounded-lg border-[#d5d7da] bg-white shadow-[0px_1px_2px_0px_rgba(10,13,18,0.05)] hover:bg-gray-50"
+                onClick={decrementQuantity}
+                size="icon"
+                type="button"
+                variant="outline"
+              >
+                <Minus className="h-4 w-4" />
+              </Button>
+              <Input
+                className="h-11 rounded-lg border-[#d5d7da] px-3.5 py-2.5 text-center text-[#414651] text-base leading-6 shadow-[0px_1px_2px_0px_rgba(10,13,18,0.05)]"
                 id="ingredient-quantity"
-                min="1"
                 onChange={(e) => handleQuantityChange(e.target.value)}
                 type="number"
                 value={quantity}
               />
+              <Button
+                className="h-11 w-11 rounded-lg border-[#d5d7da] bg-white shadow-[0px_1px_2px_0px_rgba(10,13,18,0.05)] hover:bg-gray-50"
+                onClick={incrementQuantity}
+                size="icon"
+                type="button"
+                variant="outline"
+              >
+                <Plus className="h-4 w-4" />
+              </Button>
             </div>
-            {/* Minus Button */}
-            <button
-              className="flex items-center justify-center border-[#d5d7da] border-r bg-white px-4 py-2 transition-colors hover:bg-gray-50"
-              onClick={decrementQuantity}
-              type="button"
-            >
-              <Minus className="h-6 w-6 text-[#717680]" />
-            </button>
-            {/* Plus Button */}
-            <button
-              className="flex items-center justify-center bg-white px-3 py-2 transition-colors hover:bg-gray-50"
-              onClick={incrementQuantity}
-              type="button"
-            >
-              <Plus className="h-6 w-6 text-[#717680]" />
-            </button>
           </div>
         </div>
 

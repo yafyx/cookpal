@@ -1,6 +1,7 @@
 import BottomNavigation from '@/components/dashboard/BottomNavigation';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { MobileHeader } from '@/components/ui/mobile-header';
 import { ArrowUp, History } from 'lucide-react';
 
 export default function AssistantPage() {
@@ -11,16 +12,17 @@ export default function AssistantPage() {
 
   return (
     <div className="flex min-h-screen flex-col bg-white">
-      {/* Main Content */}
-      <div className="flex flex-1 flex-col justify-between p-4 pt-6 pb-24">
-        {/* Header */}
-        <div className="mb-3 flex items-center justify-between">
-          <h1 className="font-semibold text-black text-lg">
-            Instant Cooking Help
-          </h1>
-          <History className="h-6 w-6 text-gray-600" />
-        </div>
+      <MobileHeader
+        rightAction={
+          <Button className="h-8 w-8" size="icon" variant="ghost">
+            <History className="h-5 w-5 text-[#414651]" />
+          </Button>
+        }
+        title="Instant Cooking Help"
+      />
 
+      {/* Main Content */}
+      <div className="flex flex-1 flex-col justify-between p-4 pb-24">
         {/* Main Content Area - Empty for now, will fill with chat messages */}
         <div className="flex-1" />
 
@@ -49,7 +51,7 @@ export default function AssistantPage() {
               className="-translate-y-1/2 absolute top-1/2 right-3 h-[30px] w-[30px] rounded-full bg-[#fd853a] hover:bg-[#fd853a]/90"
               size="icon"
             >
-              <ArrowUp className="h-4 w-4 text-white" />
+              <ArrowUp className="h-4 w-4" />
             </Button>
           </div>
         </div>

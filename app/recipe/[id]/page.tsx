@@ -1,5 +1,6 @@
 import BottomNavigation from '@/components/dashboard/BottomNavigation';
 import { RecipeDetails } from '@/components/recipe/RecipeDetails';
+import { MobileHeader } from '@/components/ui/mobile-header';
 import type { Recipe } from '@/lib/types';
 
 // Mock recipe data - in a real app this would come from an API
@@ -7,7 +8,8 @@ const mockRecipe: Recipe = {
   id: '1',
   name: 'Beef Burger',
   creator: 'Creator',
-  image: '/api/placeholder/375/362',
+  image:
+    'https://via.placeholder.com/375x362/d97706/ffffff?text=🍔+Beef+Burger',
   description:
     'Homemade beef cutlet with a special sauce with parmesan and mustard will not leave you indifferent. The crispy rice flour bun will impress you with its irresistibility.',
   nutrition: {
@@ -21,19 +23,19 @@ const mockRecipe: Recipe = {
       id: '1',
       name: 'Potato Bun',
       quantity: '4',
-      image: '/api/placeholder/33/33',
+      image: 'https://via.placeholder.com/33x33/d97706/ffffff?text=🍞',
     },
     {
       id: '2',
       name: 'Cheddar Cheese',
       quantity: '8 Slices',
-      image: '/api/placeholder/33/33',
+      image: 'https://via.placeholder.com/33x33/fbbf24/ffffff?text=🧀',
     },
     {
       id: '3',
       name: 'Brisket',
       quantity: '320g',
-      image: '/api/placeholder/33/33',
+      image: 'https://via.placeholder.com/33x33/7c2d12/ffffff?text=🥩',
     },
   ],
   cookingSteps: [
@@ -85,10 +87,16 @@ export default function RecipePage({ params }: PageProps) {
 
   return (
     <div className="flex min-h-screen flex-col bg-white">
+      <MobileHeader
+        backHref="/recipes"
+        className="absolute top-0 right-0 left-0 z-10 bg-transparent"
+        showBackButton
+        title="Recipe"
+      />
       <div className="flex-1 overflow-auto">
         <RecipeDetails recipe={mockRecipe} />
       </div>
-      <BottomNavigation activeTab="recipes" />
+      <BottomNavigation activeTab="kitchen" />
     </div>
   );
 }

@@ -1,6 +1,7 @@
 'use client';
 
-import { HelpCircle, Search } from 'lucide-react';
+import { MobileHeader } from '@/components/ui/mobile-header';
+import { HelpCircle } from 'lucide-react';
 import BottomNavigation from './BottomNavigation';
 import IngredientItem from './IngredientItem';
 import RecipeCard from './RecipeCard';
@@ -29,12 +30,7 @@ export default function Dashboard() {
   return (
     <div className="flex min-h-screen flex-col bg-white">
       {/* Header */}
-      <div className="flex items-center justify-between p-4">
-        <div className="flex items-center">
-          <div className="font-bold text-[#181d27] text-lg">CookPal</div>
-        </div>
-        <Search className="h-6 w-6 text-[#414651]" />
-      </div>
+      <MobileHeader showSearch title="CookPal" />
 
       {/* Main Content */}
       <div className="flex-1 space-y-6 px-4">
