@@ -1,7 +1,7 @@
 'use client';
 
 import { CalendarPage } from '@/components/calendar';
-import BottomNavigation from '@/components/dashboard/BottomNavigation';
+import BottomNavigation from '@/components/ui/bottom-navigation';
 import { MobileHeader } from '@/components/ui/mobile-header';
 
 export default function Calendar() {

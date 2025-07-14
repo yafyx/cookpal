@@ -1,5 +1,5 @@
-import BottomNavigation from '@/components/dashboard/BottomNavigation';
 import { RecipeDetails } from '@/components/recipe/RecipeDetails';
+import BottomNavigation from '@/components/ui/bottom-navigation';
 import { MobileHeader } from '@/components/ui/mobile-header';
 import type { Recipe } from '@/lib/types';
 

@@ -1,4 +1,4 @@
-import BottomNavigation from '@/components/dashboard/BottomNavigation';
+import BottomNavigation from '@/components/ui/bottom-navigation';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { MobileHeader } from '@/components/ui/mobile-header';

@@ -2,7 +2,7 @@
 
 import { MobileHeader } from '@/components/ui/mobile-header';
 import { HelpCircle } from 'lucide-react';
-import BottomNavigation from './BottomNavigation';
+import BottomNavigation from '../ui/bottom-navigation';
 import IngredientItem from './IngredientItem';
 import RecipeCard from './RecipeCard';
 

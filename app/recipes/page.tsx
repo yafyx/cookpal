@@ -1,4 +1,4 @@
-import BottomNavigation from '@/components/dashboard/BottomNavigation';
+import BottomNavigation from '@/components/ui/bottom-navigation';
 import { Button } from '@/components/ui/button';
 import { MobileHeader } from '@/components/ui/mobile-header';
 import { ChevronRight, Plus, Timer } from 'lucide-react';

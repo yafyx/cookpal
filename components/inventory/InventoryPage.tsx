@@ -3,7 +3,7 @@ import { MobileHeader } from '@/components/ui/mobile-header';
 import type { Ingredient } from '@/lib/types';
 import { Plus } from 'lucide-react';
 import Link from 'next/link';
-import BottomNavigation from '../dashboard/BottomNavigation';
+import BottomNavigation from '../ui/bottom-navigation';
 import InventoryList from './InventoryList';
 
 interface InventoryPageProps {
