@@ -1,5 +1,8 @@
-import { Sparkles, User } from 'lucide-react';
+'use client';
+
+import { Sparkles } from 'lucide-react';
 import Link from 'next/link';
+import { useState } from 'react';
 
 // Custom SVG Components
 const HomeIcon = ({ className }: { className?: string }) => {
@@ -56,7 +59,50 @@ const KitchenIcon = ({ className }: { className?: string }) => {
 
 const CalendarIcon = ({ className }: { className?: string }) => {
   const isActive = className?.includes('text-black');
-  const fillColor = isActive ? '#000000' : 'none';
+  const strokeColor = isActive ? '#000000' : '#181D27';
+
+  return (
+    <svg
+      className={className}
+      fill="none"
+      height="24"
+      viewBox="0 0 24 24"
+      width="24"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <title>Calendar</title>
+      {/* Calendar header - always outlined */}
+      <path
+        d="M5 4H19C20.1046 4 21 4.89543 21 6V10H3V6C3 4.89543 3.89543 4 5 4Z"
+        fill="none"
+        stroke={strokeColor}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
+      />
+      {/* Calendar body - filled when active */}
+      <path
+        d="M3 10H21V20C21 21.1046 20.1046 21 19 22H5C3.89543 22 3 21.1046 3 20V10Z"
+        fill={isActive ? '#000000' : 'none'}
+        stroke={strokeColor}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
+      />
+      {/* Date posts */}
+      <path
+        d="M8 2V6M16 2V6"
+        stroke={strokeColor}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
+      />
+    </svg>
+  );
+};
+
+const UserIcon = ({ className }: { className?: string }) => {
+  const isActive = className?.includes('text-black');
   const strokeColor = isActive ? '#000000' : '#181D27';
 
   return (
@@ -68,10 +114,20 @@ const CalendarIcon = ({ className }: { className?: string }) => {
       width="25"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <title>Calendar</title>
+      <title>Profile</title>
       <path
-        d="M8.09998 2V6M16.1 2V6M3.09998 10H21.1M5.09998 4H19.1C20.2045 4 21.1 4.89543 21.1 6V20C21.1 21.1046 20.2045 22 19.1 22H5.09998C3.99541 22 3.09998 21.1046 3.09998 20V6C3.09998 4.89543 3.99541 4 5.09998 4Z"
-        fill={fillColor}
+        clipRule="evenodd"
+        d="M12.6847 15.3462C8.81711 15.3462 5.51425 15.931 5.51425 18.2729C5.51425 20.6148 8.79616 21.2205 12.6847 21.2205C16.5523 21.2205 19.8543 20.6348 19.8543 18.2938C19.8543 15.9529 16.5733 15.3462 12.6847 15.3462Z"
+        fillRule="evenodd"
+        stroke={strokeColor}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
+      />
+      <path
+        clipRule="evenodd"
+        d="M12.6847 12.0059C15.2228 12.0059 17.28 9.94779 17.28 7.40969C17.28 4.8716 15.2228 2.81445 12.6847 2.81445C10.1466 2.81445 8.08853 4.8716 8.08853 7.40969C8.07996 9.93922 10.1238 11.9973 12.6523 12.0059H12.6847Z"
+        fillRule="evenodd"
         stroke={strokeColor}
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -81,25 +137,87 @@ const CalendarIcon = ({ className }: { className?: string }) => {
   );
 };
 
+interface NavItem {
+  icon: React.ComponentType<{ className?: string }>;
+  label: string;
+  active: boolean;
+  href: string;
+  key: string;
+  special?: boolean;
+}
+
 interface BottomNavigationProps {
   activeTab?: 'home' | 'kitchen' | 'assistant' | 'calendar' | 'profile';
 }
 
+const renderNavItem = (
+  item: NavItem,
+  isPressed: boolean,
+  onPressStart: () => void,
+  onPressEnd: () => void
+) => {
+  const linkClassName = `flex h-full flex-1 flex-col items-center justify-center transition-transform duration-150 ease-out ${
+    isPressed ? 'scale-90' : 'scale-100'
+  }`;
+
+  return (
+    <Link
+      className={linkClassName}
+      href={item.href}
+      key={item.key}
+      onMouseDown={onPressStart}
+      onMouseLeave={onPressEnd}
+      onMouseUp={onPressEnd}
+      onTouchEnd={onPressEnd}
+      onTouchStart={onPressStart}
+    >
+      {item.special ? (
+        <div
+          className={`flex h-12 w-12 items-center justify-center rounded-full ${
+            item.active
+              ? 'border-2 border-[#B8441F] bg-[#FD853A]'
+              : 'bg-[#FD853A]'
+          }`}
+        >
+          <item.icon
+            className={`h-6 w-6 text-white ${item.active ? 'fill-white' : ''}`}
+          />
+        </div>
+      ) : (
+        <div className="flex flex-col items-center gap-1 p-1">
+          <item.icon
+            className={`h-6 w-6 ${item.active ? 'text-black' : 'text-[#181d27]'}`}
+          />
+          <span
+            className={`text-xs ${item.active ? 'text-black' : 'text-[#181d27]'}`}
+          >
+            {item.label}
+          </span>
+        </div>
+      )}
+    </Link>
+  );
+};
+
 export default function BottomNavigation({
   activeTab = 'home',
 }: BottomNavigationProps) {
-  const navItems = [
+  const [pressedItem, setPressedItem] = useState<string | null>(null);
+
+  const navItems: NavItem[] = [
     {
       icon: HomeIcon,
       label: 'Home',
       active: activeTab === 'home',
       href: '/dashboard',
+      key: 'home',
     },
     {
       icon: KitchenIcon,
       label: 'Kitchen',
       active: activeTab === 'kitchen',
       href: '/recipes',
+      key: 'kitchen',
     },
     {
       icon: Sparkles,
@@ -107,52 +225,35 @@ export default function BottomNavigation({
       active: activeTab === 'assistant',
       special: true,
       href: '/assistant',
+      key: 'assistant',
     },
     {
       icon: CalendarIcon,
       label: 'Calendar',
       active: activeTab === 'calendar',
       href: '/calendar',
+      key: 'calendar',
     },
     {
-      icon: User,
+      icon: UserIcon,
       label: 'Profile',
       active: activeTab === 'profile',
       href: '/profile',
+      key: 'profile',
     },
   ];
 
   return (
     <div className="-translate-x-1/2 fixed bottom-0 left-1/2 z-50 w-full max-w-md bg-white pb-2 shadow-lg">
       <div className="flex h-[58px] items-center justify-between px-4 pt-2">
-        {navItems.map((item) => (
-          <Link
-            className="flex h-full flex-1 flex-col items-center justify-center"
-            href={item.href}
-            key={item.label || 'assistant'}
-          >
-            {item.special ? (
-              <div
-                className={`flex h-12 w-12 items-center justify-center rounded-full ${
-                  item.active ? 'bg-black' : 'bg-[#FD853A]'
-                }`}
-              >
-                <item.icon className="h-6 w-6 text-white" />
-              </div>
-            ) : (
-              <div className="flex flex-col items-center gap-1 p-1">
-                <item.icon
-                  className={`h-6 w-6 ${item.active ? 'text-black' : 'text-[#181d27]'}`}
-                />
-                <span
-                  className={`text-xs ${item.active ? 'text-black' : 'text-[#181d27]'}`}
-                >
-                  {item.label}
-                </span>
-              </div>
-            )}
-          </Link>
-        ))}
+        {navItems.map((item) =>
+          renderNavItem(
+            item,
+            pressedItem === item.key,
+            () => setPressedItem(item.key),
+            () => setPressedItem(null)
+          )
+        )}
       </div>
     </div>
   );
