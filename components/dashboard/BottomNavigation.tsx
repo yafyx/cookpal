@@ -123,7 +123,7 @@ export default function BottomNavigation({
   ];
 
   return (
-    <div className="-translate-x-1/2 fixed bottom-0 left-1/2 z-50 w-full max-w-md border-t bg-white pb-2 shadow-lg">
+    <div className="-translate-x-1/2 fixed bottom-0 left-1/2 z-50 w-full max-w-md bg-white pb-2 shadow-lg">
       <div className="flex h-[58px] items-center justify-between px-4 pt-2">
         {navItems.map((item) => (
           <Link
@@ -134,12 +134,10 @@ export default function BottomNavigation({
             {item.special ? (
               <div
                 className={`flex h-12 w-12 items-center justify-center rounded-full ${
-                  item.active ? 'bg-black' : 'bg-gray-200'
+                  item.active ? 'bg-black' : 'bg-[#FD853A]'
                 }`}
               >
-                <item.icon
-                  className={`h-6 w-6 ${item.active ? 'text-white' : 'text-gray-600'}`}
-                />
+                <item.icon className="h-6 w-6 text-white" />
               </div>
             ) : (
               <div className="flex flex-col items-center gap-1 p-1">

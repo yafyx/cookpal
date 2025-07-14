@@ -35,7 +35,7 @@ export function MobileHeader({
 
   return (
     <header
-      className={`flex items-center justify-between bg-white p-4 ${className}`}
+      className={`fixed top-0 right-0 left-0 z-50 flex items-center justify-between border-gray-200 bg-white p-4 md:static md:z-auto ${className}`}
     >
       {/* Left side - Back button or App name */}
       <div className="flex items-center">
