@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button';
 import type { Recipe } from '@/lib/types';
-import { Clock } from 'lucide-react';
 import { CookIcon } from '../ui/cook-icon';
+import { Separator } from '../ui/separator';
 import { CookingSteps } from './CookingSteps';
 import { IngredientItem } from './IngredientItem';
 import { NutritionCard } from './NutritionCard';
@@ -24,49 +24,59 @@ export function RecipeDetails({ recipe }: RecipeDetailsProps) {
       <div
         className="relative h-[362px] w-full bg-center bg-cover bg-no-repeat"
         style={{
-          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.4) 100%), url('${recipe.image}')`,
+          backgroundImage: `url('${recipe.image}')`,
         }}
       >
         {/* Recipe info overlay on image */}
-        <div className="absolute right-0 bottom-0 left-0 p-4">
-          <div className="mb-3">
-            <h1 className="mb-3 font-semibold text-2xl text-white leading-8 tracking-[-0.528px]">
+        <div className="absolute right-0 bottom-[-30] left-0 z-10 p-4">
+          <div className="mb-4">
+            <h1 className="mb-3 font-semibold text-4xl text-black leading-8 tracking-[-0.528px]">
               {recipe.name}
             </h1>
 
             {/* Timer */}
             <div className="mb-3 flex items-center gap-1">
-              <Clock className="h-[18px] w-[18px] text-white" />
-              <span className="font-normal text-white text-xs leading-[18px]">
-                30m
+              <span className="font-normal text-black text-xs leading-[18px]">
+                Creator
               </span>
             </div>
 
             {/* Action Buttons */}
             <div className="flex gap-2">
-              <Button className="rounded-lg bg-black px-5 py-1 font-semibold text-base text-white leading-6 hover:bg-gray-800">
-                <CookIcon className="mr-2 h-[18px] w-[18px]" />
+              <Button className="rounded-lg bg-black px-5 py-1 font-semibold text-base text-white leading-6 hover:bg-black">
+                <CookIcon className="h-[20px] w-[20px]" />
                 Cook
               </Button>
-              <Button className="rounded-lg bg-white px-5 py-1 font-semibold text-[#181d27] text-base leading-6 hover:bg-gray-100">
+              <Button className="rounded-lg bg-white px-5 py-1 font-semibold text-[#181d27] text-base leading-6 hover:bg-white">
                 Plan
               </Button>
-              <Button className="rounded-lg bg-white/30 px-5 py-1 font-semibold text-base text-white leading-6 backdrop-blur-sm hover:bg-white/40">
+              <Button className="rounded-lg bg-white px-5 py-1 font-semibold text-base text-black leading-6 hover:bg-white">
                 Remix
               </Button>
             </div>
           </div>
         </div>
+
+        {/* Fade overlay at bottom */}
+        <div
+          className="pointer-events-none absolute bottom-0 left-0 z-0 h-60 w-full"
+          style={{
+            background:
+              'linear-gradient(rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.05) 15%, rgba(255, 255, 255, 0.1) 25%, rgba(255, 255, 255, 0.2) 35%, rgba(255, 255, 255, 0.35) 45%, rgba(255, 255, 255, 0.5) 55%, rgba(255, 255, 255, 0.65) 65%, rgba(255, 255, 255, 0.8) 75%, rgba(255, 255, 255, 0.9) 85%, rgba(255, 255, 255, 1) 100%)',
+          }}
+        />
       </div>
 
       {/* Content */}
-      <div className="px-4 pb-20">
+      <div className="px-4">
         {/* Recipe Details */}
-        <div className="mb-6 pt-4">
+        <div className="mb-4 pt-4">
           <p className="mb-4 text-[#181d27] text-sm leading-5">
             {recipe.description}
           </p>
         </div>
+
+        <Separator className="my-4" />
 
         {/* Nutrition Cards */}
         <div className="mb-6 flex gap-2">

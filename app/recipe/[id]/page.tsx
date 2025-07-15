@@ -8,8 +8,7 @@ const mockRecipe: Recipe = {
   id: '1',
   name: 'Beef Burger',
   creator: 'Creator',
-  image:
-    'https://via.placeholder.com/375x362/d97706/ffffff?text=🍔+Beef+Burger',
+  image: 'https://placehold.co/375x362/d97706/ffffff.png?text=🍔+Beef+Burger',
   description:
     'Homemade beef cutlet with a special sauce with parmesan and mustard will not leave you indifferent. The crispy rice flour bun will impress you with its irresistibility.',
   nutrition: {
@@ -23,19 +22,19 @@ const mockRecipe: Recipe = {
       id: '1',
       name: 'Potato Bun',
       quantity: '4',
-      image: 'https://via.placeholder.com/33x33/d97706/ffffff?text=🍞',
+      image: 'https://placehold.co/33x33/d97706/ffffff.png?text=🍞',
     },
     {
       id: '2',
       name: 'Cheddar Cheese',
       quantity: '8 Slices',
-      image: 'https://via.placeholder.com/33x33/fbbf24/ffffff?text=🧀',
+      image: 'https://placehold.co/33x33/fbbf24/ffffff.png?text=🧀',
     },
     {
       id: '3',
       name: 'Brisket',
       quantity: '320g',
-      image: 'https://via.placeholder.com/33x33/7c2d12/ffffff?text=🥩',
+      image: 'https://placehold.co/33x33/7c2d12/ffffff.png?text=🥩',
     },
   ],
   cookingSteps: [

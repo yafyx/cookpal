@@ -11,67 +11,67 @@ const mockInventory = [
     id: '1',
     name: 'Lettuce',
     quantity: 2,
-    image: 'https://via.placeholder.com/40x40/4ade80/ffffff?text=🥬',
+    image: 'https://placehold.co/40x40/4ade80/ffffff.png?text=🥬',
   },
   {
     id: '2',
     name: 'Red Onion',
     quantity: 2,
-    image: 'https://via.placeholder.com/40x40/ef4444/ffffff?text=🧅',
+    image: 'https://placehold.co/40x40/ef4444/ffffff.png?text=🧅',
   },
   {
     id: '3',
     name: 'Tomato',
     quantity: 2,
-    image: 'https://via.placeholder.com/40x40/ef4444/ffffff?text=🍅',
+    image: 'https://placehold.co/40x40/ef4444/ffffff.png?text=🍅',
   },
   {
     id: '4',
     name: 'Cucumber',
     quantity: 12,
-    image: 'https://via.placeholder.com/40x40/22c55e/ffffff?text=🥒',
+    image: 'https://placehold.co/40x40/22c55e/ffffff.png?text=🥒',
   },
   {
     id: '5',
     name: 'Avocado',
     quantity: 2,
-    image: 'https://via.placeholder.com/40x40/84cc16/ffffff?text=🥑',
+    image: 'https://placehold.co/40x40/84cc16/ffffff.png?text=🥑',
   },
   {
     id: '6',
     name: 'Chili Pepper',
     quantity: 4,
-    image: 'https://via.placeholder.com/40x40/dc2626/ffffff?text=🌶️',
+    image: 'https://placehold.co/40x40/dc2626/ffffff.png?text=🌶️',
   },
   {
     id: '7',
     name: 'Bay Leaf',
     quantity: 4,
-    image: 'https://via.placeholder.com/40x40/65a30d/ffffff?text=🌿',
+    image: 'https://placehold.co/40x40/65a30d/ffffff.png?text=🌿',
   },
   {
     id: '8',
     name: 'Turmeric',
     quantity: 4,
-    image: 'https://via.placeholder.com/40x40/eab308/ffffff?text=🧂',
+    image: 'https://placehold.co/40x40/eab308/ffffff.png?text=🧂',
   },
   {
     id: '9',
     name: 'Potato Bun',
     quantity: 4,
-    image: 'https://via.placeholder.com/40x40/d97706/ffffff?text=🍞',
+    image: 'https://placehold.co/40x40/d97706/ffffff.png?text=🍞',
   },
   {
     id: '10',
     name: 'Cheddar Cheese',
     quantity: 4,
-    image: 'https://via.placeholder.com/40x40/fbbf24/ffffff?text=🧀',
+    image: 'https://placehold.co/40x40/fbbf24/ffffff.png?text=🧀',
   },
   {
     id: '11',
     name: 'Brisket',
     quantity: 4,
-    image: 'https://via.placeholder.com/40x40/7c2d12/ffffff?text=🥩',
+    image: 'https://placehold.co/40x40/7c2d12/ffffff.png?text=🥩',
   },
 ];
 
@@ -82,14 +82,14 @@ const mockRecipes = [
     title: 'Kangkung',
     duration: '30m',
     backgroundImage:
-      'https://via.placeholder.com/330x449/22c55e/ffffff?text=🥬+Kangkung',
+      'https://placehold.co/330x449/22c55e/ffffff.png?text=🥬+Kangkung',
   },
   {
     id: '2',
     title: 'Beef Burger',
     duration: '30m',
     backgroundImage:
-      'https://via.placeholder.com/330x449/d97706/ffffff?text=🍔+Burger',
+      'https://placehold.co/330x449/d97706/ffffff.png?text=🍔+Burger',
   },
 ];
 
@@ -209,7 +209,7 @@ export default function KitchenPage() {
 
           {/* Floating Add Button */}
           <Link
-            className="fixed right-4 bottom-24 z-50 flex items-center gap-2 rounded-lg bg-[#181d27] px-4 py-3 text-white shadow-lg transition-transform hover:scale-105 sm:right-129"
+            className="fixed right-4 bottom-20 z-100 flex items-center gap-2 rounded-lg bg-[#181d27] px-4 py-3 text-white shadow-lg transition-transform sm:right-129"
             href="/inventory/add"
           >
             <Plus className="h-[18px] w-[18px]" />
