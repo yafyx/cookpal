@@ -9,11 +9,15 @@ import InventoryList from './InventoryList';
 interface InventoryPageProps {
   ingredients: Ingredient[];
   onAddIngredient: (ingredient: Omit<Ingredient, 'id'>) => void;
+  onUpdateIngredient?: (id: string, updates: Partial<Omit<Ingredient, 'id'>>) => void;
+  onDeleteIngredient?: (id: string) => void;
 }
 
 export default function InventoryPage({
   ingredients,
   onAddIngredient,
+  onUpdateIngredient,
+  onDeleteIngredient,
 }: InventoryPageProps) {
   return (
     <div className="flex min-h-screen flex-col bg-white">
@@ -39,7 +43,11 @@ export default function InventoryPage({
       <div className="flex-1 px-4 py-6">
         {/* Inventory List */}
         <div className="pb-20">
-          <InventoryList ingredients={ingredients} />
+          <InventoryList 
+            ingredients={ingredients}
+            onUpdateIngredient={onUpdateIngredient}
+            onDeleteIngredient={onDeleteIngredient}
+          />
         </div>
 
         {/* Gradient overlay for smooth transition to bottom */}

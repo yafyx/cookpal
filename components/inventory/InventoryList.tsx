@@ -3,13 +3,24 @@ import InventoryItem from './InventoryItem';
 
 interface InventoryListProps {
   ingredients: Ingredient[];
+  onUpdateIngredient?: (id: string, updates: Partial<Omit<Ingredient, 'id'>>) => void;
+  onDeleteIngredient?: (id: string) => void;
 }
 
-export default function InventoryList({ ingredients }: InventoryListProps) {
+export default function InventoryList({ 
+  ingredients,
+  onUpdateIngredient,
+  onDeleteIngredient 
+}: InventoryListProps) {
   return (
     <div className="flex flex-col gap-3">
       {ingredients.map((ingredient) => (
-        <InventoryItem ingredient={ingredient} key={ingredient.id} />
+        <InventoryItem 
+          key={ingredient.id}
+          ingredient={ingredient}
+          onUpdate={onUpdateIngredient}
+          onDelete={onDeleteIngredient}
+        />
       ))}
     </div>
   );
