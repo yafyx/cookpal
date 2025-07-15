@@ -207,18 +207,6 @@ export default function KitchenPage() {
               ))}
             </div>
           </div>
-
-          {/* Gradient overlay at bottom of inventory */}
-          <div
-            className="pointer-events-none h-[287px] w-full"
-            style={{
-              background:
-                'linear-gradient(rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 100%)',
-              marginTop: '-287px',
-              position: 'relative',
-              zIndex: 1,
-            }}
-          />
         </div>
       </div>
 

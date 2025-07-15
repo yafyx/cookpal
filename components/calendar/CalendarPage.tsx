@@ -4,7 +4,6 @@ interface MealPlan {
   day: string;
   recipe: {
     name: string;
-    image: string;
   };
 }
 
@@ -13,56 +12,42 @@ const mockMealPlan: MealPlan[] = [
     day: 'Mon',
     recipe: {
       name: 'Kangkung',
-      image:
-        'https://images.unsplash.com/photo-1579952363873-27d3bfad9c0d?w=400&h=300&fit=crop&crop=center',
     },
   },
   {
     day: 'Tue',
     recipe: {
       name: 'Beef Burger',
-      image:
-        'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&h=300&fit=crop&crop=center',
     },
   },
   {
     day: 'Wed',
     recipe: {
       name: 'Kangkung',
-      image:
-        'https://images.unsplash.com/photo-1579952363873-27d3bfad9c0d?w=400&h=300&fit=crop&crop=center',
     },
   },
   {
     day: 'Thur',
     recipe: {
       name: 'Kangkung',
-      image:
-        'https://images.unsplash.com/photo-1579952363873-27d3bfad9c0d?w=400&h=300&fit=crop&crop=center',
     },
   },
   {
     day: 'Fri',
     recipe: {
       name: 'Kangkung',
-      image:
-        'https://images.unsplash.com/photo-1579952363873-27d3bfad9c0d?w=400&h=300&fit=crop&crop=center',
     },
   },
   {
     day: 'Sat',
     recipe: {
       name: 'Kangkung',
-      image:
-        'https://images.unsplash.com/photo-1579952363873-27d3bfad9c0d?w=400&h=300&fit=crop&crop=center',
     },
   },
   {
     day: 'Sun',
     recipe: {
       name: 'Kangkung',
-      image:
-        'https://images.unsplash.com/photo-1579952363873-27d3bfad9c0d?w=400&h=300&fit=crop&crop=center',
     },
   },
 ];

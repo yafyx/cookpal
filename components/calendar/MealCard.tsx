@@ -1,7 +1,9 @@
+import { Button } from '@/components/ui/button';
+import { CookIcon } from '../ui/cook-icon';
+
 interface MealCardProps {
   recipe: {
     name: string;
-    image: string;
   };
   onClick?: () => void;
 }
@@ -14,26 +16,33 @@ export default function MealCard({ recipe, onClick }: MealCardProps) {
     }
   };
 
+  const handleCookClick = (event: React.MouseEvent) => {
+    event.stopPropagation();
+    // Handle cook action here
+  };
+
   return (
     <button
-      className="relative h-[96px] w-full cursor-pointer overflow-hidden text-left transition-opacity hover:opacity-90"
+      className="relative h-[96px] w-full cursor-pointer overflow-hidden rounded-lg border border-gray-200 bg-gray-50 text-left transition-opacity hover:opacity-90"
       onClick={onClick}
       onKeyDown={handleKeyDown}
       type="button"
     >
-      <div
-        className="relative h-full w-full bg-center bg-cover"
-        style={{
-          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.55) 100%), url('${recipe.image}')`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-        }}
-      >
-        <div className="absolute right-0 bottom-0 left-0 p-4">
-          <h3 className="font-semibold text-[18px] text-white leading-[28px]">
+      <div className="relative flex h-full w-full items-center justify-between p-4">
+        <div>
+          <h3 className="font-semibold text-[18px] text-gray-800 leading-[28px]">
             {recipe.name}
           </h3>
         </div>
+        <Button
+          className="rounded-lg bg-black px-3 py-1 font-semibold text-sm text-white leading-5 hover:bg-gray-800"
+          onClick={handleCookClick}
+          size="sm"
+          type="button"
+        >
+          <CookIcon className="mr-1 h-[14px] w-[14px]" />
+          Cook
+        </Button>
       </div>
     </button>
   );

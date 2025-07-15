@@ -5,7 +5,8 @@ import Link from 'next/link';
 import { Button } from './button';
 
 interface MobileHeaderProps {
-  title: string;
+  title?: string;
+  logo?: React.ReactNode;
   subtitle?: string;
   showBackButton?: boolean;
   backHref?: string;
@@ -18,6 +19,7 @@ interface MobileHeaderProps {
 
 export function MobileHeader({
   title,
+  logo,
   subtitle,
   showBackButton = false,
   backHref = '/',
@@ -59,7 +61,11 @@ export function MobileHeader({
         ) : null}
 
         <div>
-          <h1 className="font-bold text-[#181d27] text-lg">{title}</h1>
+          {logo ? (
+            <div className="flex items-center">{logo}</div>
+          ) : (
+            <h1 className="font-bold text-[#181d27] text-lg">{title}</h1>
+          )}
           {subtitle && <p className="text-[#414651] text-sm">{subtitle}</p>}
         </div>
       </div>

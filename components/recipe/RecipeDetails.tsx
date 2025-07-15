@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/button';
 import type { Recipe } from '@/lib/types';
-import { ChefHat, Clock } from 'lucide-react';
+import { Clock } from 'lucide-react';
+import { CookIcon } from '../ui/cook-icon';
 import { CookingSteps } from './CookingSteps';
 import { IngredientItem } from './IngredientItem';
 import { NutritionCard } from './NutritionCard';
@@ -43,12 +44,14 @@ export function RecipeDetails({ recipe }: RecipeDetailsProps) {
 
             {/* Action Buttons */}
             <div className="flex gap-2">
+              <Button className="rounded-lg bg-black px-5 py-1 font-semibold text-base text-white leading-6 hover:bg-gray-800">
+                <CookIcon className="mr-2 h-[18px] w-[18px]" />
+                Cook
+              </Button>
               <Button className="rounded-lg bg-white px-5 py-1 font-semibold text-[#181d27] text-base leading-6 hover:bg-gray-100">
-                <ChefHat className="mr-2 h-[18px] w-[18px]" />
                 Plan
               </Button>
               <Button className="rounded-lg bg-white/30 px-5 py-1 font-semibold text-base text-white leading-6 backdrop-blur-sm hover:bg-white/40">
-                <div className="mr-2 h-[18px] w-[18px]" />
                 Remix
               </Button>
             </div>
