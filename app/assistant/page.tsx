@@ -359,7 +359,7 @@ export default function AssistantPage() {
                 value={input}
               />
               <Button
-                className="-translate-y-1/2 absolute top-1/2 right-3 h-[32px] w-[32px] rounded-full bg-[#fd853a] transition-all hover:bg-[#fd853a]/90 disabled:opacity-50"
+                className="-translate-y-1/2 absolute top-1/2 right-0 z-10 rounded-full bg-[#fd853a] transition-all hover:bg-[#fd853a]/90 disabled:opacity-50"
                 disabled={isLoading || !input.trim()}
                 size="icon"
                 type="submit"
