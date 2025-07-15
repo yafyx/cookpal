@@ -18,7 +18,7 @@ export default function KitchenPage() {
     return (
       <div className="flex min-h-screen flex-col bg-white">
         <MobileHeader title="Kitchen" />
-        <div className="flex-1 flex items-center justify-center">
+        <div className="flex flex-1 items-center justify-center">
           <p className="text-gray-500">Loading...</p>
         </div>
         <BottomNavigation activeTab="kitchen" />
@@ -118,9 +118,7 @@ export default function KitchenPage() {
 
                       <div className="mb-3 flex items-center gap-1">
                         <Timer className="h-[18px] w-[18px]" />
-                        <span className="text-[12px] leading-[18px]">
-                          30m
-                        </span>
+                        <span className="text-[12px] leading-[18px]">30m</span>
                       </div>
 
                       <div className="flex gap-2">

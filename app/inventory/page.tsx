@@ -4,15 +4,9 @@ import { InventoryPage } from '@/components/inventory';
 import { useInventory } from '@/hooks/use-storage';
 
 export default function Inventory() {
-  const { 
-    ingredients, 
-    loading,
-    addIngredient, 
-    updateIngredient, 
-    deleteIngredient 
-  } = useInventory();
+  const inventory = useInventory();
 
-  if (loading) {
+  if (inventory.loading) {
     return (
       <div className="flex min-h-screen flex-col bg-white items-center justify-center">
         <p className="text-gray-500">Loading inventory...</p>
@@ -22,10 +16,10 @@ export default function Inventory() {
 
   return (
     <InventoryPage
-      ingredients={ingredients}
-      onAddIngredient={addIngredient}
-      onUpdateIngredient={updateIngredient}
-      onDeleteIngredient={deleteIngredient}
+      ingredients={inventory.ingredients}
+      onAddIngredient={inventory.addIngredient}
+      onUpdateIngredient={inventory.updateIngredient}
+      onDeleteIngredient={inventory.deleteIngredient}
     />
   );
 }
