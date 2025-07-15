@@ -331,8 +331,8 @@ export default function AssistantPage() {
         </div>
 
         {/* Floating Bottom Section with Suggestions and Input */}
-        <div className="fixed right-0 bottom-0 left-0 border-gray-100 border-t pb-24">
-          <div className="mx-auto max-w-md bg-white shadow-xl">
+        <div className="fixed right-0 bottom-[-10] left-0 z-60 border-gray-100 border-t pb-20">
+          <div className="mx-auto max-w-md bg-white">
             <div className="space-y-3 p-4">
               {/* Suggestion Pills - only show when no messages */}
               {messages.length === 0 && (
