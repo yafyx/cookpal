@@ -1,21 +1,83 @@
 /** biome-ignore-all lint/suspicious/useAwait: <explanation> */
 
 import { inventoryStorage, recipeStorage } from '@/lib/storage';
+import type { Recipe } from '@/lib/types';
 import { google } from '@ai-sdk/google';
-import { convertToCoreMessages, streamText, tool } from 'ai';
+import { streamText, tool } from 'ai';
 import type { NextRequest } from 'next/server';
 import { z } from 'zod';
 
 // Allow streaming responses up to 30 seconds
 export const maxDuration = 30;
 
+// Helper function to filter recipes based on ingredients
+function filterRecipesByIngredients(
+    recipes: Recipe[],
+    availableIngredients: string[],
+    requestedIngredients?: string[]
+) {
+    return recipes.filter((recipe) => {
+        const recipeIngredients = recipe.ingredients.map((ing) =>
+            ing.name.toLowerCase()
+        );
+
+        // If specific ingredients provided, check if recipe uses them
+        if (requestedIngredients && requestedIngredients.length > 0) {
+            const hasRequestedIngredients = requestedIngredients.some((ingredient) =>
+                recipeIngredients.includes(ingredient.toLowerCase())
+            );
+            if (!hasRequestedIngredients) {
+                return false;
+            }
+        }
+
+        // Check if we have all required ingredients
+        const missingCount = recipeIngredients.filter(
+            (ingredient) => !availableIngredients.includes(ingredient)
+        ).length;
+
+        // Return recipes we can make (0 missing) or nearly make (1-2 missing)
+        return missingCount <= 2;
+    });
+}
+
+// Helper function to sort recipes by completeness
+function sortRecipesByCompleteness(
+    recipes: Recipe[],
+    availableIngredients: string[]
+) {
+    return recipes.sort((a, b) => {
+        const aMissing = a.ingredients.filter(
+            (ing) => !availableIngredients.includes(ing.name.toLowerCase())
+        ).length;
+        const bMissing = b.ingredients.filter(
+            (ing) => !availableIngredients.includes(ing.name.toLowerCase())
+        ).length;
+        return aMissing - bMissing;
+    });
+}
+
+// Helper function to count fully makeable recipes
+function countFullyMakeableRecipes(
+    recipes: Recipe[],
+    availableIngredients: string[]
+) {
+    return recipes.filter((recipe) => {
+        const missing = recipe.ingredients.filter(
+            (ing) => !availableIngredients.includes(ing.name.toLowerCase())
+        ).length;
+        return missing === 0;
+    }).length;
+}
+
 export async function POST(req: NextRequest) {
     try {
         const { messages } = await req.json();
 
         const result = streamText({
-            model: google('gemini-2.0-flash'),
-            messages: convertToCoreMessages(messages),
+            model: google('gemini-2.5-flash'),
+            messages,
+            maxSteps: 5, // Allow multiple steps for tool calling
             tools: {
                 getInventory: tool({
                     description: "Get the user's current inventory of ingredients",
@@ -24,7 +86,7 @@ export async function POST(req: NextRequest) {
                         const inventory = inventoryStorage.getAll();
                         return {
                             inventory,
-                            message: `Found ${inventory.length} ingredients in your inventory.`,
+                            count: inventory.length,
                         };
                     },
                 }),
@@ -35,7 +97,7 @@ export async function POST(req: NextRequest) {
                         const recipes = recipeStorage.getAll();
                         return {
                             recipes,
-                            message: `Found ${recipes.length} recipes available.`,
+                            count: recipes.length,
                         };
                     },
                 }),
@@ -49,12 +111,11 @@ export async function POST(req: NextRequest) {
                         if (!recipe) {
                             return {
                                 recipe: null,
-                                message: `Recipe with ID ${id} not found.`,
+                                error: `Recipe with ID ${id} not found`,
                             };
                         }
                         return {
                             recipe,
-                            message: `Found recipe: ${recipe.name}`,
                         };
                     },
                 }),
@@ -69,7 +130,7 @@ export async function POST(req: NextRequest) {
                         if (!recipe) {
                             return {
                                 canMake: false,
-                                message: `Recipe with ID ${recipeId} not found.`,
+                                error: `Recipe with ID ${recipeId} not found`,
                                 missingIngredients: [],
                             };
                         }
@@ -94,9 +155,6 @@ export async function POST(req: NextRequest) {
                             canMake,
                             recipe: recipe.name,
                             missingIngredients,
-                            message: canMake
-                                ? `You have all ingredients to make ${recipe.name}!`
-                                : `You're missing ${missingIngredients.length} ingredients: ${missingIngredients.join(', ')}`,
                         };
                     },
                 }),
@@ -116,33 +174,27 @@ export async function POST(req: NextRequest) {
                             item.name.toLowerCase()
                         );
 
-                        const possibleRecipes = recipes.filter((recipe) => {
-                            const recipeIngredients = recipe.ingredients.map((ing) =>
-                                ing.name.toLowerCase()
-                            );
+                        const possibleRecipes = filterRecipesByIngredients(
+                            recipes,
+                            availableIngredients,
+                            ingredients
+                        );
 
-                            // If specific ingredients provided, check if recipe uses them
-                            if (ingredients && ingredients.length > 0) {
-                                const hasRequestedIngredients = ingredients.some((ingredient) =>
-                                    recipeIngredients.includes(ingredient.toLowerCase())
-                                );
-                                if (!hasRequestedIngredients) {
-                                    return false;
-                                }
-                            }
+                        const sortedRecipes = sortRecipesByCompleteness(
+                            possibleRecipes,
+                            availableIngredients
+                        );
 
-                            // Check if we have all required ingredients
-                            const missingCount = recipeIngredients.filter(
-                                (ingredient) => !availableIngredients.includes(ingredient)
-                            ).length;
-
-                            // Return recipes we can make (0 missing) or nearly make (1-2 missing)
-                            return missingCount <= 2;
-                        });
+                        const fullyMakeableCount = countFullyMakeableRecipes(
+                            sortedRecipes,
+                            availableIngredients
+                        );
 
                         return {
-                            recipes: possibleRecipes,
-                            message: `Found ${possibleRecipes.length} recipes you can make${ingredients ? ` with ${ingredients.join(', ')}` : ''}.`,
+                            recipes: sortedRecipes,
+                            fullyMakeableCount,
+                            totalFound: sortedRecipes.length,
+                            searchIngredients: ingredients,
                         };
                     },
                 }),
@@ -156,27 +208,34 @@ export async function POST(req: NextRequest) {
                         if (!ingredient) {
                             return {
                                 ingredient: null,
-                                message: `Ingredient with ID ${id} not found.`,
+                                error: `Ingredient with ID ${id} not found`,
                             };
                         }
                         return {
                             ingredient,
-                            message: `Found ingredient: ${ingredient.name} (${ingredient.quantity})`,
                         };
                     },
                 }),
             },
             system: `You are CookPal, a helpful cooking assistant. You help users with:
-        - Managing their ingredient inventory
-        - Finding recipes they can make with available ingredients
-        - Providing cooking tips and suggestions
-        - Helping with meal planning
+- Managing their ingredient inventory
+- Finding recipes they can make with available ingredients
+- Providing cooking tips and suggestions
+- Helping with meal planning
 
-        Always be friendly, helpful, and specific in your responses. When users ask about ingredients or recipes, use the available tools to check their current inventory and recipe database.
+IMPORTANT INSTRUCTIONS:
+1. Always provide a conversational response after using tools
+2. Use the tool results to inform your response, but don't just repeat the data
+3. Be encouraging and helpful in your responses
+4. When showing recipes, mention how many they can make completely vs. with missing ingredients
+5. When checking inventory, provide helpful context about what they have
+6. If they're missing ingredients, suggest alternatives or next steps
 
-        For recipe suggestions, prioritize recipes they can actually make with their current ingredients. If they're missing ingredients, suggest alternatives or where to find them.
+For recipe suggestions, prioritize recipes they can actually make with their current ingredients. If they're missing ingredients, suggest alternatives or where to find them.
 
-        Keep responses concise but informative. Use emojis sparingly and only when they enhance the message.`,
+Keep responses concise but informative. Use emojis sparingly and only when they enhance the message.
+
+Remember: Always generate a helpful response after using tools - don't just return the tool results.`,
         });
 
         return result.toDataStreamResponse();
