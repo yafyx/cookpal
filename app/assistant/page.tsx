@@ -6,6 +6,7 @@ import ChatIngredientCard from '@/components/ui/chat-ingredient-card';
 import ChatRecipeCard from '@/components/ui/chat-recipe-card';
 import { Input } from '@/components/ui/input';
 import { MobileHeader } from '@/components/ui/mobile-header';
+import { inventoryStorage, recipeStorage } from '@/lib/storage';
 import type { Ingredient, Recipe } from '@/lib/types';
 import { useChat } from '@ai-sdk/react';
 import type { Message, ToolInvocation } from 'ai';
@@ -185,7 +186,12 @@ export default function AssistantPage() {
   ];
 
   const handleSuggestionClick = (suggestion: string) => {
-    append({ role: 'user', content: suggestion });
+    const inventory = inventoryStorage.getAll();
+    const recipes = recipeStorage.getAll();
+    append(
+      { role: 'user', content: suggestion },
+      { body: { inventory, recipes } }
+    );
   };
 
   const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -193,10 +199,15 @@ export default function AssistantPage() {
     if (!input.trim()) {
       return;
     }
-    append({
-      role: 'user',
-      content: input,
-    });
+    const inventory = inventoryStorage.getAll();
+    const recipes = recipeStorage.getAll();
+    append(
+      {
+        role: 'user',
+        content: input,
+      },
+      { body: { inventory, recipes } }
+    );
     setInput('');
   };
 

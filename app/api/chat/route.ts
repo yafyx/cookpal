@@ -1,8 +1,8 @@
 /** biome-ignore-all lint/suspicious/useAwait: <explanation> */
 
-import { inventoryStorage, recipeStorage } from '@/lib/storage';
-import type { Recipe } from '@/lib/types';
+import type { Ingredient, Recipe } from '@/lib/types';
 import { google } from '@ai-sdk/google';
+import type { Message } from 'ai';
 import { streamText, tool } from 'ai';
 import type { NextRequest } from 'next/server';
 import { z } from 'zod';
@@ -72,7 +72,15 @@ function countFullyMakeableRecipes(
 
 export async function POST(req: NextRequest) {
     try {
-        const { messages } = await req.json();
+        const {
+            messages,
+            inventory,
+            recipes: clientRecipes,
+        }: {
+            messages: Message[];
+            inventory: Ingredient[];
+            recipes: Recipe[];
+        } = await req.json();
 
         const result = streamText({
             model: google('gemini-2.5-flash'),
@@ -83,7 +91,6 @@ export async function POST(req: NextRequest) {
                     description: "Get the user's current inventory of ingredients",
                     parameters: z.object({}),
                     execute: async () => {
-                        const inventory = inventoryStorage.getAll();
                         return {
                             inventory,
                             count: inventory.length,
@@ -94,10 +101,9 @@ export async function POST(req: NextRequest) {
                     description: 'Get all available recipes',
                     parameters: z.object({}),
                     execute: async () => {
-                        const recipes = recipeStorage.getAll();
                         return {
-                            recipes,
-                            count: recipes.length,
+                            recipes: clientRecipes,
+                            count: clientRecipes.length,
                         };
                     },
                 }),
@@ -107,7 +113,7 @@ export async function POST(req: NextRequest) {
                         id: z.string().describe('The recipe ID'),
                     }),
                     execute: async ({ id }) => {
-                        const recipe = recipeStorage.getById(id);
+                        const recipe = clientRecipes.find((r) => r.id === id) || null;
                         if (!recipe) {
                             return {
                                 recipe: null,
@@ -126,7 +132,7 @@ export async function POST(req: NextRequest) {
                         recipeId: z.string().describe('The recipe ID to check'),
                     }),
                     execute: async ({ recipeId }) => {
-                        const recipe = recipeStorage.getById(recipeId);
+                        const recipe = clientRecipes.find((r) => r.id === recipeId) || null;
                         if (!recipe) {
                             return {
                                 canMake: false,
@@ -135,7 +141,6 @@ export async function POST(req: NextRequest) {
                             };
                         }
 
-                        const inventory = inventoryStorage.getAll();
                         const missingIngredients: string[] = [];
 
                         for (const ingredient of recipe.ingredients) {
@@ -168,14 +173,12 @@ export async function POST(req: NextRequest) {
                             .describe('Optional: specific ingredients to search for'),
                     }),
                     execute: async ({ ingredients }) => {
-                        const inventory = inventoryStorage.getAll();
-                        const recipes = recipeStorage.getAll();
                         const availableIngredients = inventory.map((item) =>
                             item.name.toLowerCase()
                         );
 
                         const possibleRecipes = filterRecipesByIngredients(
-                            recipes,
+                            clientRecipes,
                             availableIngredients,
                             ingredients
                         );
@@ -204,7 +207,7 @@ export async function POST(req: NextRequest) {
                         id: z.string().describe('The ingredient ID'),
                     }),
                     execute: async ({ id }) => {
-                        const ingredient = inventoryStorage.getById(id);
+                        const ingredient = inventory.find((item) => item.id === id) || null;
                         if (!ingredient) {
                             return {
                                 ingredient: null,
@@ -266,7 +269,6 @@ export async function POST(req: NextRequest) {
                         cookingSteps,
                     }) => {
                         // Check current inventory to see what ingredients user has
-                        const inventory = inventoryStorage.getAll();
                         const availableIngredients = inventory.map((item) => ({
                             name: item.name.toLowerCase(),
                             id: item.id,
@@ -330,7 +332,8 @@ export async function POST(req: NextRequest) {
                                 duration: step.duration,
                             })) || [];
 
-                        const newRecipe = recipeStorage.create({
+                        const newRecipe = {
+                            id: `recipe-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
                             name,
                             creator,
                             description,
@@ -338,7 +341,7 @@ export async function POST(req: NextRequest) {
                             nutrition,
                             ingredients: processedIngredients,
                             cookingSteps: processedSteps,
-                        });
+                        };
 
                         return {
                             recipe: newRecipe,
@@ -364,7 +367,6 @@ export async function POST(req: NextRequest) {
                     }),
                     execute: async ({ name, quantity, image }) => {
                         // Check if ingredient already exists
-                        const inventory = inventoryStorage.getAll();
                         const existingIngredient = inventory.find(
                             (item) => item.name.toLowerCase() === name.toLowerCase()
                         );
