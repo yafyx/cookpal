@@ -17,7 +17,7 @@ export default function OnboardingSteps({
 }: OnboardingStepsProps) {
   // State for step 4 cravings selection
   const [selectedCravings, setSelectedCravings] = useState<string[]>(['Pedas']);
-  
+
   // Transition state
   const [isTransitioning, setIsTransitioning] = useState(false);
 
@@ -35,7 +35,7 @@ export default function OnboardingSteps({
   };
 
   const handleTouchEnd = () => {
-    if (!touchStartX.current || !touchEndX.current) {
+    if (!(touchStartX.current && touchEndX.current)) {
       return;
     }
 
@@ -52,10 +52,12 @@ export default function OnboardingSteps({
   };
 
   const handleTransition = (callback: () => void) => {
-    if (isTransitioning) return; // Prevent multiple transitions
-    
+    if (isTransitioning) {
+      return; // Prevent multiple transitions
+    }
+
     setIsTransitioning(true);
-    
+
     setTimeout(() => {
       callback();
       setTimeout(() => {
@@ -83,12 +85,12 @@ export default function OnboardingSteps({
       <div className="relative h-[219px] w-[210px] shrink-0 overflow-clip">
         <div className="relative flex h-full items-center justify-center">
           <Image
-            src="/assets/ob1.svg"
             alt="Friendly chef character"
-            width={188}
-            height={219}
             className="block max-w-none"
+            height={219}
             priority
+            src="/assets/ob1.svg"
+            width={188}
           />
         </div>
       </div>
@@ -115,11 +117,11 @@ export default function OnboardingSteps({
       <div className="relative h-[139px] w-[211px] shrink-0 overflow-clip">
         <div className="relative flex h-full items-center justify-center">
           <Image
-            src="/assets/ob2.svg"
             alt="Bowl of fresh vegetables and fruits"
-            width={211}
-            height={139}
             className="block max-w-none"
+            height={139}
+            src="/assets/ob2.svg"
+            width={211}
           />
         </div>
       </div>
@@ -145,11 +147,11 @@ export default function OnboardingSteps({
       <div className="relative h-[155px] w-[143px] shrink-0 overflow-clip">
         <div className="relative flex h-full items-center justify-center">
           <Image
-            src="/assets/ob3.png"
             alt="Person exercising with dumbbells"
-            width={143}
-            height={155}
             className="block max-w-none"
+            height={155}
+            src="/assets/ob3.png"
+            width={143}
           />
         </div>
       </div>
@@ -182,14 +184,12 @@ export default function OnboardingSteps({
         {/* Text Content */}
         <div className="relative box-border flex shrink-0 flex-col content-stretch items-center justify-start gap-2 p-0 text-center not-italic leading-[0]">
           <div className="relative w-[197px] shrink-0 font-['Inter'] font-semibold text-[#181d27] text-[24px] tracking-[-0.528px]">
-            <p className="block leading-[32px]">
-              Lagi Pengen Apa Hari Ini?
-            </p>
+            <p className="block leading-[32px]">Lagi Pengen Apa Hari Ini?</p>
           </div>
           <div className="relative w-[275px] shrink-0 font-['Inter'] font-normal text-[#535862] text-[14px]">
             <p className="block leading-[20px]">
-              Lagi pengen yang crunchy, creamy, atau pedas? CookPal pahami
-              mood makanmu dan kasih rekomendasi yang pas!
+              Lagi pengen yang crunchy, creamy, atau pedas? CookPal pahami mood
+              makanmu dan kasih rekomendasi yang pas!
             </p>
           </div>
         </div>
@@ -203,41 +203,118 @@ export default function OnboardingSteps({
             >
               <div className="pointer-events-none absolute inset-0 rounded-xl border border-[#e9eaeb] border-solid" />
               <button
-                className="relative box-border flex w-full min-w-inherit flex-row content-stretch items-center justify-center gap-2 overflow-clip px-4 py-2 transition-all duration-200 hover:bg-gray-50"
+                className="relative box-border flex w-full min-w-inherit flex-row content-stretch items-center justify-center gap-2 overflow-clip px-4 py-2"
                 onClick={() => toggleCraving(option.id)}
                 type="button"
               >
                 <div className="relative box-border flex shrink-0 flex-row content-stretch items-center justify-center p-0">
                   {/* Checkbox */}
-                  <div className="relative size-4 shrink-0">
+                  <div className="relative size-6 shrink-0">
                     {selectedCravings.includes(option.id) ? (
-                      <div className="relative size-4 rounded bg-[#f9f5ff]">
-                        <div className="pointer-events-none absolute inset-0 rounded border border-[#7f56d9] border-solid shadow-[0px_0px_0px_4px_#f4ebff]" />
-                        <div className="absolute inset-[12.5%] overflow-clip">
-                          <div className="absolute top-1/4 right-[16.667%] bottom-[29.167%] left-[16.667%]">
-                            <svg
-                              aria-label="Checkmark"
-                              className="absolute top-[-15.151%] right-[-10.416%] bottom-[-15.151%] left-[-10.416%] size-full"
-                              fill="none"
-                              viewBox="0 0 12 12"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <title>Checkmark</title>
-                              <path
-                                d="M10 3L4.5 8.5L2 6"
-                                stroke="#7f56d9"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth="2"
-                              />
-                            </svg>
-                          </div>
-                        </div>
-                      </div>
+                      <svg
+                        fill="none"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        width="24"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <title>Checkmark</title>
+                        <g filter="url(#filter0_d_2029_185)">
+                          <rect
+                            fill="#F9F5FF"
+                            height="16"
+                            rx="4"
+                            width="16"
+                            x="4"
+                            y="4"
+                          />
+                          <rect
+                            height="15"
+                            rx="3.5"
+                            stroke="#7F56D9"
+                            width="15"
+                            x="4.5"
+                            y="4.5"
+                          />
+                          <path
+                            d="M16 9L10.5 14.5L8 12"
+                            stroke="#7F56D9"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="1.6666"
+                          />
+                        </g>
+                        <defs>
+                          <filter
+                            colorInterpolationFilters="sRGB"
+                            filterUnits="userSpaceOnUse"
+                            height="24"
+                            id="filter0_d_2029_185"
+                            width="24"
+                            x="0"
+                            y="0"
+                          >
+                            <feFlood
+                              floodOpacity="0"
+                              result="BackgroundImageFix"
+                            />
+                            <feColorMatrix
+                              in="SourceAlpha"
+                              result="hardAlpha"
+                              type="matrix"
+                              values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+                            />
+                            <feMorphology
+                              in="SourceAlpha"
+                              operator="dilate"
+                              radius="4"
+                              result="effect1_dropShadow_2029_185"
+                            />
+                            <feOffset />
+                            <feColorMatrix
+                              type="matrix"
+                              values="0 0 0 0 0.956863 0 0 0 0 0.921569 0 0 0 0 1 0 0 0 1 0"
+                            />
+                            <feBlend
+                              in2="BackgroundImageFix"
+                              mode="normal"
+                              result="effect1_dropShadow_2029_185"
+                            />
+                            <feBlend
+                              in="SourceGraphic"
+                              in2="effect1_dropShadow_2029_185"
+                              mode="normal"
+                              result="shape"
+                            />
+                          </filter>
+                        </defs>
+                      </svg>
                     ) : (
-                      <div className="relative size-4 rounded bg-[#ffffff]">
-                        <div className="pointer-events-none absolute inset-0 rounded border border-[#d5d7da] border-solid" />
-                      </div>
+                      <svg
+                        fill="none"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        width="24"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <title>Checkbox</title>
+                        <rect
+                          fill="#FFFFFF"
+                          height="16"
+                          rx="4"
+                          width="16"
+                          x="4"
+                          y="4"
+                        />
+                        <rect
+                          height="15"
+                          rx="3.5"
+                          stroke="#D5D7DA"
+                          width="15"
+                          x="4.5"
+                          y="4.5"
+                        />
+                      </svg>
                     )}
                   </div>
                 </div>
@@ -254,22 +331,24 @@ export default function OnboardingSteps({
 
   return (
     <div className="relative box-border size-full min-h-screen bg-[#ffffff]">
-      {/* Touch handler overlay */}
-      <div
-        className="absolute inset-0 z-10"
-        onTouchStart={handleTouchStart}
-        onTouchMove={handleTouchMove}
-        onTouchEnd={handleTouchEnd}
-      />
-      
+      {/* Touch handler overlay - only for steps 0-2 where swiping is intended */}
+      {currentStep < 3 && (
+        <div
+          className="absolute inset-0 z-10"
+          onTouchEnd={handleTouchEnd}
+          onTouchMove={handleTouchMove}
+          onTouchStart={handleTouchStart}
+        />
+      )}
+
       {/* Main Content Area with Fade Transitions */}
       <div className="relative flex min-h-screen flex-col">
-        <div className="flex-1 flex items-center justify-center">
+        <div className="flex flex-1 items-center justify-center">
           <div
-            ref={contentRef}
-            className={`relative w-full h-full flex items-center justify-center transition-opacity duration-300 ease-in-out ${
+            className={`relative flex h-full w-full items-center justify-center transition-opacity duration-300 ease-in-out ${
               isTransitioning ? 'opacity-0' : 'opacity-100'
             }`}
+            ref={contentRef}
           >
             <div className="relative box-border flex flex-col content-stretch items-center justify-center gap-8 px-4 py-6">
               {currentStep === 0 && renderStep1Content()}
@@ -282,10 +361,10 @@ export default function OnboardingSteps({
       </div>
 
       {/* Navigation Area - Completely Separate and Static */}
-      <div className="absolute bottom-0 left-0 right-0 z-20 bg-[#ffffff]">
+      <div className="absolute right-0 bottom-0 left-0 z-20 bg-[#ffffff]">
         <div className="flex items-center justify-between px-4 py-6">
           <StepIndicator currentStep={currentStep} totalSteps={4} />
-          
+
           <button
             className="flex items-center justify-center gap-2 rounded-lg bg-[#181d27] px-5 py-2 hover:bg-[#282d37]"
             onClick={currentStep === 3 ? onSkip : handleNextWithTransition}

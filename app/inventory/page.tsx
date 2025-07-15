@@ -8,7 +8,7 @@ export default function Inventory() {
 
   if (inventory.loading) {
     return (
-      <div className="flex min-h-screen flex-col bg-white items-center justify-center">
+      <div className="flex min-h-screen flex-col items-center justify-center bg-white">
         <p className="text-gray-500">Loading inventory...</p>
       </div>
     );
@@ -18,8 +18,8 @@ export default function Inventory() {
     <InventoryPage
       ingredients={inventory.ingredients}
       onAddIngredient={inventory.addIngredient}
-      onUpdateIngredient={inventory.updateIngredient}
       onDeleteIngredient={inventory.deleteIngredient}
+      onUpdateIngredient={inventory.updateIngredient}
     />
   );
 }

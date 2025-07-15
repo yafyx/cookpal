@@ -166,7 +166,7 @@ export default function KitchenPage() {
             onAddRecipe={addRecipe}
             trigger={
               <button
-                className="fixed right-4 bottom-20 z-100 flex items-center gap-2 rounded-lg bg-[#181d27] px-4 py-3 text-white shadow-lg transition-transform hover:scale-105 sm:right-129"
+                className="fixed right-4 bottom-25 flex items-center gap-2 rounded-lg bg-[#181d27] px-4 py-3 text-white shadow-lg transition-transform hover:scale-105 sm:right-129"
                 type="button"
               >
                 <Plus className="h-[18px] w-[18px]" />
