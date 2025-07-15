@@ -331,42 +331,44 @@ export default function AssistantPage() {
         </div>
 
         {/* Floating Bottom Section with Suggestions and Input */}
-        <div className="fixed right-0 bottom-0 left-0 border-gray-100 border-t bg-white p-4 pb-24">
-          <div className="mx-auto max-w-md space-y-3">
-            {/* Suggestion Pills - only show when no messages */}
-            {messages.length === 0 && (
-              <div className="flex gap-2 overflow-x-auto pb-2">
-                {suggestionPills.map((suggestion) => (
-                  <Button
-                    className="h-auto flex-shrink-0 whitespace-nowrap rounded-full border-[#e9eaeb] bg-[#fdfdfd] px-4 py-3 font-normal text-[#717680] text-sm transition-colors hover:bg-gray-50"
-                    key={suggestion}
-                    onClick={() => handleSuggestionClick(suggestion)}
-                    variant="outline"
-                  >
-                    {suggestion}
-                  </Button>
-                ))}
-              </div>
-            )}
+        <div className="fixed right-0 bottom-0 left-0 border-gray-100 border-t pb-24">
+          <div className="mx-auto max-w-md bg-white shadow-xl">
+            <div className="space-y-3 p-4">
+              {/* Suggestion Pills - only show when no messages */}
+              {messages.length === 0 && (
+                <div className="flex gap-2 overflow-x-auto pb-2">
+                  {suggestionPills.map((suggestion) => (
+                    <Button
+                      className="h-auto flex-shrink-0 whitespace-nowrap rounded-full border-[#e9eaeb] bg-[#fdfdfd] px-4 py-3 font-normal text-[#717680] text-sm transition-colors hover:bg-gray-50"
+                      key={suggestion}
+                      onClick={() => handleSuggestionClick(suggestion)}
+                      variant="outline"
+                    >
+                      {suggestion}
+                    </Button>
+                  ))}
+                </div>
+              )}
 
-            {/* Input Field */}
-            <form className="relative" onSubmit={handleFormSubmit}>
-              <Input
-                className="w-full rounded-[24px] border-[#e9eaeb] bg-white px-4 py-3 pr-12 text-sm shadow-lg transition-all placeholder:text-[#717680] focus:border-[#fd853a] focus:ring-2 focus:ring-[#fd853a]/20"
-                disabled={isLoading}
-                onChange={(e) => setInput(e.target.value)}
-                placeholder="Ask anything about cooking..."
-                value={input}
-              />
-              <Button
-                className="-translate-y-1/2 absolute top-1/2 right-0 z-10 rounded-full bg-[#fd853a] transition-all hover:bg-[#fd853a]/90 disabled:opacity-50"
-                disabled={isLoading || !input.trim()}
-                size="icon"
-                type="submit"
-              >
-                <ArrowUp className="h-4 w-4" />
-              </Button>
-            </form>
+              {/* Input Field */}
+              <form className="relative" onSubmit={handleFormSubmit}>
+                <Input
+                  className="w-full rounded-[24px] border-[#e9eaeb] bg-white px-4 py-3 pr-12 text-sm shadow-lg transition-all placeholder:text-[#717680] focus:border-[#fd853a] focus:ring-2 focus:ring-[#fd853a]/20"
+                  disabled={isLoading}
+                  onChange={(e) => setInput(e.target.value)}
+                  placeholder="Ask anything about cooking..."
+                  value={input}
+                />
+                <Button
+                  className="-translate-y-1/2 absolute top-1/2 right-0 z-10 rounded-full bg-[#fd853a] transition-all hover:bg-[#fd853a]/90 disabled:opacity-50"
+                  disabled={isLoading || !input.trim()}
+                  size="icon"
+                  type="submit"
+                >
+                  <ArrowUp className="h-4 w-4" />
+                </Button>
+              </form>
+            </div>
           </div>
         </div>
       </div>
