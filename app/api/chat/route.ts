@@ -77,7 +77,7 @@ export async function POST(req: NextRequest) {
         const result = streamText({
             model: google('gemini-2.5-flash'),
             messages,
-            maxSteps: 5, // Allow multiple steps for tool calling
+            maxSteps: 10, // Allow multiple steps for tool calling
             tools: {
                 getInventory: tool({
                     description: "Get the user's current inventory of ingredients",
@@ -216,10 +216,190 @@ export async function POST(req: NextRequest) {
                         };
                     },
                 }),
+                createRecipe: tool({
+                    description:
+                        'Create a new recipe based on user query and preferences',
+                    parameters: z.object({
+                        name: z.string().describe('The recipe name'),
+                        creator: z.string().describe('The recipe creator name'),
+                        description: z.string().describe('Recipe description'),
+                        image: z
+                            .string()
+                            .optional()
+                            .describe('Recipe image URL (optional)'),
+                        nutrition: z.object({
+                            energy: z.string().describe('Energy content (e.g., "500Kcal")'),
+                            carbs: z.string().describe('Carbohydrates (e.g., "45g")'),
+                            proteins: z.string().describe('Proteins (e.g., "25g")'),
+                            fats: z.string().describe('Fats (e.g., "15g")'),
+                        }),
+                        ingredients: z.array(
+                            z.object({
+                                name: z.string().describe('Ingredient name'),
+                                quantity: z.string().describe('Ingredient quantity'),
+                                image: z
+                                    .string()
+                                    .optional()
+                                    .describe('Ingredient image URL (optional)'),
+                            })
+                        ),
+                        cookingSteps: z
+                            .array(
+                                z.object({
+                                    step: z.number().describe('Step number'),
+                                    instruction: z.string().describe('Cooking instruction'),
+                                    duration: z
+                                        .string()
+                                        .optional()
+                                        .describe('Step duration (optional)'),
+                                })
+                            )
+                            .optional(),
+                    }),
+                    execute: async ({
+                        name,
+                        creator,
+                        description,
+                        image,
+                        nutrition,
+                        ingredients,
+                        cookingSteps,
+                    }) => {
+                        // Check current inventory to see what ingredients user has
+                        const inventory = inventoryStorage.getAll();
+                        const availableIngredients = inventory.map((item) => ({
+                            name: item.name.toLowerCase(),
+                            id: item.id,
+                            originalName: item.name,
+                            image: item.image,
+                        }));
+
+                        // Remove duplicates from ingredients list first
+                        const uniqueIngredients = ingredients.filter(
+                            (ingredient, index, self) =>
+                                index ===
+                                self.findIndex(
+                                    (t) => t.name.toLowerCase() === ingredient.name.toLowerCase()
+                                )
+                        );
+
+                        const ingredientsToAdd: Array<{
+                            name: string;
+                            quantity: string;
+                            image: string;
+                        }> = [];
+
+                        // Process ingredients and identify missing ones
+                        const processedIngredients = uniqueIngredients.map((ingredient) => {
+                            const existingIngredient = availableIngredients.find(
+                                (item) => item.name === ingredient.name.toLowerCase()
+                            );
+
+                            // If user doesn't have the ingredient, prepare it for addition with quantity 0
+                            if (!existingIngredient) {
+                                const ingredientToAdd = {
+                                    name: ingredient.name,
+                                    quantity: '0',
+                                    image: ingredient.image || '✨',
+                                };
+                                ingredientsToAdd.push(ingredientToAdd);
+
+                                return {
+                                    id: `ing-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+                                    name: ingredient.name,
+                                    quantity: ingredient.quantity,
+                                    image: ingredient.image || '✨',
+                                };
+                            }
+
+                            // Use existing ingredient data if available
+                            return {
+                                id: `ing-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+                                name: existingIngredient.originalName, // Use original case
+                                quantity: ingredient.quantity,
+                                image: existingIngredient.image, // Use existing image
+                            };
+                        });
+
+                        // Process cooking steps
+                        const processedSteps =
+                            cookingSteps?.map((step) => ({
+                                id: `step-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+                                step: step.step,
+                                instruction: step.instruction,
+                                duration: step.duration,
+                            })) || [];
+
+                        const newRecipe = recipeStorage.create({
+                            name,
+                            creator,
+                            description,
+                            image: image || '🍽️',
+                            nutrition,
+                            ingredients: processedIngredients,
+                            cookingSteps: processedSteps,
+                        });
+
+                        return {
+                            recipe: newRecipe,
+                            message: `Recipe "${name}" created successfully!`,
+                            ingredientsAdded: ingredientsToAdd.length,
+                            ingredientsToAdd,
+                        };
+                    },
+                }),
+                createIngredient: tool({
+                    description: 'Create a new ingredient in the inventory',
+                    parameters: z.object({
+                        name: z.string().describe('Ingredient name'),
+                        quantity: z
+                            .string()
+                            .describe(
+                                'Ingredient quantity (use "0" if user does not have it)'
+                            ),
+                        image: z
+                            .string()
+                            .optional()
+                            .describe('Ingredient image URL (optional)'),
+                    }),
+                    execute: async ({ name, quantity, image }) => {
+                        // Check if ingredient already exists
+                        const inventory = inventoryStorage.getAll();
+                        const existingIngredient = inventory.find(
+                            (item) => item.name.toLowerCase() === name.toLowerCase()
+                        );
+
+                        if (existingIngredient) {
+                            return {
+                                ingredient: existingIngredient,
+                                message: `Ingredient "${name}" already exists in inventory`,
+                                existed: true,
+                                shouldAdd: false,
+                            };
+                        }
+
+                        // Prepare ingredient data for client-side storage
+                        const ingredientToAdd = {
+                            name,
+                            quantity,
+                            image: image || '✨',
+                        };
+
+                        return {
+                            ingredient: ingredientToAdd,
+                            message: `Ingredient "${name}" will be added to inventory${quantity === '0' ? ' (quantity: 0 - you need to get this)' : ''}`,
+                            existed: false,
+                            shouldAdd: true,
+                            ingredientToAdd,
+                        };
+                    },
+                }),
             },
             system: `You are CookPal, a helpful cooking assistant. You help users with:
 - Managing their ingredient inventory
 - Finding recipes they can make with available ingredients
+- Creating new recipes based on user preferences and queries
+- Adding new ingredients to inventory
 - Providing cooking tips and suggestions
 - Helping with meal planning
 
@@ -230,6 +410,19 @@ IMPORTANT INSTRUCTIONS:
 4. When showing recipes, mention how many they can make completely vs. with missing ingredients
 5. When checking inventory, provide helpful context about what they have
 6. If they're missing ingredients, suggest alternatives or next steps
+
+RECIPE CREATION GUIDELINES:
+- When creating recipes, base them on the user's specific query and preferences
+- The system will identify missing ingredients and provide them in the response for client-side storage
+- Always include reasonable nutrition information and cooking steps
+- Make recipes practical and achievable
+- When ingredients are missing, tell the user they'll be added to their inventory with quantity "0"
+
+INGREDIENT CREATION GUIDELINES:
+- When adding ingredients that the user doesn't have, set quantity to "0"
+- Always check if an ingredient already exists before creating a new one
+- Provide helpful context about where to find or buy missing ingredients
+- Note that ingredient storage happens on the client side, not server side
 
 For recipe suggestions, prioritize recipes they can actually make with their current ingredients. If they're missing ingredients, suggest alternatives or where to find them.
 

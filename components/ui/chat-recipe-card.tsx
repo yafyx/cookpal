@@ -4,6 +4,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import type { Recipe } from '@/lib/types';
+import { getFallbackImageUrl, isEmoji } from '@/lib/utils';
 import { ChefHat, Clock, Eye } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -26,18 +27,30 @@ export default function ChatRecipeCard({
       return total + stepDuration;
     }, 0) || 0;
 
+  const imageIsEmoji = isEmoji(recipe.image);
+
   return (
     <Card
       className={`w-full max-w-md gap-3 overflow-hidden p-0 shadow-none ${className}`}
     >
       <div className="relative h-40 w-full">
-        <Image
-          alt={recipe.name}
-          className="object-cover"
-          fill
-          sizes="(max-width: 768px) 100vw, 400px"
-          src={recipe.image}
-        />
+        {imageIsEmoji ? (
+          <div className="flex h-full w-full items-center justify-center bg-gray-100 text-6xl">
+            {recipe.image}
+          </div>
+        ) : (
+          <Image
+            alt={recipe.name}
+            className="object-cover"
+            fill
+            onError={(e) => {
+              const target = e.target as HTMLImageElement;
+              target.src = getFallbackImageUrl('🍽️');
+            }}
+            sizes="(max-width: 768px) 100vw, 400px"
+            src={recipe.image}
+          />
+        )}
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
         <div className="absolute right-3 bottom-3 left-3">
           <h3 className="line-clamp-2 font-semibold text-sm text-white drop-shadow-md">

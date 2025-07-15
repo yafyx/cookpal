@@ -9,6 +9,7 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import type { Ingredient } from '@/lib/types';
+import { getFallbackImageUrl, isEmoji } from '@/lib/utils';
 import { Edit, Trash2 } from 'lucide-react';
 import Image from 'next/image';
 import { useState } from 'react';
@@ -20,12 +21,13 @@ interface InventoryItemProps {
   onDelete?: (id: string) => void;
 }
 
-export default function InventoryItem({ 
+export default function InventoryItem({
   ingredient,
   onUpdate,
-  onDelete 
+  onDelete,
 }: InventoryItemProps) {
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const imageIsEmoji = isEmoji(ingredient.image);
 
   const handleDelete = () => {
     if (onDelete) {
@@ -35,16 +37,26 @@ export default function InventoryItem({
   };
 
   return (
-    <div className="flex items-center justify-between py-2 group">
+    <div className="group flex items-center justify-between py-2">
       <div className="flex items-center gap-2">
         <div className="flex h-12 w-12 items-center justify-center overflow-hidden rounded-lg border border-[#e9eaeb] bg-white">
-          <Image
-            alt={ingredient.name}
-            className="object-cover"
-            height={32}
-            src={ingredient.image}
-            width={32}
-          />
+          {imageIsEmoji ? (
+            <div className="flex h-full w-full items-center justify-center text-2xl">
+              {ingredient.image}
+            </div>
+          ) : (
+            <Image
+              alt={ingredient.name}
+              className="object-cover"
+              height={32}
+              onError={(e) => {
+                const target = e.target as HTMLImageElement;
+                target.src = getFallbackImageUrl('🥘');
+              }}
+              src={ingredient.image}
+              width={32}
+            />
+          )}
         </div>
         <span className="font-normal text-[#181d27] text-sm">
           {ingredient.name}
@@ -55,24 +67,23 @@ export default function InventoryItem({
           {ingredient.quantity}
         </span>
         {(onUpdate || onDelete) && (
-          <div className="flex gap-1 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity">
+          <div className="flex gap-1 transition-opacity sm:opacity-0 sm:group-hover:opacity-100">
             {onUpdate && (
               <EditIngredientDrawer
                 ingredient={ingredient}
                 onUpdateIngredient={onUpdate}
                 trigger={
-                  <Button
-                    className="h-7 w-7 p-0"
-                    size="sm"
-                    variant="ghost"
-                  >
+                  <Button className="h-7 w-7 p-0" size="sm" variant="ghost">
                     <Edit className="h-3 w-3" />
                   </Button>
                 }
               />
             )}
             {onDelete && (
-              <Dialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+              <Dialog
+                onOpenChange={setDeleteDialogOpen}
+                open={deleteDialogOpen}
+              >
                 <DialogTrigger asChild>
                   <Button
                     className="h-7 w-7 p-0 text-red-500 hover:text-red-700"
@@ -86,20 +97,19 @@ export default function InventoryItem({
                   <DialogHeader>
                     <DialogTitle>Delete Ingredient</DialogTitle>
                     <DialogDescription>
-                      Are you sure you want to delete <strong>{ingredient.name}</strong>? This action cannot be undone.
+                      Are you sure you want to delete{' '}
+                      <strong>{ingredient.name}</strong>? This action cannot be
+                      undone.
                     </DialogDescription>
                   </DialogHeader>
                   <DialogFooter>
                     <Button
-                      variant="outline"
                       onClick={() => setDeleteDialogOpen(false)}
+                      variant="outline"
                     >
                       Cancel
                     </Button>
-                    <Button
-                      variant="destructive"
-                      onClick={handleDelete}
-                    >
+                    <Button onClick={handleDelete} variant="destructive">
                       Delete
                     </Button>
                   </DialogFooter>
