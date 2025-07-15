@@ -9,9 +9,9 @@ import Image from 'next/image';
 
 export default function DashboardPage() {
   const ingredients = [
-    { name: 'Lettuce', amount: '4' },
-    { name: 'Red Onion', amount: '2' },
-    { name: 'Tomato', amount: '4' },
+    { name: 'Lettuce', amount: '4', icon: '/assets/ingredients/lettuce.png' },
+    { name: 'Red Onion', amount: '2', icon: '/assets/ingredients/redonion.png' },
+    { name: 'Tomato', amount: '4', icon: '/assets/ingredients/tomato.png' },
   ];
 
   return (
@@ -41,7 +41,7 @@ export default function DashboardPage() {
         {/* Recipe Cards Carousel */}
         <div className="flex gap-2 overflow-x-auto">
           <RecipeCard
-            backgroundImage="https://images.unsplash.com/photo-1555126634-323283e090fa?w=330&h=449&fit=crop&crop=center"
+            backgroundImage="/assets/kangkung.png"
             duration="30m"
             title="Kangkung"
           />
@@ -65,6 +65,7 @@ export default function DashboardPage() {
             {ingredients.map((ingredient) => (
               <IngredientItem
                 amount={ingredient.amount}
+                icon={ingredient.icon}
                 key={ingredient.name}
                 name={ingredient.name}
               />

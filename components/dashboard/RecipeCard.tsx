@@ -39,7 +39,7 @@ export default function RecipeCard({
 
         <div className="flex gap-2">
           <Button
-            className="rounded-lg border border-[#e9eaeb] bg-[#fdfdfd] px-5 py-1 font-semibold text-[#181d27] text-[16px] leading-6 hover:border-[#e9eaeb] hover:bg-[#fdfdfd] hover:text-[#181d27]"
+            className="rounded-lg border border-[#e9eaeb] bg-[#fdfdfd] px-8 py-0.5 font-semibold text-[#181d27] text-[16px] leading-6 hover:border-[#e9eaeb] hover:bg-[#fdfdfd] hover:text-[#181d27]"
             onClick={(e) => e.preventDefault()}
             size="sm"
           >
@@ -55,15 +55,15 @@ export default function RecipeCard({
               <path
                 d="M3.75 9H14.25M9 3.75V14.25"
                 stroke="black"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
               />
             </svg>
             Plan
           </Button>
           <Button
-            className="rounded-lg bg-[rgba(253,253,253,0.3)] px-5 py-1 font-semibold text-[#fdfdfd] text-[16px] leading-6 backdrop-blur-[2px] hover:bg-[rgba(253,253,253,0.3)] hover:text-[#fdfdfd]"
+            className="rounded-lg bg-[rgba(253,253,253,0.3)] px-8 py-0.5 font-semibold text-[#fdfdfd] text-[16px] leading-6 backdrop-blur-[2px] hover:bg-[rgba(253,253,253,0.3)] hover:text-[#fdfdfd]"
             onClick={(e) => e.preventDefault()}
             size="sm"
             variant="ghost"
@@ -80,9 +80,9 @@ export default function RecipeCard({
               <path
                 d="M11.121 11.121L15.75 15.75M15.75 15.75V12M15.75 15.75H12M15.75 2.25L9 9L6 6L1.5 10.5M15.75 2.25V6M15.75 2.25H12"
                 stroke="#FDFDFD"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
               />
             </svg>
             Remix

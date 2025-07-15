@@ -1,7 +1,9 @@
 import { RecipeDetails } from '@/components/recipe/RecipeDetails';
 import BottomNavigation from '@/components/ui/bottom-navigation';
-import { MobileHeader } from '@/components/ui/mobile-header';
+import { Button } from '@/components/ui/button';
 import type { Recipe } from '@/lib/types';
+import { ArrowLeft } from 'lucide-react';
+import Link from 'next/link';
 
 // Mock recipe data - in a real app this would come from an API
 const mockRecipe: Recipe = {
@@ -74,24 +76,39 @@ const mockRecipe: Recipe = {
 };
 
 interface PageProps {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
-export default function RecipePage({ params }: PageProps) {
+function FloatingBackButton() {
+  return (
+    <header className="fixed top-0 left-1/2 transform -translate-x-1/2 w-full max-w-md z-20 pointer-events-none">
+      {/* Floating Back Button */}
+      <div className="absolute top-4 left-4 pointer-events-auto">
+        <Link href="/recipes">
+          <Button
+            className="h-10 w-10 rounded-full bg-white/90 backdrop-blur-sm shadow-lg border border-gray-200 hover:bg-white hover:shadow-xl transition-all duration-200"
+            size="icon"
+            variant="ghost"
+          >
+            <ArrowLeft className="h-5 w-5 text-[#414651]" />
+          </Button>
+        </Link>
+      </div>
+    </header>
+  );
+}
+
+export default async function RecipePage({ params }: PageProps) {
   // In a real app, you would fetch the recipe using params.id
   // const recipe = await fetchRecipe(params.id)
-  const _recipeId = params.id; // This would be used to fetch the actual recipe
+  const { id } = await params;
+  const _recipeId = id; // This would be used to fetch the actual recipe
 
   return (
     <div className="flex min-h-screen flex-col bg-white">
-      <MobileHeader
-        backHref="/recipes"
-        className="absolute top-0 right-0 left-0 z-10 bg-transparent"
-        showBackButton
-        title="Recipe"
-      />
+      <FloatingBackButton />
       <div className="flex-1 overflow-auto">
         <RecipeDetails recipe={mockRecipe} />
       </div>
