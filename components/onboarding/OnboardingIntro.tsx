@@ -7,7 +7,7 @@ export default function OnboardingIntro({ onSkip }: OnboardingIntroProps) {
     <div
       className="relative box-border flex min-h-screen w-full flex-col content-stretch items-start justify-start bg-[position:0%_0%,_50%_50%] p-0 [background-size:auto,_cover]"
       style={{
-        backgroundImage: `linear-gradient(90deg, rgba(245, 196, 30, 0.91) 0%, rgba(245, 196, 30, 0.91) 100%), url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="400" height="600" viewBox="0 0 400 600"><rect width="400" height="600" fill="%23f5c41e"/><circle cx="100" cy="150" r="30" fill="%23f0b000" opacity="0.3"/><circle cx="300" cy="100" r="40" fill="%23f0b000" opacity="0.2"/><circle cx="350" cy="300" r="25" fill="%23f0b000" opacity="0.4"/><circle cx="50" cy="400" r="35" fill="%23f0b000" opacity="0.3"/><text x="200" y="500" text-anchor="middle" fill="%23666" font-family="Arial" font-size="12" opacity="0.3">Cooking Background</text></svg>')`,
+        backgroundImage: `linear-gradient(90deg, rgba(245, 196, 30, 0.91) 0%, rgba(245, 196, 30, 0.91) 100%), url('/assets/obg.png')`,
       }}
     >
       <div className="relative box-border flex min-h-screen w-full shrink-0 grow basis-0 flex-col content-stretch items-center justify-between px-4 py-6">
