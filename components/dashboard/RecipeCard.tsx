@@ -1,7 +1,7 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { Plus, Timer } from 'lucide-react';
+import { Timer } from 'lucide-react';
 import Link from 'next/link';
 
 interface RecipeCardProps {
@@ -39,20 +39,52 @@ export default function RecipeCard({
 
         <div className="flex gap-2">
           <Button
-            className="rounded-lg border border-[#e9eaeb] bg-[#fdfdfd] px-5 py-1 font-semibold text-[#181d27] text-[16px] leading-6"
+            className="rounded-lg border border-[#e9eaeb] bg-[#fdfdfd] px-5 py-1 font-semibold text-[#181d27] text-[16px] leading-6 hover:border-[#e9eaeb] hover:bg-[#fdfdfd] hover:text-[#181d27]"
             onClick={(e) => e.preventDefault()}
             size="sm"
           >
-            <Plus className="mr-2 h-[18px] w-[18px]" />
+            <svg
+              aria-label="Plan"
+              fill="none"
+              height="18"
+              role="img"
+              viewBox="0 0 18 18"
+              width="18"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M3.75 9H14.25M9 3.75V14.25"
+                stroke="black"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+              />
+            </svg>
             Plan
           </Button>
           <Button
-            className="rounded-lg bg-[rgba(253,253,253,0.3)] px-5 py-1 font-semibold text-[#fdfdfd] text-[16px] leading-6 backdrop-blur-[2px]"
+            className="rounded-lg bg-[rgba(253,253,253,0.3)] px-5 py-1 font-semibold text-[#fdfdfd] text-[16px] leading-6 backdrop-blur-[2px] hover:bg-[rgba(253,253,253,0.3)] hover:text-[#fdfdfd]"
             onClick={(e) => e.preventDefault()}
             size="sm"
             variant="ghost"
           >
-            <Plus className="mr-2 h-[18px] w-[18px]" />
+            <svg
+              aria-label="Remix"
+              fill="none"
+              height="18"
+              role="img"
+              viewBox="0 0 18 18"
+              width="18"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M11.121 11.121L15.75 15.75M15.75 15.75V12M15.75 15.75H12M15.75 2.25L9 9L6 6L1.5 10.5M15.75 2.25V6M15.75 2.25H12"
+                stroke="#FDFDFD"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+              />
+            </svg>
             Remix
           </Button>
         </div>
