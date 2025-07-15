@@ -1,6 +1,3 @@
-import { Button } from '@/components/ui/button';
-import { CookIcon } from '../ui/cook-icon';
-
 interface MealCardProps {
   recipe: {
     name: string;
@@ -16,11 +13,6 @@ export default function MealCard({ recipe, onClick }: MealCardProps) {
     }
   };
 
-  const handleCookClick = (event: React.MouseEvent) => {
-    event.stopPropagation();
-    // Handle cook action here
-  };
-
   return (
     <button
       className="relative h-[96px] w-full cursor-pointer overflow-hidden rounded-lg border border-gray-200 bg-gray-50 text-left transition-opacity hover:opacity-90"
@@ -34,15 +26,6 @@ export default function MealCard({ recipe, onClick }: MealCardProps) {
             {recipe.name}
           </h3>
         </div>
-        <Button
-          className="rounded-lg bg-black px-3 py-1 font-semibold text-sm text-white leading-5 hover:bg-gray-800"
-          onClick={handleCookClick}
-          size="sm"
-          type="button"
-        >
-          <CookIcon className="mr-1 h-[14px] w-[14px]" />
-          Cook
-        </Button>
       </div>
     </button>
   );

@@ -39,9 +39,17 @@ export default function DashboardPage() {
         </h1>
 
         {/* Recipe Cards Carousel */}
-        <div className="flex gap-2 overflow-x-auto pb-4">
-          <RecipeCard duration="30m" title="Kangkung" />
-          <RecipeCard duration="30m" title="Beef Burger" />
+        <div className="flex gap-2 overflow-x-auto">
+          <RecipeCard
+            backgroundImage="https://images.unsplash.com/photo-1555126634-323283e090fa?w=330&h=449&fit=crop&crop=center"
+            duration="30m"
+            title="Kangkung"
+          />
+          <RecipeCard
+            backgroundImage="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=330&h=449&fit=crop&crop=center"
+            duration="30m"
+            title="Beef Burger"
+          />
         </div>
 
         {/* Missing Ingredients Section */}

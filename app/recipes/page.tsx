@@ -96,22 +96,65 @@ const mockRecipes = [
 export default function KitchenPage() {
   return (
     <div className="flex min-h-screen flex-col bg-white">
-      <MobileHeader
-        rightAction={
-          <Link
-            className="flex items-center gap-2 rounded-lg bg-[#181d27] px-3 py-2 text-white shadow-lg"
-            href="/inventory/add"
-          >
-            <Plus className="h-[18px] w-[18px]" />
-            <span className="font-semibold text-[16px]">Add</span>
-          </Link>
-        }
-        title="Kitchen"
-      />
-      <div className="flex-1 overflow-auto pb-20">
-        <div className="px-4 pt-4 pb-4">
+      <MobileHeader title="Kitchen" />
+      <div className="relative flex-1 overflow-auto pb-20">
+        <div className="px-4 pb-4">
+          {/* Inventory Section */}
+          <div className="">
+            <div className="mb-3 flex items-center justify-between">
+              <h2 className="font-semibold text-[#000000] text-[18px] leading-7">
+                Inventory
+              </h2>
+              <Link
+                className="flex items-center gap-1 font-medium text-[#717680] text-[14px] leading-5 transition-colors hover:text-[#181d27]"
+                href="/inventory"
+              >
+                See more
+                <ChevronRight className="h-3 w-3" />
+              </Link>
+            </div>
+
+            {/* Inventory List */}
+            <div className="relative">
+              <div className="flex h-[285px] flex-col gap-3 overflow-y-auto">
+                {mockInventory.map((item) => (
+                  <div
+                    className="flex items-center justify-between"
+                    key={item.id}
+                  >
+                    <div className="flex items-center gap-2">
+                      <div className="h-10 w-10 overflow-hidden rounded-lg border border-[#e9eaeb] bg-white">
+                        <Image
+                          alt={item.name}
+                          className="h-full w-full object-cover"
+                          height={40}
+                          src={item.image}
+                          width={40}
+                        />
+                      </div>
+                      <span className="font-normal text-[#181d27] text-[14px] leading-5">
+                        {item.name}
+                      </span>
+                    </div>
+                    <span className="font-normal text-[#717680] text-[14px] leading-5">
+                      {item.quantity}
+                    </span>
+                  </div>
+                ))}
+              </div>
+              {/* Fade overlay at bottom of inventory */}
+              <div
+                className="pointer-events-none absolute bottom-0 left-0 h-50 w-full"
+                style={{
+                  background:
+                    'linear-gradient(rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.05) 15%, rgba(255, 255, 255, 0.1) 25%, rgba(255, 255, 255, 0.2) 35%, rgba(255, 255, 255, 0.35) 45%, rgba(255, 255, 255, 0.5) 55%, rgba(255, 255, 255, 0.65) 65%, rgba(255, 255, 255, 0.8) 75%, rgba(255, 255, 255, 0.9) 85%, rgba(255, 255, 255, 1) 100%)',
+                }}
+              />
+            </div>
+          </div>
+
           {/* Recipes Section */}
-          <div className="mb-4">
+          <div className="">
             <h2 className="mb-3 font-semibold text-[#000000] text-[18px] leading-7">
               Recipes
             </h2>
@@ -164,49 +207,14 @@ export default function KitchenPage() {
             </div>
           </div>
 
-          {/* Inventory Section */}
-          <div className="px-4">
-            <div className="mb-3 flex items-center justify-between">
-              <h2 className="font-semibold text-[#000000] text-[18px] leading-7">
-                Inventory
-              </h2>
-              <Link
-                className="flex items-center gap-1 font-medium text-[#717680] text-[14px] leading-5 transition-colors hover:text-[#181d27]"
-                href="/inventory"
-              >
-                See more
-                <ChevronRight className="h-3 w-3" />
-              </Link>
-            </div>
-
-            {/* Inventory List */}
-            <div className="flex h-[285px] flex-col gap-3 overflow-y-auto">
-              {mockInventory.map((item) => (
-                <div
-                  className="flex items-center justify-between"
-                  key={item.id}
-                >
-                  <div className="flex items-center gap-2">
-                    <div className="h-10 w-10 overflow-hidden rounded-lg border border-[#e9eaeb] bg-white">
-                      <Image
-                        alt={item.name}
-                        className="h-full w-full object-cover"
-                        height={40}
-                        src={item.image}
-                        width={40}
-                      />
-                    </div>
-                    <span className="font-normal text-[#181d27] text-[14px] leading-5">
-                      {item.name}
-                    </span>
-                  </div>
-                  <span className="font-normal text-[#717680] text-[14px] leading-5">
-                    {item.quantity}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </div>
+          {/* Floating Add Button */}
+          <Link
+            className="fixed right-4 bottom-24 z-50 flex items-center gap-2 rounded-lg bg-[#181d27] px-4 py-3 text-white shadow-lg transition-transform hover:scale-105 sm:right-129"
+            href="/inventory/add"
+          >
+            <Plus className="h-[18px] w-[18px]" />
+            <span className="font-semibold text-[16px]">Add</span>
+          </Link>
         </div>
       </div>
 
