@@ -286,8 +286,11 @@ export default function AssistantPage() {
     <div className="flex min-h-screen flex-col bg-white">
       <MobileHeader
         rightAction={
-          <Button className="h-8 w-8" size="icon" variant="ghost">
-            <History className="h-5 w-5 text-[#414651]" />
+          <Button className="h-10 w-10 p-0" variant="ghost">
+            <History
+              className="h-10 w-10 text-[#414651]"
+              style={{ width: '24px', height: '24px' }}
+            />
           </Button>
         }
         title="Instant Cooking Help"
@@ -297,35 +300,11 @@ export default function AssistantPage() {
       <div className="relative flex flex-1 flex-col">
         {/* Messages Area */}
         <div
-          className="flex-1 space-y-4 overflow-y-auto p-4 pb-32"
+          className="flex flex-1 flex-col space-y-4 overflow-y-auto p-4 pb-32"
           ref={messagesContainerRef}
         >
           {messages.length === 0 ? (
-            <div className="flex h-full flex-col items-center justify-center text-center">
-              <div className="mb-8 rounded-full bg-[#fd853a]/10 p-4">
-                <svg
-                  className="h-8 w-8 text-[#fd853a]"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <title>Cooking Assistant Icon</title>
-                  <path
-                    d="M8 12h8m-4-4v8m-6 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                  />
-                </svg>
-              </div>
-              <h3 className="mb-2 font-semibold text-gray-900">
-                Hi! I'm your cooking assistant
-              </h3>
-              <p className="max-w-xs text-gray-500 text-sm">
-                I can help you with recipes, check your inventory, and suggest
-                meals based on what you have.
-              </p>
-            </div>
+            <div className="flex flex-1 flex-col items-center justify-end pb-8 text-center" />
           ) : (
             messages.map((message) => (
               <div key={message.id}>{renderMessage(message)}</div>
