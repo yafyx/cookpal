@@ -1,8 +1,11 @@
+'use client';
+
 import { InventoryPage } from '@/components/inventory';
 import type { Ingredient } from '@/lib/types';
+import { useState } from 'react';
 
 // Sample inventory data - in a real app this would come from an API or database
-const sampleInventory: Ingredient[] = [
+const initialInventory: Ingredient[] = [
   {
     id: '1',
     name: 'Lettuce',
@@ -83,5 +86,25 @@ const sampleInventory: Ingredient[] = [
 ];
 
 export default function Inventory() {
-  return <InventoryPage ingredients={sampleInventory} />;
+  const [ingredients, setIngredients] =
+    useState<Ingredient[]>(initialInventory);
+
+  const handleAddIngredient = (newIngredient: Omit<Ingredient, 'id'>) => {
+    const ingredient: Ingredient = {
+      ...newIngredient,
+      id: Math.random().toString(36).substr(2, 9), // Simple ID generation
+      image:
+        newIngredient.image ||
+        'https://images.unsplash.com/photo-1518937669666-7db0b5d2c6bb?w=100&h=100&fit=crop&crop=center', // Default image
+    };
+
+    setIngredients((prev) => [ingredient, ...prev]);
+  };
+
+  return (
+    <InventoryPage
+      ingredients={ingredients}
+      onAddIngredient={handleAddIngredient}
+    />
+  );
 }

@@ -2,28 +2,35 @@ import { Button } from '@/components/ui/button';
 import { MobileHeader } from '@/components/ui/mobile-header';
 import type { Ingredient } from '@/lib/types';
 import { Plus } from 'lucide-react';
-import Link from 'next/link';
 import BottomNavigation from '../ui/bottom-navigation';
+import AddIngredientDrawer from './AddIngredientDrawer';
 import InventoryList from './InventoryList';
 
 interface InventoryPageProps {
   ingredients: Ingredient[];
+  onAddIngredient: (ingredient: Omit<Ingredient, 'id'>) => void;
 }
 
-export default function InventoryPage({ ingredients }: InventoryPageProps) {
+export default function InventoryPage({
+  ingredients,
+  onAddIngredient,
+}: InventoryPageProps) {
   return (
     <div className="flex min-h-screen flex-col bg-white">
       <MobileHeader
         rightAction={
-          <Link href="/inventory/add">
-            <Button
-              className="h-auto rounded-lg bg-[#181d27] px-5 py-2 font-semibold text-[#fdfdfd] text-base shadow-[4px_4px_8.7px_0px_rgba(0,0,0,0.12)] hover:bg-[#181d27]/90"
-              size="default"
-            >
-              <Plus className="mr-2 h-[18px] w-[18px]" />
-              Add
-            </Button>
-          </Link>
+          <AddIngredientDrawer
+            onAddIngredient={onAddIngredient}
+            trigger={
+              <Button
+                className="h-auto rounded-lg bg-[#181d27] px-5 py-2 font-semibold text-[#fdfdfd] text-base shadow-[4px_4px_8.7px_0px_rgba(0,0,0,0.12)] hover:bg-[#181d27]/90"
+                size="default"
+              >
+                <Plus className="mr-2 h-[18px] w-[18px]" />
+                Add
+              </Button>
+            }
+          />
         }
         title="Inventory"
       />
