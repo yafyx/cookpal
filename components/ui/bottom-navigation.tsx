@@ -245,14 +245,16 @@ export default function BottomNavigation({
 
   return (
     <div className="-translate-x-1/2 fixed bottom-0 left-1/2 z-50 w-full max-w-md">
-      {/* Gradient overlay at top of bottom navigation */}
-      <div
-        className="pointer-events-none h-12 w-full"
-        style={{
-          background:
-            'linear-gradient(rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.1) 20%, rgba(255, 255, 255, 0.3) 40%, rgba(255, 255, 255, 0.6) 60%, rgba(255, 255, 255, 0.85) 80%, rgba(255, 255, 255, 1) 100%)',
-        }}
-      />
+      {/* Gradient overlay at top of bottom navigation - hidden on assistant page */}
+      {activeTab !== 'assistant' && (
+        <div
+          className="pointer-events-none h-12 w-full"
+          style={{
+            background:
+              'linear-gradient(rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.1) 20%, rgba(255, 255, 255, 0.3) 40%, rgba(255, 255, 255, 0.6) 60%, rgba(255, 255, 255, 0.85) 80%, rgba(255, 255, 255, 1) 100%)',
+          }}
+        />
+      )}
       <div className="bg-white pb-2 shadow-lg">
         <div className="flex h-[58px] items-center justify-between px-4 pt-2">
           {navItems.map((item) =>
