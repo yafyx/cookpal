@@ -1,6 +1,10 @@
-import { initializeStorage, inventoryStorage, recipeStorage } from '@/lib/storage';
+import {
+    initializeStorage,
+    inventoryStorage,
+    recipeStorage,
+} from '@/lib/storage';
 import type { Ingredient, Recipe } from '@/lib/types';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 export function useStorage() {
     const [initialized, setInitialized] = useState(false);
@@ -34,15 +38,18 @@ export function useInventory() {
 
     const addIngredient = (ingredient: Omit<Ingredient, 'id'>) => {
         const newIngredient = inventoryStorage.create(ingredient);
-        setIngredients(prev => [newIngredient, ...prev]);
+        setIngredients((prev) => [newIngredient, ...prev]);
         return newIngredient;
     };
 
-    const updateIngredient = (id: string, updates: Partial<Omit<Ingredient, 'id'>>) => {
+    const updateIngredient = (
+        id: string,
+        updates: Partial<Omit<Ingredient, 'id'>>
+    ) => {
         const updatedIngredient = inventoryStorage.update(id, updates);
         if (updatedIngredient) {
-            setIngredients(prev =>
-                prev.map(ingredient =>
+            setIngredients((prev) =>
+                prev.map((ingredient) =>
                     ingredient.id === id ? updatedIngredient : ingredient
                 )
             );
@@ -53,7 +60,9 @@ export function useInventory() {
     const deleteIngredient = (id: string) => {
         const success = inventoryStorage.delete(id);
         if (success) {
-            setIngredients(prev => prev.filter(ingredient => ingredient.id !== id));
+            setIngredients((prev) =>
+                prev.filter((ingredient) => ingredient.id !== id)
+            );
         }
         return success;
     };
@@ -88,17 +97,15 @@ export function useRecipes() {
 
     const addRecipe = (recipe: Omit<Recipe, 'id'>) => {
         const newRecipe = recipeStorage.create(recipe);
-        setRecipes(prev => [newRecipe, ...prev]);
+        setRecipes((prev) => [newRecipe, ...prev]);
         return newRecipe;
     };
 
     const updateRecipe = (id: string, updates: Partial<Omit<Recipe, 'id'>>) => {
         const updatedRecipe = recipeStorage.update(id, updates);
         if (updatedRecipe) {
-            setRecipes(prev =>
-                prev.map(recipe =>
-                    recipe.id === id ? updatedRecipe : recipe
-                )
+            setRecipes((prev) =>
+                prev.map((recipe) => (recipe.id === id ? updatedRecipe : recipe))
             );
         }
         return updatedRecipe;
@@ -107,14 +114,14 @@ export function useRecipes() {
     const deleteRecipe = (id: string) => {
         const success = recipeStorage.delete(id);
         if (success) {
-            setRecipes(prev => prev.filter(recipe => recipe.id !== id));
+            setRecipes((prev) => prev.filter((recipe) => recipe.id !== id));
         }
         return success;
     };
 
-    const getRecipeById = (id: string) => {
+    const getRecipeById = useCallback((id: string) => {
         return recipeStorage.getById(id);
-    };
+    }, []);
 
     const refreshRecipes = () => {
         const storedRecipes = recipeStorage.getAll();
@@ -130,4 +137,4 @@ export function useRecipes() {
         getRecipeById,
         refreshRecipes,
     };
-} 
+}
