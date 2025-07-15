@@ -1,5 +1,6 @@
 'use client';
 
+import { AddRecipeDrawer } from '@/components/recipe';
 import BottomNavigation from '@/components/ui/bottom-navigation';
 import { Button } from '@/components/ui/button';
 import { MobileHeader } from '@/components/ui/mobile-header';
@@ -10,7 +11,7 @@ import Link from 'next/link';
 
 export default function KitchenPage() {
   const { ingredients: inventory, loading: inventoryLoading } = useInventory();
-  const { recipes, loading: recipesLoading } = useRecipes();
+  const { recipes, loading: recipesLoading, addRecipe } = useRecipes();
 
   const loading = inventoryLoading || recipesLoading;
 
@@ -93,25 +94,36 @@ export default function KitchenPage() {
 
           {/* Recipes Section */}
           <div className="">
-            <h2 className="mb-3 font-semibold text-[#000000] text-[18px] leading-7">
-              Recipes
-            </h2>
+            <div className="mb-3 flex items-center justify-between">
+              <h2 className="font-semibold text-[#000000] text-[18px] leading-7">
+                Recipes
+              </h2>
+              <Link
+                className="flex items-center gap-1 font-medium text-[#717680] text-[14px] leading-5 transition-colors hover:text-[#181d27]"
+                href="/recipes/manage"
+              >
+                See all
+                <ChevronRight className="h-3 w-3" />
+              </Link>
+            </div>
 
             {/* Horizontal Scrollable Recipe Cards */}
             <div className="flex gap-2 overflow-x-auto pb-2">
               {recipes.length > 0 ? (
                 recipes.map((recipe) => (
-                  <Link
-                    className="relative h-[449px] w-[330px] flex-shrink-0 overflow-hidden rounded-3xl"
-                    href={`/recipe/${recipe.id}`}
+                  <div
+                    className="group relative h-[449px] w-[330px] flex-shrink-0 overflow-hidden rounded-3xl"
                     key={recipe.id}
-                    style={{
-                      backgroundImage: `linear-gradient(rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.4) 100%), url('${recipe.image}')`,
-                      backgroundSize: 'cover',
-                      backgroundPosition: 'center',
-                    }}
                   >
-                    <div className="absolute right-0 bottom-0 left-0 p-4 text-white">
+                    <Link
+                      className="absolute inset-0 flex flex-col justify-end p-4 text-white"
+                      href={`/recipe/${recipe.id}`}
+                      style={{
+                        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.4) 100%), url('${recipe.image}')`,
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center',
+                      }}
+                    >
                       <h3 className="mb-3 font-semibold text-[24px] leading-8 tracking-[-0.528px]">
                         {recipe.name}
                       </h3>
@@ -138,8 +150,8 @@ export default function KitchenPage() {
                           Remix
                         </Button>
                       </div>
-                    </div>
-                  </Link>
+                    </Link>
+                  </div>
                 ))
               ) : (
                 <div className="flex h-[200px] w-[330px] items-center justify-center rounded-3xl bg-gray-100">
@@ -149,14 +161,19 @@ export default function KitchenPage() {
             </div>
           </div>
 
-          {/* Floating Add Button */}
-          <Link
-            className="fixed right-4 bottom-20 z-100 flex items-center gap-2 rounded-lg bg-[#181d27] px-4 py-3 text-white shadow-lg transition-transform sm:right-129"
-            href="/inventory/add"
-          >
-            <Plus className="h-[18px] w-[18px]" />
-            <span className="font-semibold text-[16px]">Add</span>
-          </Link>
+          {/* Floating Add Recipe Button */}
+          <AddRecipeDrawer
+            onAddRecipe={addRecipe}
+            trigger={
+              <button
+                className="fixed right-4 bottom-20 z-100 flex items-center gap-2 rounded-lg bg-[#181d27] px-4 py-3 text-white shadow-lg transition-transform hover:scale-105 sm:right-129"
+                type="button"
+              >
+                <Plus className="h-[18px] w-[18px]" />
+                <span className="font-semibold text-[16px]">Add Recipe</span>
+              </button>
+            }
+          />
         </div>
       </div>
 
