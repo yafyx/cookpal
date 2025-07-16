@@ -15,7 +15,7 @@ export default function MealCard({ recipe, onClick }: MealCardProps) {
 
   return (
     <button
-      className="h-16 w-full rounded-lg border border-gray-200 bg-white px-5 py-3 text-left transition-colors hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+      className="h-16 w-full rounded-lg border border-gray-200 bg-white px-5 py-3 text-left transition-colors hover:bg-gray-50"
       onClick={onClick}
       onKeyDown={handleKeyDown}
       type="button"

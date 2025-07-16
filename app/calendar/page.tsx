@@ -7,7 +7,7 @@ import { MobileHeader } from '@/components/ui/mobile-header';
 export default function Calendar() {
   return (
     <div className="flex min-h-screen flex-col">
-      <MobileHeader title="Kalender Masak Pintar" />
+      <MobileHeader title="Calendar" />
       <CalendarPage />
       {/* Bottom Navigation */}
       <BottomNavigation activeTab="calendar" />

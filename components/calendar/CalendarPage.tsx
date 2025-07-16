@@ -76,7 +76,7 @@ export default function CalendarPage() {
 
   // Convert date to meal plan data
   const convertToMealPlanData = (date: string): MealPlanData => {
-    const dayNames = ['Min', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab'];
+    const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
     const dayIndex = new Date(date).getDay();
     const dayName = dayNames[dayIndex];
 
@@ -86,9 +86,7 @@ export default function CalendarPage() {
       return {
         day: dayName,
         date,
-        recipe: { name: 'Belum ada menu' },
-        isAvailable: false,
-        missingIngredients: [],
+        recipe: { name: 'No menu yet' },
       };
     }
 
@@ -106,6 +104,14 @@ export default function CalendarPage() {
     convertToMealPlanData(date)
   );
 
+  const mealsInView =
+    currentPlan?.meals.filter((meal) => weekDays.includes(meal.date)) ?? [];
+  const readyMealsInView = mealsInView.filter(
+    (m) =>
+      m.isAvailable &&
+      (!m.missingIngredients || m.missingIngredients.length === 0)
+  );
+
   const handleMealClick = (_meal: MealPlanData) => {
     // TODO: Implement meal click navigation
   };
@@ -119,11 +125,11 @@ export default function CalendarPage() {
             <div className="mb-8">
               <Sparkles className="mx-auto mb-6 h-12 w-12 text-gray-900" />
               <h1 className="mb-4 font-medium text-2xl text-gray-900 tracking-tight">
-                Kalender
+                Calendar
               </h1>
               <p className="text-gray-600 leading-relaxed">
-                Susun menu masak mingguan atau bulanan secara otomatis
-                berdasarkan preferensi dan bahan yang tersedia.
+                Automatically schedule weekly or monthly cooking menus based on
+                your preferences and available ingredients.
               </p>
             </div>
 
@@ -135,7 +141,7 @@ export default function CalendarPage() {
                 size="lg"
               >
                 <Calendar className="mr-2 h-4 w-4" />
-                Buat Menu Mingguan
+                Create Weekly Plan
               </Button>
               <Button
                 className="h-12 w-full font-medium"
@@ -145,7 +151,7 @@ export default function CalendarPage() {
                 variant="outline"
               >
                 <Calendar className="mr-2 h-4 w-4" />
-                Buat Menu Bulanan
+                Create Monthly Plan
               </Button>
             </div>
 
@@ -157,7 +163,7 @@ export default function CalendarPage() {
               variant="ghost"
             >
               <Settings className="mr-2 h-4 w-4" />
-              Atur Preferensi
+              Set Preferences
             </Button>
           </div>
         </div>
@@ -173,10 +179,10 @@ export default function CalendarPage() {
           <div className="text-center">
             <RefreshCw className="mx-auto mb-6 h-8 w-8 animate-spin text-gray-900" />
             <h2 className="mb-2 font-medium text-gray-900 text-xl">
-              Sedang membuat menu...
+              Creating your menu...
             </h2>
             <p className="text-gray-600">
-              AI sedang menyusun menu berdasarkan preferensi Anda
+              Our AI is preparing a menu based on your preferences
             </p>
           </div>
 
@@ -204,14 +210,12 @@ export default function CalendarPage() {
   // Main calendar view
   return (
     <div className="min-h-screen bg-white">
-      <div className="mx-auto max-w-md px-6 py-6">
+      <div className="mx-auto max-w-md px-4">
         {/* Header */}
         {currentPlan && (
           <div className="mb-8">
-            <div className="mb-4 flex items-center justify-between">
-              <h1 className="font-medium text-2xl text-gray-900">
-                {currentPlan.name}
-              </h1>
+            <div className="flex items-center justify-between">
+              <h1 className="font-semibold text-[18px]">{currentPlan.name}</h1>
               <Button
                 disabled={isGenerating}
                 onClick={() => handleGenerateMealPlan(currentPlan.type)}
@@ -223,11 +227,10 @@ export default function CalendarPage() {
             </div>
             <div className="flex gap-2">
               <Badge className="text-sm" variant="outline">
-                {currentPlan.meals.length} menu
+                {mealsInView.length} meals
               </Badge>
               <Badge className="text-sm" variant="secondary">
-                {currentPlan.meals.filter((m) => m.isAvailable).length} siap
-                dibuat
+                {readyMealsInView.length} ready to cook
               </Badge>
             </div>
           </div>
@@ -236,7 +239,7 @@ export default function CalendarPage() {
         {/* Weekly meal plan list */}
         <div className="space-y-2">
           {mealPlanData.map((meal) => (
-            <div className="group" key={meal.date}>
+            <div key={meal.date}>
               <div className="flex items-center gap-4 py-1">
                 <div className="w-16 shrink-0">
                   <span className="font-medium text-gray-500 text-sm">
@@ -256,8 +259,8 @@ export default function CalendarPage() {
                         variant={meal.isAvailable ? 'secondary' : 'destructive'}
                       >
                         {meal.isAvailable
-                          ? 'Siap'
-                          : `Butuh ${meal.missingIngredients?.length || 0} bahan`}
+                          ? 'Ready'
+                          : `Needs ${meal.missingIngredients?.length || 0} ingredients`}
                       </Badge>
                     </div>
                   )}
