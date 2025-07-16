@@ -1,8 +1,15 @@
-import type { Ingredient, Recipe } from './types';
+import type {
+    Ingredient,
+    MealPlan,
+    MealPlanPreferences,
+    Recipe,
+} from './types';
 
 const STORAGE_KEYS = {
     INVENTORY: 'cookpal_inventory',
     RECIPES: 'cookpal_recipes',
+    MEAL_PLANS: 'cookpal_meal_plans',
+    MEAL_PREFERENCES: 'cookpal_meal_preferences',
 } as const;
 
 // Default burger recipe
@@ -10,8 +17,10 @@ const DEFAULT_BURGER_RECIPE: Recipe = {
     id: 'burger-1',
     name: 'Classic Beef Burger',
     creator: 'CookPal',
-    image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=375&h=362&fit=crop&crop=center',
-    description: 'A delicious homemade beef burger with crispy lettuce, fresh tomato, and cheddar cheese on a toasted potato bun. Perfect for lunch or dinner.',
+    image:
+        'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=375&h=362&fit=crop&crop=center',
+    description:
+        'A delicious homemade beef burger with crispy lettuce, fresh tomato, and cheddar cheese on a toasted potato bun. Perfect for lunch or dinner.',
     nutrition: {
         energy: '749Kcal',
         carbs: '36g',
@@ -72,7 +81,8 @@ const DEFAULT_BURGER_RECIPE: Recipe = {
         {
             id: 'step-3',
             step: 3,
-            instruction: 'Cook the beef patty for 4-5 minutes per side until desired doneness.',
+            instruction:
+                'Cook the beef patty for 4-5 minutes per side until desired doneness.',
             duration: '10 mins',
         },
         {
@@ -84,7 +94,8 @@ const DEFAULT_BURGER_RECIPE: Recipe = {
         {
             id: 'step-5',
             step: 5,
-            instruction: 'Assemble the burger: bottom bun, lettuce, tomato, beef patty, cheese, onion, top bun.',
+            instruction:
+                'Assemble the burger: bottom bun, lettuce, tomato, beef patty, cheese, onion, top bun.',
             duration: '3 mins',
         },
     ],
@@ -136,9 +147,29 @@ const DEFAULT_INVENTORY: Ingredient[] = [
     },
 ];
 
+// Default meal plan preferences
+const DEFAULT_MEAL_PREFERENCES: MealPlanPreferences = {
+    dietaryRestrictions: [],
+    maxCookingTime: 60,
+    mealsPerDay: 3,
+    nutritionGoals: {
+        dailyCalories: 2000,
+        maxCarbs: 250,
+        minProtein: 50,
+        maxFats: 65,
+        balancedMeals: true,
+    },
+    favoriteIngredients: [],
+    avoidIngredients: [],
+    preferredMealTypes: ['lunch', 'dinner'],
+    cookingSkillLevel: 'intermediate',
+};
+
 // Utility functions for local storage
 function getFromStorage<T>(key: string, defaultValue: T): T {
-    if (typeof window === 'undefined') { return defaultValue; }
+    if (typeof window === 'undefined') {
+        return defaultValue;
+    }
 
     try {
         const item = localStorage.getItem(key);
@@ -181,13 +212,15 @@ function initializeDefaultData(): void {
 // Recipe CRUD operations
 export const recipeStorage = {
     getAll: (): Recipe[] => {
-        const recipes = getFromStorage(STORAGE_KEYS.RECIPES, [DEFAULT_BURGER_RECIPE]);
+        const recipes = getFromStorage(STORAGE_KEYS.RECIPES, [
+            DEFAULT_BURGER_RECIPE,
+        ]);
         return recipes;
     },
 
     getById: (id: string): Recipe | null => {
         const recipes = recipeStorage.getAll();
-        return recipes.find(recipe => recipe.id === id) || null;
+        return recipes.find((recipe) => recipe.id === id) || null;
     },
 
     create: (recipe: Omit<Recipe, 'id'>): Recipe => {
@@ -205,7 +238,7 @@ export const recipeStorage = {
 
     update: (id: string, updates: Partial<Omit<Recipe, 'id'>>): Recipe | null => {
         const recipes = recipeStorage.getAll();
-        const index = recipes.findIndex(recipe => recipe.id === id);
+        const index = recipes.findIndex((recipe) => recipe.id === id);
 
         if (index === -1) {
             return null;
@@ -220,7 +253,7 @@ export const recipeStorage = {
 
     delete: (id: string): boolean => {
         const recipes = recipeStorage.getAll();
-        const filteredRecipes = recipes.filter(recipe => recipe.id !== id);
+        const filteredRecipes = recipes.filter((recipe) => recipe.id !== id);
 
         if (filteredRecipes.length === recipes.length) {
             return false;
@@ -240,7 +273,7 @@ export const inventoryStorage = {
 
     getById: (id: string): Ingredient | null => {
         const inventory = inventoryStorage.getAll();
-        return inventory.find(ingredient => ingredient.id === id) || null;
+        return inventory.find((ingredient) => ingredient.id === id) || null;
     },
 
     create: (ingredient: Omit<Ingredient, 'id'>): Ingredient => {
@@ -259,9 +292,12 @@ export const inventoryStorage = {
         return newIngredient;
     },
 
-    update: (id: string, updates: Partial<Omit<Ingredient, 'id'>>): Ingredient | null => {
+    update: (
+        id: string,
+        updates: Partial<Omit<Ingredient, 'id'>>
+    ): Ingredient | null => {
         const inventory = inventoryStorage.getAll();
-        const index = inventory.findIndex(ingredient => ingredient.id === id);
+        const index = inventory.findIndex((ingredient) => ingredient.id === id);
 
         if (index === -1) {
             return null;
@@ -276,7 +312,9 @@ export const inventoryStorage = {
 
     delete: (id: string): boolean => {
         const inventory = inventoryStorage.getAll();
-        const filteredInventory = inventory.filter(ingredient => ingredient.id !== id);
+        const filteredInventory = inventory.filter(
+            (ingredient) => ingredient.id !== id
+        );
 
         if (filteredInventory.length === inventory.length) {
             return false;
@@ -288,14 +326,14 @@ export const inventoryStorage = {
 
     // Helper method to check if an ingredient is available for a recipe
     checkAvailability: (
-        recipeIngredients: Recipe['ingredients'],
+        recipeIngredients: Recipe['ingredients']
     ): { available: boolean; missing: string[] } => {
         const inventory = inventoryStorage.getAll();
         const missing: string[] = [];
 
         for (const recipeIngredient of recipeIngredients) {
             const inventoryItem = inventory.find(
-                inv => inv.name.toLowerCase() === recipeIngredient.name.toLowerCase(),
+                (inv) => inv.name.toLowerCase() === recipeIngredient.name.toLowerCase()
             );
 
             if (!inventoryItem) {
@@ -307,6 +345,98 @@ export const inventoryStorage = {
             available: missing.length === 0,
             missing,
         };
+    },
+};
+
+// Meal Plan CRUD operations
+export const mealPlanStorage = {
+    getAll: (): MealPlan[] => {
+        const mealPlans = getFromStorage(STORAGE_KEYS.MEAL_PLANS, []);
+        return mealPlans;
+    },
+
+    getById: (id: string): MealPlan | null => {
+        const mealPlans = mealPlanStorage.getAll();
+        return mealPlans.find((plan) => plan.id === id) || null;
+    },
+
+    getCurrent: (): MealPlan | null => {
+        const mealPlans = mealPlanStorage.getAll();
+        const now = new Date();
+
+        return (
+            mealPlans.find((plan) => {
+                const startDate = new Date(plan.startDate);
+                const endDate = new Date(plan.endDate);
+                return now >= startDate && now <= endDate;
+            }) || null
+        );
+    },
+
+    create: (plan: Omit<MealPlan, 'id'>): MealPlan => {
+        const newPlan: MealPlan = {
+            ...plan,
+            id: `meal-plan-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+        };
+
+        const mealPlans = mealPlanStorage.getAll();
+        const updatedPlans = [newPlan, ...mealPlans];
+        _setInStorage(STORAGE_KEYS.MEAL_PLANS, updatedPlans);
+
+        return newPlan;
+    },
+
+    update: (
+        id: string,
+        updates: Partial<Omit<MealPlan, 'id'>>
+    ): MealPlan | null => {
+        const mealPlans = mealPlanStorage.getAll();
+        const index = mealPlans.findIndex((plan) => plan.id === id);
+
+        if (index === -1) {
+            return null;
+        }
+
+        const updatedPlan = { ...mealPlans[index], ...updates };
+        mealPlans[index] = updatedPlan;
+        _setInStorage(STORAGE_KEYS.MEAL_PLANS, mealPlans);
+
+        return updatedPlan;
+    },
+
+    delete: (id: string): boolean => {
+        const mealPlans = mealPlanStorage.getAll();
+        const filteredPlans = mealPlans.filter((plan) => plan.id !== id);
+
+        if (filteredPlans.length === mealPlans.length) {
+            return false;
+        }
+
+        _setInStorage(STORAGE_KEYS.MEAL_PLANS, filteredPlans);
+        return true;
+    },
+};
+
+// Meal Preferences CRUD operations
+export const mealPreferencesStorage = {
+    get: (): MealPlanPreferences => {
+        const preferences = getFromStorage(
+            STORAGE_KEYS.MEAL_PREFERENCES,
+            DEFAULT_MEAL_PREFERENCES
+        );
+        return preferences;
+    },
+
+    update: (updates: Partial<MealPlanPreferences>): MealPlanPreferences => {
+        const currentPreferences = mealPreferencesStorage.get();
+        const updatedPreferences = { ...currentPreferences, ...updates };
+        _setInStorage(STORAGE_KEYS.MEAL_PREFERENCES, updatedPreferences);
+        return updatedPreferences;
+    },
+
+    reset: (): MealPlanPreferences => {
+        _setInStorage(STORAGE_KEYS.MEAL_PREFERENCES, DEFAULT_MEAL_PREFERENCES);
+        return DEFAULT_MEAL_PREFERENCES;
     },
 };
 

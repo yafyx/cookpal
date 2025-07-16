@@ -15,17 +15,15 @@ export default function MealCard({ recipe, onClick }: MealCardProps) {
 
   return (
     <button
-      className="relative h-[96px] w-full cursor-pointer overflow-hidden rounded-lg border border-gray-200 bg-gray-50 text-left transition-opacity hover:opacity-90"
+      className="h-16 w-full rounded-lg border border-gray-200 bg-white px-5 py-3 text-left transition-colors hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
       onClick={onClick}
       onKeyDown={handleKeyDown}
       type="button"
     >
-      <div className="relative flex h-full w-full items-center justify-between p-4">
-        <div>
-          <h3 className="font-semibold text-[18px] text-gray-800 leading-[28px]">
-            {recipe.name}
-          </h3>
-        </div>
+      <div className="flex items-center justify-between">
+        <h3 className="truncate font-medium text-gray-900 text-sm">
+          {recipe.name}
+        </h3>
       </div>
     </button>
   );
