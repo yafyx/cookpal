@@ -41,7 +41,7 @@ function IngredientItem({ ingredient, onEdit, onDelete }: IngredientItemProps) {
             alt={ingredient.name}
             className="h-full w-full object-cover"
             height={40}
-            src={ingredient.image || '/assets/kangkung.png'}
+            src={ingredient.image || '/cookpal.svg'}
             width={40}
           />
         </div>
@@ -102,7 +102,7 @@ function InventoryItemSelector({
           alt={inventoryItem.name}
           className="h-full w-full object-cover"
           height={40}
-          src={inventoryItem.image || '/assets/kangkung.png'}
+          src={inventoryItem.image || '/cookpal.svg'}
           width={40}
         />
       </div>
@@ -161,7 +161,7 @@ function AddIngredientForm({
       onAdd({
         name: name.trim(),
         quantity: quantity.trim(),
-        image: image.trim() || '/assets/kangkung.png',
+        image: image.trim() || '/cookpal.svg',
       });
       setName('');
       setQuantity('');
@@ -693,7 +693,7 @@ export default function AddRecipeDrawer({
         name: name.trim(),
         creator: creator.trim(),
         description: description.trim(),
-        image: image.trim() || '/assets/kangkung.png', // Default image
+        image: image.trim() || '/cookpal.svg', // Default image
         nutrition: {
           energy: energy.trim() || '0 kcal',
           carbs: carbs.trim() || '0g',

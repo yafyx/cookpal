@@ -46,7 +46,7 @@ export default function AddIngredientForm({
       onAddIngredient({
         name: name.trim(),
         quantity: quantity.toString(),
-        image: '', // Will be set with a default or uploaded image
+        image: '/cookpal.svg', // Default CookPal logo
       });
       // Reset form
       setName('');

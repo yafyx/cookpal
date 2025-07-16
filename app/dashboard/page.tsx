@@ -4,6 +4,11 @@ import IngredientItem from '@/components/dashboard/IngredientItem';
 import RecipeCard from '@/components/dashboard/RecipeCard';
 import BottomNavigation from '@/components/ui/bottom-navigation';
 import { MobileHeader } from '@/components/ui/mobile-header';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 import { useInventory, useRecipes } from '@/hooks/use-storage';
 import { inventoryStorage } from '@/lib/storage';
 import { HelpCircle } from 'lucide-react';
@@ -11,26 +16,55 @@ import Image from 'next/image';
 import { useEffect, useState } from 'react';
 
 export default function DashboardPage() {
-  const { ingredients, loading: inventoryLoading } = useInventory();
+  const { loading: inventoryLoading } = useInventory();
   const { recipes, loading: recipesLoading } = useRecipes();
   const [missingIngredients, setMissingIngredients] = useState<string[]>([]);
+  const [tooltipOpen, setTooltipOpen] = useState(false);
 
   useEffect(() => {
-    // Check for missing ingredients for the first recipe
+    // Check for missing ingredients across all recipes
     if (recipes.length > 0 && !recipesLoading) {
-      const firstRecipe = recipes[0];
-      const { missing } = inventoryStorage.checkAvailability(firstRecipe.ingredients);
-      setMissingIngredients(missing);
+      const allMissing = new Set<string>();
+
+      // Check missing ingredients for each recipe
+      for (const recipe of recipes) {
+        const { missing } = inventoryStorage.checkAvailability(
+          recipe.ingredients
+        );
+        for (const ingredient of missing) {
+          allMissing.add(ingredient);
+        }
+      }
+
+      setMissingIngredients(Array.from(allMissing));
     }
   }, [recipes, recipesLoading]);
 
-  // Get ingredients that are missing for recipes (limit to first 3)
-  const missingIngredientsData = ingredients
-    .filter(ingredient => 
-      missingIngredients.some(missing => 
-        missing.toLowerCase() === ingredient.name.toLowerCase()
-      )
-    )
+  // Get missing ingredients data from recipes (limit to first 3)
+  const missingIngredientsData = missingIngredients
+    .map((missingName) => {
+      // Find the ingredient in any recipe to get its image and quantity
+      for (const recipe of recipes) {
+        const ingredient = recipe.ingredients.find(
+          (ing) => ing.name.toLowerCase() === missingName.toLowerCase()
+        );
+        if (ingredient) {
+          return {
+            id: ingredient.id,
+            name: ingredient.name,
+            quantity: ingredient.quantity,
+            image: ingredient.image,
+          };
+        }
+      }
+      // Fallback if ingredient not found in any recipe
+      return {
+        id: `missing-${missingName}`,
+        name: missingName,
+        quantity: '1 piece',
+        image: '',
+      };
+    })
     .slice(0, 3);
 
   const loading = inventoryLoading || recipesLoading;
@@ -51,7 +85,7 @@ export default function DashboardPage() {
           }
           showSearch
         />
-        <div className="flex-1 flex items-center justify-center">
+        <div className="flex flex-1 items-center justify-center">
           <p className="text-gray-500">Loading...</p>
         </div>
         <BottomNavigation activeTab="home" />
@@ -86,15 +120,17 @@ export default function DashboardPage() {
         {/* Recipe Cards Carousel */}
         <div className="flex gap-2 overflow-x-auto">
           {recipes.length > 0 ? (
-            recipes.slice(0, 3).map((recipe) => (
-              <RecipeCard
-                key={recipe.id}
-                id={recipe.id}
-                backgroundImage={recipe.image}
-                duration="30m"
-                title={recipe.name}
-              />
-            ))
+            recipes
+              .slice(0, 3)
+              .map((recipe) => (
+                <RecipeCard
+                  backgroundImage={recipe.image}
+                  duration="30m"
+                  id={recipe.id}
+                  key={recipe.id}
+                  title={recipe.name}
+                />
+              ))
           ) : (
             <div className="flex h-[200px] w-[330px] items-center justify-center rounded-3xl bg-gray-100">
               <p className="text-gray-500">No recipes available</p>
@@ -108,25 +144,40 @@ export default function DashboardPage() {
             <h2 className="font-semibold text-black text-lg">
               What's missing in your fridge
             </h2>
-            <HelpCircle className="h-4 w-4 text-[#a4a7ae]" />
+            <Tooltip onOpenChange={setTooltipOpen} open={tooltipOpen}>
+              <TooltipTrigger
+                onClick={(e) => {
+                  e.preventDefault();
+                  setTooltipOpen(!tooltipOpen);
+                }}
+              >
+                <HelpCircle className="h-5 w-5 text-[#a4a7ae]" />
+              </TooltipTrigger>
+              <TooltipContent className="max-w-xs">
+                <p className="text-sm">
+                  This shows ingredients that you're missing for your planned
+                  recipes.
+                </p>
+              </TooltipContent>
+            </Tooltip>
           </div>
 
           <div className="space-y-3">
             {missingIngredientsData.length > 0 ? (
               missingIngredientsData.map((ingredient) => (
                 <IngredientItem
-                  key={ingredient.id}
                   amount={ingredient.quantity}
                   icon={ingredient.image}
+                  key={ingredient.id}
                   name={ingredient.name}
                 />
               ))
             ) : (
               <div className="py-4 text-center">
                 <p className="text-gray-500">
-                  {ingredients.length > 0 
-                    ? "You have all ingredients for your recipes!" 
-                    : "Add some ingredients to your inventory"}
+                  {recipes.length > 0
+                    ? 'You have all ingredients for your recipes!'
+                    : 'Add some recipes to see missing ingredients'}
                 </p>
               </div>
             )}

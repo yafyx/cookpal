@@ -21,7 +21,10 @@ interface AddIngredientDrawerProps {
 
 interface EditIngredientDrawerProps {
   ingredient: Ingredient;
-  onUpdateIngredient: (id: string, updates: Partial<Omit<Ingredient, 'id'>>) => void;
+  onUpdateIngredient: (
+    id: string,
+    updates: Partial<Omit<Ingredient, 'id'>>
+  ) => void;
   trigger: React.ReactNode;
 }
 
@@ -45,7 +48,9 @@ export function EditIngredientDrawer({
   trigger,
 }: EditIngredientDrawerProps) {
   const [name, setName] = useState(ingredient.name);
-  const [unit, setUnit] = useState(ingredient.quantity.replace(/[0-9]/g, '').trim());
+  const [unit, setUnit] = useState(
+    ingredient.quantity.replace(/[0-9]/g, '').trim()
+  );
   const [quantity, setQuantity] = useState(
     Number.parseInt(ingredient.quantity.replace(/[a-zA-Z]/g, ''), 10) || 1
   );
@@ -115,8 +120,8 @@ export function EditIngredientDrawer({
                 {/* Description */}
                 <div className="flex flex-col gap-2">
                   <p className="text-[#a4a7ae] text-sm leading-5">
-                    Update the ingredient details including name, unit, and quantity
-                    to keep your inventory accurate.
+                    Update the ingredient details including name, unit, and
+                    quantity to keep your inventory accurate.
                   </p>
                 </div>
 
@@ -244,7 +249,7 @@ export default function AddIngredientDrawer({
       onAddIngredient({
         name: name.trim(),
         quantity: `${quantity} ${unit}`,
-        image: '', // Will be set with a default or uploaded image
+        image: '/cookpal.svg', // Default CookPal logo
       });
       // Reset form
       setName('');

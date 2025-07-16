@@ -138,40 +138,43 @@ const DEFAULT_INVENTORY: Ingredient[] = [
 
 // Utility functions for local storage
 function getFromStorage<T>(key: string, defaultValue: T): T {
-    if (typeof window === 'undefined') return defaultValue;
+    if (typeof window === 'undefined') { return defaultValue; }
 
     try {
         const item = localStorage.getItem(key);
         return item ? JSON.parse(item) : defaultValue;
-    } catch (error) {
-        console.error(`Error getting ${key} from localStorage:`, error);
+    } catch (_error) {
         return defaultValue;
     }
 }
 
-function setInStorage<T>(key: string, value: T): void {
-    if (typeof window === 'undefined') return;
+function _setInStorage<T>(key: string, value: T): void {
+    if (typeof window === 'undefined') {
+        return;
+    }
 
     try {
         localStorage.setItem(key, JSON.stringify(value));
-    } catch (error) {
-        console.error(`Error setting ${key} in localStorage:`, error);
+    } catch (_error) {
+        // console.error('Failed to set item in local storage:', _error);
     }
 }
 
 // Initialize default data if not exists
 function initializeDefaultData(): void {
-    if (typeof window === 'undefined') return;
+    if (typeof window === 'undefined') {
+        return;
+    }
 
     const existingInventory = localStorage.getItem(STORAGE_KEYS.INVENTORY);
     const existingRecipes = localStorage.getItem(STORAGE_KEYS.RECIPES);
 
     if (!existingInventory) {
-        setInStorage(STORAGE_KEYS.INVENTORY, DEFAULT_INVENTORY);
+        _setInStorage(STORAGE_KEYS.INVENTORY, DEFAULT_INVENTORY);
     }
 
     if (!existingRecipes) {
-        setInStorage(STORAGE_KEYS.RECIPES, [DEFAULT_BURGER_RECIPE]);
+        _setInStorage(STORAGE_KEYS.RECIPES, [DEFAULT_BURGER_RECIPE]);
     }
 }
 
@@ -195,7 +198,7 @@ export const recipeStorage = {
 
         const recipes = recipeStorage.getAll();
         const updatedRecipes = [newRecipe, ...recipes];
-        setInStorage(STORAGE_KEYS.RECIPES, updatedRecipes);
+        _setInStorage(STORAGE_KEYS.RECIPES, updatedRecipes);
 
         return newRecipe;
     },
@@ -204,11 +207,13 @@ export const recipeStorage = {
         const recipes = recipeStorage.getAll();
         const index = recipes.findIndex(recipe => recipe.id === id);
 
-        if (index === -1) return null;
+        if (index === -1) {
+            return null;
+        }
 
         const updatedRecipe = { ...recipes[index], ...updates };
         recipes[index] = updatedRecipe;
-        setInStorage(STORAGE_KEYS.RECIPES, recipes);
+        _setInStorage(STORAGE_KEYS.RECIPES, recipes);
 
         return updatedRecipe;
     },
@@ -217,9 +222,11 @@ export const recipeStorage = {
         const recipes = recipeStorage.getAll();
         const filteredRecipes = recipes.filter(recipe => recipe.id !== id);
 
-        if (filteredRecipes.length === recipes.length) return false;
+        if (filteredRecipes.length === recipes.length) {
+            return false;
+        }
 
-        setInStorage(STORAGE_KEYS.RECIPES, filteredRecipes);
+        _setInStorage(STORAGE_KEYS.RECIPES, filteredRecipes);
         return true;
     },
 };
@@ -240,12 +247,14 @@ export const inventoryStorage = {
         const newIngredient: Ingredient = {
             ...ingredient,
             id: `inv-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
-            image: ingredient.image || 'https://images.unsplash.com/photo-1518937669666-7db0b5d2c6bb?w=100&h=100&fit=crop&crop=center',
+            image:
+                ingredient.image ||
+                'https://images.unsplash.com/photo-1518937669666-7db0b5d2c6bb?w=100&h=100&fit=crop&crop=center',
         };
 
         const inventory = inventoryStorage.getAll();
         const updatedInventory = [newIngredient, ...inventory];
-        setInStorage(STORAGE_KEYS.INVENTORY, updatedInventory);
+        _setInStorage(STORAGE_KEYS.INVENTORY, updatedInventory);
 
         return newIngredient;
     },
@@ -254,11 +263,13 @@ export const inventoryStorage = {
         const inventory = inventoryStorage.getAll();
         const index = inventory.findIndex(ingredient => ingredient.id === id);
 
-        if (index === -1) return null;
+        if (index === -1) {
+            return null;
+        }
 
         const updatedIngredient = { ...inventory[index], ...updates };
         inventory[index] = updatedIngredient;
-        setInStorage(STORAGE_KEYS.INVENTORY, inventory);
+        _setInStorage(STORAGE_KEYS.INVENTORY, inventory);
 
         return updatedIngredient;
     },
@@ -267,26 +278,30 @@ export const inventoryStorage = {
         const inventory = inventoryStorage.getAll();
         const filteredInventory = inventory.filter(ingredient => ingredient.id !== id);
 
-        if (filteredInventory.length === inventory.length) return false;
+        if (filteredInventory.length === inventory.length) {
+            return false;
+        }
 
-        setInStorage(STORAGE_KEYS.INVENTORY, filteredInventory);
+        _setInStorage(STORAGE_KEYS.INVENTORY, filteredInventory);
         return true;
     },
 
     // Helper method to check if an ingredient is available for a recipe
-    checkAvailability: (recipeIngredients: Recipe['ingredients']): { available: boolean; missing: string[] } => {
+    checkAvailability: (
+        recipeIngredients: Recipe['ingredients'],
+    ): { available: boolean; missing: string[] } => {
         const inventory = inventoryStorage.getAll();
         const missing: string[] = [];
 
-        recipeIngredients.forEach(recipeIngredient => {
-            const inventoryItem = inventory.find(inv =>
-                inv.name.toLowerCase() === recipeIngredient.name.toLowerCase()
+        for (const recipeIngredient of recipeIngredients) {
+            const inventoryItem = inventory.find(
+                inv => inv.name.toLowerCase() === recipeIngredient.name.toLowerCase(),
             );
 
             if (!inventoryItem) {
                 missing.push(recipeIngredient.name);
             }
-        });
+        }
 
         return {
             available: missing.length === 0,
