@@ -1,7 +1,7 @@
+import BottomNavigation from '@/components/ui/bottom-navigation';
 import { MobileHeader } from '@/components/ui/mobile-header';
 import type { Recipe } from '@/lib/types';
 import { Plus } from 'lucide-react';
-import BottomNavigation from '../ui/bottom-navigation';
 import AddRecipeDrawer from './AddRecipeDrawer';
 import RecipeList from './RecipeList';
 
@@ -21,7 +21,7 @@ export default function RecipePage({
   return (
     <div className="flex min-h-screen flex-col bg-white">
       <MobileHeader
-        backHref="/recipes"
+        backHref="/recipes/manage"
         showBackButton={true}
         title="My Recipes"
       />

@@ -1,6 +1,6 @@
 'use client';
 
-import { RecipePage } from '@/components/recipe';
+import { RecipePage } from '@/components/recipes';
 import { useRecipes } from '@/hooks/use-storage';
 
 export default function ManageRecipesPage() {

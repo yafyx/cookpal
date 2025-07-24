@@ -1,6 +1,6 @@
 'use client';
 
-import { AddRecipeDrawer } from '@/components/recipe';
+import { AddRecipeDrawer } from '@/components/recipes';
 import BottomNavigation from '@/components/ui/bottom-navigation';
 import { Button } from '@/components/ui/button';
 import { MobileHeader } from '@/components/ui/mobile-header';
@@ -117,7 +117,7 @@ export default function KitchenPage() {
                   >
                     <Link
                       className="absolute inset-0 flex flex-col justify-end p-4 text-white"
-                      href={`/recipe/${recipe.id}`}
+                      href={`/recipes/${recipe.id}`}
                       style={{
                         backgroundImage: `linear-gradient(rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.4) 100%), url('${recipe.image}')`,
                         backgroundSize: 'cover',
