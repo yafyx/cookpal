@@ -15,6 +15,7 @@ export default function OnboardingCarousel() {
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
   const [selectedCravings, setSelectedCravings] = useState<string[]>(['Pedas']);
+  const [selectedAllergies, setSelectedAllergies] = useState<string[]>([]);
 
   const router = useRouter();
 
@@ -31,7 +32,7 @@ export default function OnboardingCarousel() {
   }, [api]);
 
   const handleNext = () => {
-    if (current < 4) {
+    if (current < 5) {
       api?.scrollNext();
     } else {
       router.push('/dashboard');
@@ -45,6 +46,26 @@ export default function OnboardingCarousel() {
         : [...prev, craving]
     );
   };
+
+  const toggleAllergy = (allergy: string) => {
+    setSelectedAllergies((prev: string[]) =>
+      prev.includes(allergy)
+        ? prev.filter((a: string) => a !== allergy)
+        : [...prev, allergy]
+    );
+  };
+
+  const allergyOptions = [
+    'Diary',
+    'Eggs',
+    'Tree nuts',
+    'Peanuts',
+    'Fish',
+    'Gluten',
+    'Mustard',
+    '...',
+  ];
+
   return (
     <div className="relative box-border size-full min-h-screen bg-[#ffffff]">
       <Carousel
@@ -138,6 +159,59 @@ export default function OnboardingCarousel() {
                     mindful eating. CookPal will tailor the menu and nutrition
                     to fit your goals.
                   </p>
+                </div>
+              </div>
+            </div>
+          </CarouselItem>
+          <CarouselItem className="flex h-full items-center justify-center">
+            <div className="relative box-border flex min-h-screen w-full flex-col items-center justify-center gap-8 px-4 py-6">
+              <div className="relative box-border flex shrink-0 flex-col content-stretch items-center justify-start gap-2 p-0 text-center not-italic leading-[0]">
+                <div className="relative w-[297px] shrink-0 font-['Inter'] font-semibold text-[#181d27] text-[24px] tracking-[-0.528px]">
+                  <p className="block leading-[32px]">
+                    Do you have any allergies?
+                  </p>
+                </div>
+                <div className="relative w-[275px] shrink-0 font-['Inter'] font-normal text-[#535862] text-[14px]">
+                  <p className="block leading-[20px]">
+                    Let us know if you have any food allergies. So we can
+                    customize your meal plans
+                  </p>
+                </div>
+              </div>
+
+              <div className="relative box-border flex w-full shrink-0 flex-col content-stretch items-center justify-center gap-2 overflow-clip p-0">
+                <div className="grid w-full max-w-[280px] grid-cols-3 gap-2">
+                  {allergyOptions.map((allergy) => (
+                    <div
+                      className="relative min-w-[85px] shrink-0 rounded-xl"
+                      key={allergy}
+                    >
+                      <div
+                        className={`pointer-events-none absolute inset-0 rounded-xl border border-solid ${
+                          selectedAllergies.includes(allergy)
+                            ? 'border-[#ff6b35] bg-[#ff6b35]'
+                            : 'border-[#e9eaeb] bg-[#ffffff]'
+                        }`}
+                      />
+                      <button
+                        className="relative box-border flex w-full min-w-inherit flex-row content-stretch items-center justify-center gap-2 overflow-clip px-3 py-2"
+                        onClick={() => toggleAllergy(allergy)}
+                        type="button"
+                      >
+                        <div className="min-h-px min-w-px shrink-0 grow basis-0 text-center font-['Inter'] font-medium text-[14px] not-italic leading-[0]">
+                          <p
+                            className={`block leading-[20px] ${
+                              selectedAllergies.includes(allergy)
+                                ? 'text-[#ffffff]'
+                                : 'text-[#414651]'
+                            }`}
+                          >
+                            {allergy}
+                          </p>
+                        </div>
+                      </button>
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
@@ -297,7 +371,7 @@ export default function OnboardingCarousel() {
       </Carousel>
       <div className="absolute right-0 bottom-0 left-0 z-20 bg-[#ffffff]">
         <div className="flex items-center justify-between px-4 py-6">
-          <StepIndicator currentStep={current - 1} totalSteps={4} />
+          <StepIndicator currentStep={current - 1} totalSteps={5} />
 
           <button
             className="flex items-center justify-center gap-2 rounded-lg bg-[#181d27] px-5 py-2 hover:bg-[#282d37]"
@@ -305,7 +379,7 @@ export default function OnboardingCarousel() {
             type="button"
           >
             <span className="font-['Inter'] font-semibold text-[#fdfdfd] text-[16px] leading-[24px]">
-              {current === 4 ? 'Complete' : 'Next'}
+              {current === 5 ? 'Complete' : 'Next'}
             </span>
           </button>
         </div>
