@@ -173,7 +173,7 @@ export default function OnboardingScreen() {
                 <div className="relative box-border flex w-[335px] shrink-0 flex-col content-stretch items-start justify-start gap-4 p-0">
                   {/* Continue with Google Button */}
                   <button
-                    className="relative w-full shrink-0 rounded-lg bg-[#181d27] transition-all duration-200 hover:bg-[#282d37] disabled:cursor-not-allowed disabled:opacity-50"
+                    className="relative w-full shrink-0 rounded-lg bg-[#181d27] transition-all duration-200 hover:bg-[#282d37] disabled:cursor-not-allowed"
                     disabled={isGoogleLoading}
                     onClick={handleGoogleAuthClick}
                     type="button"
@@ -223,12 +223,11 @@ export default function OnboardingScreen() {
 
                   {/* Continue with Mail Button */}
                   <button
-                    className="relative w-full shrink-0 rounded-lg bg-[#fdfdfd] transition-all duration-200 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50"
+                    className="relative w-full shrink-0 rounded-lg border border-[#e9eaeb] bg-[#fdfdfd] transition-all duration-200 hover:bg-gray-50 disabled:cursor-not-allowed"
                     disabled={isMailLoading}
                     onClick={handleMailAuthClick}
                     type="button"
                   >
-                    <div className="pointer-events-none absolute inset-0 rounded-lg border border-[#e9eaeb] border-solid" />
                     <div className="relative flex size-full flex-row items-center justify-center">
                       <div className="relative box-border flex w-full flex-row content-stretch items-center justify-center gap-2 px-5 py-2">
                         {isMailLoading ? (
