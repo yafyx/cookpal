@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import {
   Bell,
@@ -7,9 +7,9 @@ import {
   TrendingUp,
   Trophy,
   User,
-} from "lucide-react";
+} from 'lucide-react';
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 export default function AccountSettings() {
   return (
@@ -23,20 +23,20 @@ export default function AccountSettings() {
             <h3 className="font-bold text-gray-900 text-xl">
               Account & Settings
             </h3>
-            <p className="text-gray-600 text-sm mt-1">
+            <p className="mt-1 text-gray-600 text-sm">
               Manage your preferences
             </p>
           </div>
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-0">
-        <div className="flex cursor-pointer items-center justify-between border-b border-gray-200 p-6 hover:bg-gray-50">
+        <div className="flex cursor-pointer items-center justify-between border-gray-200 border-b p-6 hover:bg-gray-50">
           <div className="flex items-center gap-4">
             <div className="flex h-10 w-10 items-center justify-center bg-[#FD853A]">
               <Trophy className="h-5 w-5 text-white" />
             </div>
             <div>
-              <p className="font-medium text-gray-900 text-base">
+              <p className="font-medium text-base text-gray-900">
                 Achievements
               </p>
               <p className="text-gray-600 text-sm">
@@ -47,13 +47,13 @@ export default function AccountSettings() {
           <ChevronRight className="h-5 w-5 text-gray-400" />
         </div>
 
-        <div className="flex cursor-pointer items-center justify-between border-b border-gray-200 p-6 hover:bg-gray-50">
+        <div className="flex cursor-pointer items-center justify-between border-gray-200 border-b p-6 hover:bg-gray-50">
           <div className="flex items-center gap-4">
             <div className="flex h-10 w-10 items-center justify-center bg-[#FD853A]">
               <Bell className="h-5 w-5 text-white" />
             </div>
             <div>
-              <p className="font-medium text-gray-900 text-base">
+              <p className="font-medium text-base text-gray-900">
                 Notifications
               </p>
               <p className="text-gray-600 text-sm">
@@ -64,13 +64,13 @@ export default function AccountSettings() {
           <ChevronRight className="h-5 w-5 text-gray-400" />
         </div>
 
-        <div className="flex cursor-pointer items-center justify-between border-b border-gray-200 p-6 hover:bg-gray-50">
+        <div className="flex cursor-pointer items-center justify-between border-gray-200 border-b p-6 hover:bg-gray-50">
           <div className="flex items-center gap-4">
             <div className="flex h-10 w-10 items-center justify-center bg-[#FD853A]">
               <TrendingUp className="h-5 w-5 text-white" />
             </div>
             <div>
-              <p className="font-medium text-gray-900 text-base">
+              <p className="font-medium text-base text-gray-900">
                 Progress Tracking
               </p>
               <p className="text-gray-600 text-sm">Health metrics & trends</p>
@@ -85,7 +85,7 @@ export default function AccountSettings() {
               <Shield className="h-5 w-5 text-white" />
             </div>
             <div>
-              <p className="font-medium text-gray-900 text-base">
+              <p className="font-medium text-base text-gray-900">
                 Privacy & Security
               </p>
               <p className="text-gray-600 text-sm">

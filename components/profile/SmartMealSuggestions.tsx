@@ -1,14 +1,14 @@
-"use client";
+'use client';
 
-import { ArrowRight, Calendar, ChefHat, Trophy } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { ArrowRight, Calendar, ChefHat, Trophy } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import type {
   ActivityContext,
   SmartMealSuggestion,
   WorkoutType,
-} from "@/lib/types";
+} from '@/lib/types';
 
 interface SmartMealSuggestionsProps {
   activityContext: ActivityContext;
@@ -18,17 +18,17 @@ interface SmartMealSuggestionsProps {
 }
 
 const workoutTypeColors: Record<WorkoutType, string> = {
-  cardio: "border-[#FD853A] bg-[#FD853A]/10 text-[#FD853A]",
-  strength: "border-[#FD853A] bg-[#FD853A]/10 text-[#FD853A]",
-  yoga: "border-[#FD853A] bg-[#FD853A]/10 text-[#FD853A]",
-  pilates: "border-[#FD853A] bg-[#FD853A]/10 text-[#FD853A]",
-  running: "border-[#FD853A] bg-[#FD853A]/10 text-[#FD853A]",
-  cycling: "border-[#FD853A] bg-[#FD853A]/10 text-[#FD853A]",
-  swimming: "border-[#FD853A] bg-[#FD853A]/10 text-[#FD853A]",
-  hiit: "border-[#FD853A] bg-[#FD853A]/10 text-[#FD853A]",
-  crossfit: "border-[#FD853A] bg-[#FD853A]/10 text-[#FD853A]",
-  walking: "border-[#FD853A] bg-[#FD853A]/10 text-[#FD853A]",
-  other: "border-[#FD853A] bg-[#FD853A]/10 text-[#FD853A]",
+  cardio: 'border-[#FD853A] bg-[#FD853A]/10 text-[#FD853A]',
+  strength: 'border-[#FD853A] bg-[#FD853A]/10 text-[#FD853A]',
+  yoga: 'border-[#FD853A] bg-[#FD853A]/10 text-[#FD853A]',
+  pilates: 'border-[#FD853A] bg-[#FD853A]/10 text-[#FD853A]',
+  running: 'border-[#FD853A] bg-[#FD853A]/10 text-[#FD853A]',
+  cycling: 'border-[#FD853A] bg-[#FD853A]/10 text-[#FD853A]',
+  swimming: 'border-[#FD853A] bg-[#FD853A]/10 text-[#FD853A]',
+  hiit: 'border-[#FD853A] bg-[#FD853A]/10 text-[#FD853A]',
+  crossfit: 'border-[#FD853A] bg-[#FD853A]/10 text-[#FD853A]',
+  walking: 'border-[#FD853A] bg-[#FD853A]/10 text-[#FD853A]',
+  other: 'border-[#FD853A] bg-[#FD853A]/10 text-[#FD853A]',
 };
 
 export default function SmartMealSuggestions({
@@ -121,7 +121,7 @@ export default function SmartMealSuggestions({
             <div className="mt-4">
               <Button
                 className="w-full bg-[#FD853A] font-medium text-white hover:bg-[#E8743A]"
-                onClick={() => onViewRecipeAction("")}
+                onClick={() => onViewRecipeAction('')}
                 size="sm"
               >
                 See More
@@ -149,21 +149,21 @@ export default function SmartMealSuggestions({
                   {new Date(upcomingWorkout.scheduledAt).toLocaleTimeString(
                     [],
                     {
-                      hour: "2-digit",
-                      minute: "2-digit",
+                      hour: '2-digit',
+                      minute: '2-digit',
                     }
                   )}
                 </Badge>
               </div>
             </div>
             <p className="text-gray-700 text-sm">
-              {upcomingWorkout.type} workout in{" "}
+              {upcomingWorkout.type} workout in{' '}
               <span className="font-bold">
                 {Math.round(
                   (new Date(upcomingWorkout.scheduledAt).getTime() -
                     Date.now()) /
                     (60 * 1000)
-                )}{" "}
+                )}{' '}
                 minutes
               </span>
               . Consider pre-workout nutrition below.

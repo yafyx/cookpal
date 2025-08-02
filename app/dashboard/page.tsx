@@ -1,27 +1,21 @@
-"use client";
+'use client';
 
-import {
-  HelpCircle,
-  ShoppingCart,
-  Sparkles,
-  ExternalLink,
-  X,
-} from "lucide-react";
-import Image from "next/image";
-import { useEffect, useState } from "react";
-import { Drawer } from "vaul";
-import IngredientItem from "@/components/dashboard/IngredientItem";
-import RecipeCard from "@/components/dashboard/RecipeCard";
-import BottomNavigation from "@/components/ui/bottom-navigation";
-import { Button } from "@/components/ui/button";
-import { MobileHeader } from "@/components/ui/mobile-header";
+import { ExternalLink, HelpCircle, List, ShoppingCart, X } from 'lucide-react';
+import Image from 'next/image';
+import { useEffect, useState } from 'react';
+import { Drawer } from 'vaul';
+import IngredientItem from '@/components/dashboard/IngredientItem';
+import RecipeCard from '@/components/dashboard/RecipeCard';
+import BottomNavigation from '@/components/ui/bottom-navigation';
+import { Button } from '@/components/ui/button';
+import { MobileHeader } from '@/components/ui/mobile-header';
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { useInventory, useRecipes } from "@/hooks/use-storage";
-import { inventoryStorage } from "@/lib/storage";
+} from '@/components/ui/tooltip';
+import { useInventory, useRecipes } from '@/hooks/use-storage';
+import { inventoryStorage } from '@/lib/storage';
 
 export default function DashboardPage() {
   const { loading: inventoryLoading } = useInventory();
@@ -33,22 +27,22 @@ export default function DashboardPage() {
 
   const shoppingPlatforms = [
     {
-      name: "Tokopedia",
+      name: 'Tokopedia',
       description: "Indonesia's largest marketplace",
-      color: "bg-green-500",
-      logo: "🛍️",
+      color: 'bg-green-500',
+      logo: '/assets/icon/tokopedia.svg',
     },
     {
-      name: "Shopee",
-      description: "Free shipping & great deals",
-      color: "bg-orange-500",
-      logo: "🛒",
+      name: 'Shopee',
+      description: 'Free shipping & great deals',
+      color: '',
+      logo: '/assets/icon/shopee.svg',
     },
     {
-      name: "Gojek",
-      description: "Fresh groceries delivered fast",
-      color: "bg-green-600",
-      logo: "🏍️",
+      name: 'Gojek',
+      description: 'Fresh groceries delivered fast',
+      color: '',
+      logo: '/assets/icon/gojek.svg',
     },
   ];
 
@@ -119,8 +113,8 @@ export default function DashboardPage() {
       return {
         id: `missing-${missingName}`,
         name: missingName,
-        quantity: "1 piece",
-        image: "",
+        quantity: '1 piece',
+        image: '',
       };
     })
     .slice(0, 3);
@@ -235,26 +229,26 @@ export default function DashboardPage() {
                 {/* One-Tap Shopping List Generator */}
                 <div className="pt-2">
                   <Button
-                    className="w-full bg-[#181d27] hover:bg-[#2a2f3a] text-white font-medium py-3 rounded-xl shadow-sm transition-all duration-200 hover:shadow-md"
+                    className="w-full rounded-xl py-3 font-semibold text-white shadow-lg transition-all duration-300 hover:bg-gray-900 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
                     disabled={isGeneratingList}
                     onClick={handleGenerateShoppingList}
+                    size="lg"
                   >
                     {isGeneratingList ? (
-                      <div className="flex items-center gap-2">
-                        <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                        <span>Generating Smart List...</span>
+                      <div className="flex items-center justify-center gap-2">
+                        <div className="h-5 w-5 animate-spin rounded-full border-2 border-white border-t-transparent" />
+                        <span>Generating List...</span>
                       </div>
                     ) : (
-                      <div className="flex items-center gap-2">
-                        <ShoppingCart className="w-5 h-5" />
-                        <Sparkles className="w-4 h-4" />
-                        <span>One-Tap Shopping List Generator</span>
+                      <div className="flex items-center justify-center gap-2">
+                        <List className="h-5 w-5" />
+                        <span>Generate Shopping List</span>
                       </div>
                     )}
                   </Button>
-                  <p className="text-xs text-gray-500 text-center mt-2">
-                    🛒 Smart shopping list synced to your pantry • Auto-updated
-                    from planned meals
+                  <p className="mt-2 pb-2 text-center text-gray-500 text-xs">
+                    Auto-magically create a shopping list from your planned
+                    meals.
                   </p>
                 </div>
               </>
@@ -262,8 +256,8 @@ export default function DashboardPage() {
               <div className="py-4 text-center">
                 <p className="text-gray-500">
                   {recipes.length > 0
-                    ? "You have all ingredients for your recipes!"
-                    : "Add some recipes to see missing ingredients"}
+                    ? 'You have all ingredients for your recipes!'
+                    : 'Add some recipes to see missing ingredients'}
                 </p>
               </div>
             )}
@@ -276,8 +270,8 @@ export default function DashboardPage() {
 
       {/* Shopping Drawer */}
       <Drawer.Root
-        open={showShoppingDrawer}
         onOpenChange={setShowShoppingDrawer}
+        open={showShoppingDrawer}
       >
         <Drawer.Portal>
           <Drawer.Overlay className="fixed inset-0 z-40 bg-black/40" />
@@ -311,15 +305,15 @@ export default function DashboardPage() {
                   </div>
 
                   {/* Shopping List Preview */}
-                  <div className="mb-2 p-4 bg-gray-50 rounded-xl">
-                    <h3 className="font-medium text-sm text-gray-700 mb-2">
+                  <div className="mb-2 rounded-xl bg-gray-50 p-4">
+                    <h3 className="mb-2 font-medium text-gray-700 text-sm">
                       Shopping List Preview
                     </h3>
                     <div className="flex flex-wrap gap-2">
                       {missingIngredientsData.map((ingredient) => (
                         <div
+                          className="flex items-center gap-2 rounded-full border bg-white px-3 py-1 text-xs"
                           key={ingredient.id}
-                          className="flex items-center gap-2 bg-white px-3 py-1 rounded-full text-xs border"
                         >
                           <span>{ingredient.name}</span>
                           <span className="text-gray-500">
@@ -334,27 +328,33 @@ export default function DashboardPage() {
                   <div className="space-y-3">
                     {shoppingPlatforms.map((platform) => (
                       <Button
+                        className="h-16 w-full justify-between p-4 hover:bg-gray-50"
                         key={platform.name}
-                        variant="outline"
-                        className="w-full h-16 justify-between p-4 hover:bg-gray-50"
                         onClick={() => handleShopNow(platform.name)}
+                        variant="outline"
                       >
                         <div className="flex items-center gap-3">
                           <div
-                            className={`w-10 h-10 ${platform.color} rounded-xl flex items-center justify-center text-white text-lg`}
+                            className={`${platform.color} flex h-10 w-10 items-center justify-center overflow-hidden rounded-xl`}
                           >
-                            {platform.logo}
+                            <Image
+                              alt={`${platform.name} logo`}
+                              className="h-6 w-6"
+                              height={24}
+                              src={platform.logo}
+                              width={24}
+                            />
                           </div>
                           <div className="text-left">
                             <div className="font-medium text-[#181d27]">
                               {platform.name}
                             </div>
-                            <div className="text-sm text-gray-500">
+                            <div className="text-gray-500 text-sm">
                               {platform.description}
                             </div>
                           </div>
                         </div>
-                        <ExternalLink className="w-5 h-5 text-gray-400" />
+                        <ExternalLink className="h-5 w-5 text-gray-400" />
                       </Button>
                     ))}
                   </div>
