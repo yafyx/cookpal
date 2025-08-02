@@ -103,6 +103,7 @@ const CalendarIcon = ({ className }: { className?: string }) => {
 
 const UserIcon = ({ className }: { className?: string }) => {
   const isActive = className?.includes('text-black');
+  const fillColor = isActive ? '#000000' : 'none';
   const strokeColor = isActive ? '#000000' : '#181D27';
 
   return (
@@ -118,6 +119,7 @@ const UserIcon = ({ className }: { className?: string }) => {
       <path
         clipRule="evenodd"
         d="M12.6847 15.3462C8.81711 15.3462 5.51425 15.931 5.51425 18.2729C5.51425 20.6148 8.79616 21.2205 12.6847 21.2205C16.5523 21.2205 19.8543 20.6348 19.8543 18.2938C19.8543 15.9529 16.5733 15.3462 12.6847 15.3462Z"
+        fill={fillColor}
         fillRule="evenodd"
         stroke={strokeColor}
         strokeLinecap="round"
@@ -127,6 +129,7 @@ const UserIcon = ({ className }: { className?: string }) => {
       <path
         clipRule="evenodd"
         d="M12.6847 12.0059C15.2228 12.0059 17.28 9.94779 17.28 7.40969C17.28 4.8716 15.2228 2.81445 12.6847 2.81445C10.1466 2.81445 8.08853 4.8716 8.08853 7.40969C8.07996 9.93922 10.1238 11.9973 12.6523 12.0059H12.6847Z"
+        fill={fillColor}
         fillRule="evenodd"
         stroke={strokeColor}
         strokeLinecap="round"

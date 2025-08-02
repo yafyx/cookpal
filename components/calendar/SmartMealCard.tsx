@@ -1,8 +1,8 @@
-import { AlertCircle, Clock, Star } from 'lucide-react';
-import type React from 'react';
-import { Badge } from '@/components/ui/badge';
-import { Card, CardContent } from '@/components/ui/card';
-import type { Meal } from '@/lib/types';
+import { AlertCircle, Clock, Star } from "lucide-react";
+import type React from "react";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent } from "@/components/ui/card";
+import type { Meal } from "@/lib/types";
 
 interface SmartMealCardProps {
   meal: Meal;
@@ -11,26 +11,26 @@ interface SmartMealCardProps {
 
 export function SmartMealCard({ meal, onClick }: SmartMealCardProps) {
   const handleKeyDown = (event: React.KeyboardEvent) => {
-    if (event.key === 'Enter' || event.key === ' ') {
+    if (event.key === "Enter" || event.key === " ") {
       event.preventDefault();
       onClick?.();
     }
   };
 
   const getMealTypeVariant = (mealType: string) => {
-    if (mealType === 'breakfast') {
-      return 'default';
+    if (mealType === "breakfast") {
+      return "default";
     }
-    if (mealType === 'lunch') {
-      return 'secondary';
+    if (mealType === "lunch") {
+      return "secondary";
     }
-    return 'outline';
+    return "outline";
   };
 
   return (
     <Card
       className={`cursor-pointer transition-all hover:shadow-md ${
-        meal.isAvailable ? 'border-gray-200' : 'border-orange-200 bg-orange-50'
+        meal.isAvailable ? "border-gray-200" : "border-orange-200 bg-orange-50"
       }`}
       onClick={onClick}
       onKeyDown={handleKeyDown}

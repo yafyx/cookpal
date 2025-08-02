@@ -359,6 +359,173 @@ const DEFAULT_SURF_TURF_RECIPE: Recipe = {
     ],
 };
 
+// Default chicken sandwich recipe
+const DEFAULT_CHICKEN_SANDWICH_RECIPE: Recipe = {
+    id: 'chicken-sandwich-1',
+    name: 'Grilled Chicken Sandwich',
+    creator: 'CookPal',
+    image:
+        'https://images.unsplash.com/photo-1592415486689-125f71601b76?w=375&h=362&fit=crop&crop=center',
+    description:
+        'A healthy and delicious grilled chicken sandwich with whole wheat bread, avocado, and fresh greens.',
+    nutrition: {
+        energy: '550Kcal',
+        carbs: '45g',
+        proteins: '40g',
+        fats: '25g',
+    },
+    ingredients: [
+        {
+            id: 'chicken-breast-1',
+            name: 'Chicken Breast',
+            quantity: '100g',
+            image: '/assets/ingredients/chicken-breast.png',
+        },
+        {
+            id: 'whole-wheat-bread-1',
+            name: 'Whole Wheat Bread',
+            quantity: '2 slices',
+            image: '/assets/ingredients/whole-wheat-bread.png',
+        },
+        {
+            id: 'avocado-1',
+            name: 'Avocado',
+            quantity: '1/2',
+            image: '/assets/ingredients/avocado.png',
+        },
+        {
+            id: 'spinach-1',
+            name: 'Spinach',
+            quantity: '1 cup',
+            image: '/assets/ingredients/spinach.png',
+        },
+        {
+            id: 'tomato-2',
+            name: 'Tomato',
+            quantity: '2 slices',
+            image: '/assets/ingredients/tomato.png',
+        },
+    ],
+    cookingSteps: [
+        {
+            id: 'cs-step-1',
+            step: 1,
+            instruction: 'Grill the chicken breast until cooked through.',
+            duration: '10 mins',
+        },
+        {
+            id: 'cs-step-2',
+            step: 2,
+            instruction: 'Toast the whole wheat bread slices.',
+            duration: '2 mins',
+        },
+        {
+            id: 'cs-step-3',
+            step: 3,
+            instruction: 'Mash the avocado and spread it on the bread.',
+            duration: '2 mins',
+        },
+        {
+            id: 'cs-step-4',
+            step: 4,
+            instruction:
+                'Assemble the sandwich with grilled chicken, spinach, and tomato.',
+            duration: '3 mins',
+        },
+    ],
+};
+
+// Default recipes
+const DEFAULT_RECIPES: Recipe[] = [
+    DEFAULT_BURGER_RECIPE,
+    DEFAULT_CHICKEN_SANDWICH_RECIPE,
+    {
+        id: 'pasta-carbonara-1',
+        name: 'Pasta Carbonara',
+        creator: 'CookPal',
+        image: '/assets/pastacarbonara.png',
+        description:
+            'Authentic Italian pasta carbonara with creamy egg sauce, crispy pancetta, and freshly grated Parmesan cheese. A simple yet elegant dish that showcases the beauty of Italian cuisine.',
+        nutrition: {
+            energy: '620Kcal',
+            carbs: '65g',
+            proteins: '28g',
+            fats: '32g',
+        },
+        ingredients: [
+            {
+                id: 'spaghetti-1',
+                name: 'Spaghetti',
+                quantity: '400g',
+                image: '/assets/ingredients/bun.png',
+            },
+            {
+                id: 'pancetta-1',
+                name: 'Pancetta',
+                quantity: '150g',
+                image: '/assets/ingredients/brisket.png',
+            },
+            {
+                id: 'eggs-1',
+                name: 'Large Eggs',
+                quantity: '4 pieces',
+                image: '/assets/ingredients/brisket.png',
+            },
+            {
+                id: 'parmesan-1',
+                name: 'Parmesan Cheese',
+                quantity: '100g',
+                image: '/assets/ingredients/cheddarcheese.png',
+            },
+            {
+                id: 'black-pepper-1',
+                name: 'Black Pepper',
+                quantity: '2 tsp',
+                image: '/assets/ingredients/redonion.png',
+            },
+            {
+                id: 'garlic-2',
+                name: 'Garlic Cloves',
+                quantity: '2 cloves',
+                image: '/assets/ingredients/redonion.png',
+            },
+        ],
+        cookingSteps: [
+            {
+                id: 'step-1',
+                step: 1,
+                instruction: 'Bring a large pot of salted water to boil for pasta.',
+                duration: '5 mins',
+            },
+            {
+                id: 'step-2',
+                step: 2,
+                instruction: 'Cook pancetta in a large skillet until crispy.',
+                duration: '8 mins',
+            },
+            {
+                id: 'step-3',
+                step: 3,
+                instruction: 'Cook spaghetti according to package directions.',
+                duration: '10 mins',
+            },
+            {
+                id: 'step-4',
+                step: 4,
+                instruction: 'Whisk eggs, cheese, and pepper in a bowl.',
+                duration: '2 mins',
+            },
+            {
+                id: 'step-5',
+                step: 5,
+                instruction: 'Combine hot pasta with egg mixture and pancetta.',
+                duration: '3 mins',
+            },
+        ],
+    },
+    DEFAULT_SURF_TURF_RECIPE,
+];
+
 // Default inventory items
 const DEFAULT_INVENTORY: Ingredient[] = [
     {
@@ -511,7 +678,7 @@ function initializeDefaultData(): void {
     }
 
     if (!existingRecipes) {
-        _setInStorage(STORAGE_KEYS.RECIPES, [DEFAULT_BURGER_RECIPE, DEFAULT_ROASTED_CHICKEN_RECIPE, DEFAULT_CARBONARA_RECIPE, DEFAULT_SURF_TURF_RECIPE]);
+        _setInStorage(STORAGE_KEYS.RECIPES, [DEFAULT_BURGER_RECIPE, DEFAULT_ROASTED_CHICKEN_RECIPE, DEFAULT_CARBONARA_RECIPE, DEFAULT_SURF_TURF_RECIPE, DEFAULT_CHICKEN_SANDWICH_RECIPE]);
     }
 }
 

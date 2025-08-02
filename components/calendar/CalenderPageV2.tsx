@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import {
   addMonths,
@@ -7,7 +7,7 @@ import {
   format,
   startOfWeek,
   subMonths,
-} from 'date-fns';
+} from "date-fns";
 import {
   Calendar as CalendarIcon,
   ChevronLeft,
@@ -15,13 +15,13 @@ import {
   RefreshCw,
   Settings,
   Sparkles,
-} from 'lucide-react';
-import { useEffect, useState } from 'react';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { smartMealPlanner } from '@/lib/smart-meal-planner';
-import type { MealPlan, Recipe } from '@/lib/types';
-import MealCard from './MealCard';
+} from "lucide-react";
+import { useEffect, useState } from "react";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { smartMealPlanner } from "@/lib/smart-meal-planner";
+import type { MealPlan, Recipe } from "@/lib/types";
+import MealCard from "./MealCard";
 
 interface MealPlanData {
   day: string;
@@ -51,14 +51,14 @@ export default function CalendarPageV2() {
     }
   }, []);
 
-  const handleGenerateMealPlan = async (type: 'weekly' | 'monthly') => {
+  const handleGenerateMealPlan = async (type: "weekly" | "monthly") => {
     setIsGenerating(true);
     try {
       const today = new Date();
-      const startDate = today.toISOString().split('T')[0];
+      const startDate = today.toISOString().split("T")[0];
 
       const endDate = new Date(today);
-      if (type === 'weekly') {
+      if (type === "weekly") {
         endDate.setDate(today.getDate() + 6);
       } else {
         endDate.setMonth(today.getMonth() + 1);
@@ -66,7 +66,7 @@ export default function CalendarPageV2() {
 
       const plan = await smartMealPlanner.generateMealPlan(
         startDate,
-        endDate.toISOString().split('T')[0],
+        endDate.toISOString().split("T")[0],
         type
       );
       setCurrentPlan(plan);
@@ -78,25 +78,28 @@ export default function CalendarPageV2() {
   };
 
   const convertToMealPlanData = (date: Date): MealPlanData => {
-    const dateString = format(date, 'yyyy-MM-dd');
-    const dayName = format(date, 'E');
+    const dateString = format(date, "yyyy-MM-dd");
+    const dayName = format(date, "E");
 
-    const meal = currentPlan?.meals.find((m) => m.date === dateString);
+    const mealsForDay = currentPlan?.meals.filter((m) => m.date === dateString);
+    const lunchMeal = mealsForDay?.find((m) => m.mealType === "lunch");
+    const meal = lunchMeal || mealsForDay?.[0];
+
     if (!meal) {
       return {
         day: dayName,
         date: dateString,
         recipe: {
-          id: '',
-          name: 'No menu yet',
-          creator: '',
-          image: '',
-          description: '',
+          id: "",
+          name: "No menu yet",
+          creator: "",
+          image: "",
+          description: "",
           nutrition: {
-            energy: '',
-            carbs: '',
-            proteins: '',
-            fats: '',
+            energy: "",
+            carbs: "",
+            proteins: "",
+            fats: "",
           },
           ingredients: [],
         },
@@ -118,7 +121,7 @@ export default function CalendarPageV2() {
 
   const mealsInView =
     currentPlan?.meals.filter((meal) =>
-      weekDays.some((d) => format(d, 'yyyy-MM-dd') === meal.date)
+      weekDays.some((d) => format(d, "yyyy-MM-dd") === meal.date)
     ) ?? [];
   const readyMealsInView = mealsInView.filter(
     (m) =>
@@ -150,7 +153,7 @@ export default function CalendarPageV2() {
               <Button
                 className="h-12 w-full font-medium"
                 disabled={isGenerating}
-                onClick={() => handleGenerateMealPlan('weekly')}
+                onClick={() => handleGenerateMealPlan("weekly")}
                 size="lg"
               >
                 <CalendarIcon className="mr-2 h-4 w-4" />
@@ -159,7 +162,7 @@ export default function CalendarPageV2() {
               <Button
                 className="h-12 w-full font-medium"
                 disabled={isGenerating}
-                onClick={() => handleGenerateMealPlan('monthly')}
+                onClick={() => handleGenerateMealPlan("monthly")}
                 size="lg"
                 variant="outline"
               >
@@ -200,13 +203,13 @@ export default function CalendarPageV2() {
 
           <div className="mt-8 space-y-3">
             {[
-              'skeleton-1',
-              'skeleton-2',
-              'skeleton-3',
-              'skeleton-4',
-              'skeleton-5',
-              'skeleton-6',
-              'skeleton-7',
+              "skeleton-1",
+              "skeleton-2",
+              "skeleton-3",
+              "skeleton-4",
+              "skeleton-5",
+              "skeleton-6",
+              "skeleton-7",
             ].map((id) => (
               <div
                 className="h-16 animate-pulse rounded-lg bg-gray-100"
@@ -225,7 +228,7 @@ export default function CalendarPageV2() {
         <div className="flex items-center justify-between py-4">
           <div className="flex items-center gap-2">
             <h2 className="font-semibold text-xl">
-              {format(currentMonth, 'MMMM yyyy')}
+              {format(currentMonth, "MMMM yyyy")}
             </h2>
           </div>
           <div className="flex items-center gap-2">
@@ -266,10 +269,10 @@ export default function CalendarPageV2() {
           {mealPlanData.map((meal) => (
             <div className="text-center" key={meal.date}>
               <p className="font-medium text-gray-500 text-sm">
-                {format(new Date(meal.date), 'E')}
+                {format(new Date(meal.date), "E")}
               </p>
               <p className="font-semibold text-lg">
-                {format(new Date(meal.date), 'd')}
+                {format(new Date(meal.date), "d")}
               </p>
               <div className="mt-2">
                 <MealCard
@@ -279,11 +282,13 @@ export default function CalendarPageV2() {
                 {meal.isAvailable !== undefined && (
                   <Badge
                     className="mt-1 text-xs"
-                    variant={meal.isAvailable ? 'secondary' : 'destructive'}
+                    variant={meal.isAvailable ? "secondary" : "destructive"}
                   >
                     {meal.isAvailable
-                      ? 'Ready'
-                      : `Needs ${meal.missingIngredients?.length || 0} ingredients`}
+                      ? "Ready"
+                      : `Needs ${
+                          meal.missingIngredients?.length || 0
+                        } ingredients`}
                   </Badge>
                 )}
               </div>

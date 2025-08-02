@@ -1,4 +1,4 @@
-import Image from 'next/image';
+import Image from "next/image";
 
 interface MealCardProps {
   recipe: {
@@ -13,7 +13,7 @@ interface MealCardProps {
 
 export default function MealCardV2({ recipe, onClick }: MealCardProps) {
   const handleKeyDown = (event: React.KeyboardEvent) => {
-    if (event.key === 'Enter' || event.key === ' ') {
+    if (event.key === "Enter" || event.key === " ") {
       event.preventDefault();
       onClick?.();
     }

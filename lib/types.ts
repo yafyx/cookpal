@@ -47,11 +47,11 @@ export interface MealPlan {
 
 export interface Meal {
     id: string
-    date: string
+    date: string // YYYY-MM-DD
     mealType: 'breakfast' | 'lunch' | 'dinner' | 'snack'
     recipe: Recipe
-    isAvailable: boolean
-    missingIngredients: string[]
+    isAvailable?: boolean
+    missingIngredients?: string[]
     preparationTime: string
     nutritionScore: number
 }
@@ -217,4 +217,4 @@ export interface HealthNotification {
     }
     createdAt: string
     read: boolean
-} 
+}

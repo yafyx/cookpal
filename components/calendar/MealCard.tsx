@@ -1,6 +1,6 @@
-import Image from 'next/image';
+import Image from "next/image";
 
-import type { Recipe } from '@/lib/types';
+import type { Recipe } from "@/lib/types";
 
 interface MealCardProps {
   recipe: Recipe;
@@ -9,7 +9,7 @@ interface MealCardProps {
 
 export default function MealCardV2({ recipe, onClick }: MealCardProps) {
   const handleKeyDown = (event: React.KeyboardEvent) => {
-    if (event.key === 'Enter' || event.key === ' ') {
+    if (event.key === "Enter" || event.key === " ") {
       event.preventDefault();
       onClick?.();
     }
@@ -33,26 +33,34 @@ export default function MealCardV2({ recipe, onClick }: MealCardProps) {
               src={recipe.image}
             />
           </div>
-          <div className="flex grow basis-0 flex-col items-start justify-start gap-1 self-stretch">
-            <p className="font-semibold text-[#181d27] text-base leading-6">
+          <div className="flex grow basis-0 flex-col justify-center gap-2 self-stretch px-1">
+            <p className="font-bold text-[#181d27] text-base leading-6 truncate">
               {recipe.name}
             </p>
-            <div className="flex w-full flex-row items-start justify-between">
-              <div className="flex flex-col items-start justify-start text-[#2b1203] text-sm">
-                <p className="font-medium leading-5">Protein</p>
-                <p className="font-normal leading-5">
+            <div className="flex w-full flex-row items-center justify-between gap-2">
+              <div className="flex flex-col items-center justify-center text-[#2b1203] text-sm min-w-0">
+                <p className="font-medium leading-5 text-xs text-gray-600">
+                  Protein
+                </p>
+                <p className="font-semibold leading-5 text-sm">
                   {recipe.nutrition.proteins}
                 </p>
               </div>
-              <div className="flex flex-col items-start justify-start text-[#2b1203] text-sm">
-                <p className="font-medium leading-5">Carbs</p>
-                <p className="font-normal leading-5">
+              <div className="flex flex-col items-center justify-center text-[#2b1203] text-sm min-w-0">
+                <p className="font-medium leading-5 text-xs text-gray-600">
+                  Carbs
+                </p>
+                <p className="font-semibold leading-5 text-sm">
                   {recipe.nutrition.carbs}
                 </p>
               </div>
-              <div className="flex flex-col items-start justify-start text-[#2b1203] text-sm">
-                <p className="font-medium leading-5">Fat</p>
-                <p className="font-normal leading-5">{recipe.nutrition.fats}</p>
+              <div className="flex flex-col items-center justify-center text-[#2b1203] text-sm min-w-0">
+                <p className="font-medium leading-5 text-xs text-gray-600">
+                  Fat
+                </p>
+                <p className="font-semibold leading-5 text-sm">
+                  {recipe.nutrition.fats}
+                </p>
               </div>
             </div>
           </div>

@@ -177,12 +177,18 @@ Provide a complete meal plan with specific recipes for each day and meal type.`;
 
         // Use existing recipes as fallback
         const availableRecipes = requestData.availableRecipes;
+        if (availableRecipes.length === 0) {
+            return { name: "No Recipes Available", meals: [] };
+        }
 
-        for (const [index, date] of days.entries()) {
+        let recipeIndex = 0;
+        for (const date of days) {
             const mealTypes = requestData.preferences.preferredMealTypes;
 
             for (const mealType of mealTypes) {
-                const recipe = availableRecipes[index % availableRecipes.length];
+                const recipe = availableRecipes[recipeIndex % availableRecipes.length];
+                recipeIndex++;
+
                 if (recipe) {
                     const availability = inventoryStorage.checkAvailability(
                         recipe.ingredients
@@ -191,7 +197,7 @@ Provide a complete meal plan with specific recipes for each day and meal type.`;
                     meals.push({
                         id: `meal-${date.toISOString()}-${mealType}`,
                         date: date.toISOString().split('T')[0],
-                        mealType: mealType as 'breakfast' | 'lunch' | 'dinner' | 'snack',
+                        mealType: mealType as 'breakfast' | 'lunch' | 'dinner',
                         recipe,
                         isAvailable: availability.available,
                         missingIngredients: availability.missing,
@@ -206,7 +212,7 @@ Provide a complete meal plan with specific recipes for each day and meal type.`;
         }
 
         return {
-            name: `${requestData.type === 'weekly' ? 'Weekly' : 'Monthly'} Meal Plan`,
+            name: `Your ${requestData.type} meal plan`,
             meals,
         };
     }
@@ -221,14 +227,16 @@ Provide a complete meal plan with specific recipes for each day and meal type.`;
         const endDate = new Date(requestData.endDate);
         const days = this.generateDateRange(startDate, endDate);
 
-        for (const [index, date] of days.entries()) {
+        let recipeIndex = 0;
+        for (const date of days) {
             const mealTypes = requestData.preferences.preferredMealTypes;
 
             for (const mealType of mealTypes) {
                 const recipe =
                     requestData.availableRecipes[
-                    index % requestData.availableRecipes.length
+                    recipeIndex % requestData.availableRecipes.length
                     ];
+                recipeIndex++;
                 if (recipe) {
                     const availability = inventoryStorage.checkAvailability(
                         recipe.ingredients
