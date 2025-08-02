@@ -68,7 +68,7 @@ export function RecipeDetails({ recipe }: RecipeDetailsProps) {
       </div>
 
       {/* Content */}
-      <div className="px-4">
+      <div className="px-4 pb-6">
         {/* Recipe Details */}
         <div className="mb-4 pt-4">
           <p className="mb-4 text-[#181d27] text-sm leading-5">

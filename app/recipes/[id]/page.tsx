@@ -1,13 +1,13 @@
 'use client';
 
+import { ArrowLeft } from 'lucide-react';
+import Link from 'next/link';
+import { useEffect, useState } from 'react';
 import { RecipeDetails } from '@/components/recipes/RecipeDetails';
 import BottomNavigation from '@/components/ui/bottom-navigation';
 import { Button } from '@/components/ui/button';
 import { useRecipes } from '@/hooks/use-storage';
 import type { Recipe } from '@/lib/types';
-import { ArrowLeft } from 'lucide-react';
-import Link from 'next/link';
-import { useEffect, useState } from 'react';
 
 interface PageProps {
   params: Promise<{
@@ -60,9 +60,9 @@ export default function RecipePage({ params }: PageProps) {
 
   if (loading) {
     return (
-      <div className="flex min-h-screen flex-col bg-white">
+      <div className="flex h-screen flex-col bg-white">
         <FloatingBackButton />
-        <div className="flex flex-1 items-center justify-center">
+        <div className="flex flex-1 items-center justify-center pb-20">
           <p className="text-gray-500">Loading recipe...</p>
         </div>
         <BottomNavigation activeTab="kitchen" />
@@ -72,9 +72,9 @@ export default function RecipePage({ params }: PageProps) {
 
   if (!recipe) {
     return (
-      <div className="flex min-h-screen flex-col bg-white">
+      <div className="flex h-screen flex-col bg-white">
         <FloatingBackButton />
-        <div className="flex flex-1 items-center justify-center">
+        <div className="flex flex-1 items-center justify-center pb-20">
           <div className="text-center">
             <p className="mb-4 text-gray-500">Recipe not found</p>
             <Link href="/recipes">
@@ -88,9 +88,9 @@ export default function RecipePage({ params }: PageProps) {
   }
 
   return (
-    <div className="flex min-h-screen flex-col bg-white">
+    <div className="flex h-screen flex-col bg-white">
       <FloatingBackButton />
-      <div className="flex-1 overflow-auto">
+      <div className="flex-1 overflow-y-auto pb-20">
         <RecipeDetails recipe={recipe} />
       </div>
       <BottomNavigation activeTab="kitchen" />
