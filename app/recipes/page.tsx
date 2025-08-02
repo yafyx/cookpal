@@ -1,13 +1,13 @@
 'use client';
 
+import { ChevronRight, Plus, Timer } from 'lucide-react';
+import Image from 'next/image';
+import Link from 'next/link';
 import { AddRecipeDrawer } from '@/components/recipes';
 import BottomNavigation from '@/components/ui/bottom-navigation';
 import { Button } from '@/components/ui/button';
 import { MobileHeader } from '@/components/ui/mobile-header';
 import { useInventory, useRecipes } from '@/hooks/use-storage';
-import { ChevronRight, Plus, Timer } from 'lucide-react';
-import Image from 'next/image';
-import Link from 'next/link';
 
 export default function KitchenPage() {
   const { ingredients: inventory, loading: inventoryLoading } = useInventory();
@@ -108,11 +108,11 @@ export default function KitchenPage() {
             </div>
 
             {/* Horizontal Scrollable Recipe Cards */}
-            <div className="flex gap-2 overflow-x-auto pb-2">
+            <div className="flex snap-x snap-mandatory gap-2 overflow-x-auto pb-2">
               {recipes.length > 0 ? (
                 recipes.map((recipe) => (
                   <div
-                    className="group relative h-[449px] w-[330px] flex-shrink-0 overflow-hidden rounded-3xl"
+                    className="group relative h-[449px] w-[330px] flex-shrink-0 snap-start overflow-hidden rounded-3xl"
                     key={recipe.id}
                   >
                     <Link

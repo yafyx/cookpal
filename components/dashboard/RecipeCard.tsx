@@ -9,6 +9,7 @@ interface RecipeCardProps {
   title: string;
   duration: string;
   backgroundImage: string;
+  className?: string;
 }
 
 export default function RecipeCard({
@@ -16,10 +17,11 @@ export default function RecipeCard({
   title,
   duration,
   backgroundImage,
+  className,
 }: RecipeCardProps) {
   return (
     <Link
-      className="relative h-[449px] w-[380px] flex-shrink-0 snap-start overflow-hidden rounded-3xl"
+      className={`relative h-[520px] w-[380px] flex-shrink-0 snap-start overflow-hidden rounded-3xl ${className || ''}`}
       href={`/recipe/${id}`}
       style={{
         backgroundImage: `linear-gradient(rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.4) 100%), url('${backgroundImage}')`,
