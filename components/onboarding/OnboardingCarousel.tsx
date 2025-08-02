@@ -1,14 +1,14 @@
 'use client';
 
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import {
   Carousel,
   type CarouselApi,
   CarouselContent,
   CarouselItem,
 } from '@/components/ui/carousel';
-import Image from 'next/image';
-import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
 import StepIndicator from './StepIndicator';
 
 export default function OnboardingCarousel() {
@@ -32,7 +32,7 @@ export default function OnboardingCarousel() {
   }, [api]);
 
   const handleNext = () => {
-    if (current < 5) {
+    if (current < 6) {
       api?.scrollNext();
     } else {
       router.push('/dashboard');
@@ -367,11 +367,85 @@ export default function OnboardingCarousel() {
               </div>
             </div>
           </CarouselItem>
+          <CarouselItem className="flex h-full items-center justify-center">
+            <div className="relative box-border flex min-h-screen w-full flex-col items-center justify-center gap-8 px-4 py-6">
+              <div className="relative h-[155px] w-[143px] shrink-0 overflow-clip">
+                <div className="relative flex h-full items-center justify-center">
+                  <svg
+                    className="h-full w-full text-[#ff6b35]"
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <title>Health integration icon</title>
+                    <path d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2ZM21 9V7L15 1H5C3.89 1 3 1.89 3 3V21C3 22.11 3.89 23 5 23H19C20.11 23 21 22.11 21 21V9ZM19 9H14V4H5V21H19V9Z" />
+                    <path d="M16 14H8V12H16V14ZM16 18H8V16H16V18ZM12 10H8V8H12V10Z" />
+                  </svg>
+                </div>
+              </div>
+
+              <div className="relative box-border flex shrink-0 flex-col content-stretch items-center justify-start gap-2 p-0 text-center not-italic leading-[0]">
+                <div className="relative w-[297px] shrink-0 font-['Inter'] font-semibold text-[#181d27] text-[24px] tracking-[-0.528px]">
+                  <p className="block leading-[32px]">Health App Integration</p>
+                </div>
+                <div className="relative w-[275px] shrink-0 font-['Inter'] font-normal text-[#535862] text-[14px]">
+                  <p className="block leading-[20px]">
+                    Syncs with Google Fit and Apple Health so the app knows if
+                    you just worked out — and suggests meals to match your
+                    activity level.
+                  </p>
+                </div>
+              </div>
+
+              <div className="relative box-border flex w-full shrink-0 flex-col content-stretch items-center justify-center gap-4 overflow-clip p-0">
+                <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-2 rounded-lg bg-[#f8f9fa] px-3 py-2">
+                    <svg
+                      className="h-5 w-5 text-[#4285f4]"
+                      fill="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <title>Google Fit icon</title>
+                      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
+                    </svg>
+                    <span className="font-['Inter'] font-medium text-[#181d27] text-[14px]">
+                      Google Fit
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2 rounded-lg bg-[#f8f9fa] px-3 py-2">
+                    <svg
+                      className="h-5 w-5 text-[#007aff]"
+                      fill="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <title>Apple Health icon</title>
+                      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
+                    </svg>
+                    <span className="font-['Inter'] font-medium text-[#181d27] text-[14px]">
+                      Apple Health
+                    </span>
+                  </div>
+                </div>
+                <div className="text-center">
+                  <p className="font-['Inter'] font-medium text-[#ff6b35] text-[12px]">
+                    Smart meal suggestions based on your workout intensity
+                  </p>
+                </div>
+                <div className="text-center">
+                  <p className="max-w-[250px] font-['Inter'] font-normal text-[#535862] text-[11px]">
+                    Connect to Google Fit and Apple Health to get personalized
+                    meal recommendations based on your activity level and
+                    fitness goals.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </CarouselItem>
         </CarouselContent>
       </Carousel>
       <div className="absolute right-0 bottom-0 left-0 z-20 bg-[#ffffff]">
         <div className="flex items-center justify-between px-4 py-6">
-          <StepIndicator currentStep={current - 1} totalSteps={5} />
+          <StepIndicator currentStep={current - 1} totalSteps={6} />
 
           <button
             className="flex items-center justify-center gap-2 rounded-lg bg-[#181d27] px-5 py-2 hover:bg-[#282d37]"

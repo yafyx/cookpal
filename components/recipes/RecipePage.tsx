@@ -1,7 +1,7 @@
+import { Plus } from 'lucide-react';
 import BottomNavigation from '@/components/ui/bottom-navigation';
 import { MobileHeader } from '@/components/ui/mobile-header';
 import type { Recipe } from '@/lib/types';
-import { Plus } from 'lucide-react';
 import AddRecipeDrawer from './AddRecipeDrawer';
 import RecipeList from './RecipeList';
 
