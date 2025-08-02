@@ -40,12 +40,12 @@ export interface MealPlan {
     startDate: string
     endDate: string
     type: 'weekly' | 'monthly'
-    meals: PlannedMeal[]
+    meals: Meal[]
     preferences: MealPlanPreferences
     generatedAt: string
 }
 
-export interface PlannedMeal {
+export interface Meal {
     id: string
     date: string
     mealType: 'breakfast' | 'lunch' | 'dinner' | 'snack'

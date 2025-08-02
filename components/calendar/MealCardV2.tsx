@@ -1,9 +1,13 @@
 import Image from 'next/image';
 
-import type { Recipe } from '@/lib/types';
-
 interface MealCardProps {
-  recipe: Recipe;
+  recipe: {
+    name: string;
+    protein: number;
+    carbs: number;
+    fat: number;
+    image: string;
+  };
   onClick?: () => void;
 }
 
@@ -40,19 +44,15 @@ export default function MealCardV2({ recipe, onClick }: MealCardProps) {
             <div className="flex w-full flex-row items-start justify-between">
               <div className="flex flex-col items-start justify-start text-[#2b1203] text-sm">
                 <p className="font-medium leading-5">Protein</p>
-                <p className="font-normal leading-5">
-                  {recipe.nutrition.proteins}
-                </p>
+                <p className="font-normal leading-5">{recipe.protein}gr</p>
               </div>
               <div className="flex flex-col items-start justify-start text-[#2b1203] text-sm">
                 <p className="font-medium leading-5">Carbs</p>
-                <p className="font-normal leading-5">
-                  {recipe.nutrition.carbs}
-                </p>
+                <p className="font-normal leading-5">{recipe.carbs}gr</p>
               </div>
               <div className="flex flex-col items-start justify-start text-[#2b1203] text-sm">
                 <p className="font-medium leading-5">Fat</p>
-                <p className="font-normal leading-5">{recipe.nutrition.fats}</p>
+                <p className="font-normal leading-5">{recipe.fat}gr</p>
               </div>
             </div>
           </div>
