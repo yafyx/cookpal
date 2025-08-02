@@ -1,6 +1,15 @@
 'use client';
 
-import { BarChart3, ExternalLink, HelpCircle, List, X } from 'lucide-react';
+import {
+  BarChart3,
+  ExternalLink,
+  HelpCircle,
+  Lightbulb,
+  List,
+  Target,
+  TrendingUp,
+  X,
+} from 'lucide-react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -329,6 +338,77 @@ export default function DashboardPage() {
                 size="sm"
               >
                 View Detailed Nutrition
+              </Button>
+            </div>
+          </div>
+        </div>
+
+        {/* Habit Coaching Section */}
+        <div className="space-y-3">
+          <div className="flex items-center gap-2">
+            <h2 className="font-semibold text-black text-lg">Habit Coaching</h2>
+            <Target className="h-5 w-5 text-[#7c3aed]" />
+          </div>
+
+          <div className="rounded-xl border border-[#7c3aed]/20 bg-gradient-to-r from-[#7c3aed]/10 to-[#a855f7]/10 p-4">
+            <div className="space-y-4">
+              {/* Today's Tip */}
+              <div className="flex items-start gap-3">
+                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#7c3aed]/20">
+                  <Lightbulb className="h-4 w-4 text-[#7c3aed]" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="font-semibold text-[#7c3aed] text-sm">
+                    Today's Cooking Tip
+                  </h3>
+                  <p className="text-gray-700 text-sm leading-relaxed">
+                    Prep your vegetables the night before to save 15 minutes in
+                    the morning. This small habit can help you cook healthy
+                    meals even on busy days!
+                  </p>
+                </div>
+              </div>
+
+              {/* Habit Progress */}
+              <div className="flex items-center gap-3">
+                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#10b981]/20">
+                  <TrendingUp className="h-4 w-4 text-[#10b981]" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="font-semibold text-[#10b981] text-sm">
+                    Your Progress
+                  </h3>
+                  <p className="text-gray-700 text-sm">
+                    <span className="font-semibold">5 days</span> of consistent
+                    healthy cooking! You're building a great habit.
+                  </p>
+                </div>
+              </div>
+
+              {/* Weekly Challenge */}
+              <div className="rounded-lg border border-[#7c3aed]/30 bg-white/50 p-3">
+                <h4 className="mb-2 font-semibold text-[#7c3aed] text-sm">
+                  This Week's Challenge
+                </h4>
+                <p className="text-gray-700 text-sm leading-relaxed">
+                  Try cooking with 3 new ingredients you've never used before.
+                  This expands your cooking skills and keeps meals exciting!
+                </p>
+                <div className="mt-2 flex items-center gap-2">
+                  <div className="h-2 flex-1 rounded-full bg-gray-200">
+                    <div className="h-2 w-2/3 rounded-full bg-[#7c3aed]" />
+                  </div>
+                  <span className="font-medium text-[#7c3aed] text-xs">
+                    2/3
+                  </span>
+                </div>
+              </div>
+
+              <Button
+                className="w-full rounded-lg bg-[#7c3aed] text-white hover:bg-[#6d28d9]"
+                size="sm"
+              >
+                View All Tips & Challenges
               </Button>
             </div>
           </div>
