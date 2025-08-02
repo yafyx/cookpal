@@ -5,10 +5,10 @@ import {
     recipeStorage,
 } from './storage';
 import type {
+    Meal,
     MealPlan,
     MealPlanGenerationRequest,
     MealPlanPreferences,
-    PlannedMeal,
     Recipe,
     SmartSuggestion,
 } from './types';
@@ -67,7 +67,7 @@ export class SmartMealPlanner {
         requestData: MealPlanGenerationRequest
     ): Promise<{
         name: string;
-        meals: PlannedMeal[];
+        meals: Meal[];
     }> {
         try {
             const response = await fetch('/api/chat', {
@@ -166,9 +166,9 @@ Provide a complete meal plan with specific recipes for each day and meal type.`;
     private parseAIMealPlanResponse(
         _response: string,
         requestData: MealPlanGenerationRequest
-    ): { name: string; meals: PlannedMeal[] } {
+    ): { name: string; meals: Meal[] } {
         // This is a simplified parser - in a real implementation you'd have more sophisticated parsing
-        const meals: PlannedMeal[] = [];
+        const meals: Meal[] = [];
         const startDate = new Date(requestData.startDate);
         const endDate = new Date(requestData.endDate);
 
@@ -214,9 +214,9 @@ Provide a complete meal plan with specific recipes for each day and meal type.`;
     // Generate basic meal plan as fallback
     private generateBasicMealPlan(requestData: MealPlanGenerationRequest): {
         name: string;
-        meals: PlannedMeal[];
+        meals: Meal[];
     } {
-        const meals: PlannedMeal[] = [];
+        const meals: Meal[] = [];
         const startDate = new Date(requestData.startDate);
         const endDate = new Date(requestData.endDate);
         const days = this.generateDateRange(startDate, endDate);
@@ -277,7 +277,7 @@ Provide a complete meal plan with specific recipes for each day and meal type.`;
                 if (step.duration) {
                     const minutes = Number.parseInt(step.duration.replace(/\D/g, ''), 10);
                     return total + (Number.isNaN(minutes) ? 0 : minutes);
-                } Number.isNaN
+                }
                 return total;
             }, 0);
 
@@ -396,9 +396,11 @@ Provide a complete meal plan with specific recipes for each day and meal type.`;
     }
 
     // Get meals for a specific date
-    getMealsForDate(date: string): PlannedMeal[] {
+    getMealsForDate(date: string): Meal[] {
         const currentPlan = this.getCurrentMealPlan();
-        if (!currentPlan) { return []; }
+        if (!currentPlan) {
+            return [];
+        }
 
         return currentPlan.meals.filter((meal) => meal.date === date);
     }

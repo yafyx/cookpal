@@ -1,11 +1,11 @@
-import { Badge } from '@/components/ui/badge';
-import { Card, CardContent } from '@/components/ui/card';
-import type { PlannedMeal } from '@/lib/types';
 import { AlertCircle, Clock, Star } from 'lucide-react';
 import type React from 'react';
+import { Badge } from '@/components/ui/badge';
+import { Card, CardContent } from '@/components/ui/card';
+import type { Meal } from '@/lib/types';
 
 interface SmartMealCardProps {
-  meal: PlannedMeal;
+  meal: Meal;
   onClick?: () => void;
 }
 

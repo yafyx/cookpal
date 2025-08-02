@@ -1,9 +1,5 @@
 'use client';
 
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { smartMealPlanner } from '@/lib/smart-meal-planner';
-import type { MealPlan } from '@/lib/types';
 import {
   addMonths,
   eachDayOfInterval,
@@ -21,14 +17,16 @@ import {
   Sparkles,
 } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { smartMealPlanner } from '@/lib/smart-meal-planner';
+import type { MealPlan, Recipe } from '@/lib/types';
 import MealCard from './MealCard';
 
 interface MealPlanData {
   day: string;
   date: string;
-  recipe: {
-    name: string;
-  };
+  recipe: Recipe;
   isAvailable?: boolean;
   missingIngredients?: string[];
 }
@@ -88,7 +86,20 @@ export default function CalendarPageV2() {
       return {
         day: dayName,
         date: dateString,
-        recipe: { name: 'No menu yet' },
+        recipe: {
+          id: '',
+          name: 'No menu yet',
+          creator: '',
+          image: '',
+          description: '',
+          nutrition: {
+            energy: '',
+            carbs: '',
+            proteins: '',
+            fats: '',
+          },
+          ingredients: [],
+        },
       };
     }
 
