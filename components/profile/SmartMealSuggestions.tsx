@@ -1,9 +1,18 @@
 "use client";
 
-import { ArrowRight, Calendar, ChefHat, Trophy } from "lucide-react";
+import {
+  ArrowRight,
+  Calendar,
+  ChefHat,
+  Trophy,
+  Clock,
+  Flame,
+  Dumbbell,
+} from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
 import type {
   ActivityContext,
   SmartMealSuggestion,
@@ -45,138 +54,174 @@ export default function SmartMealSuggestions({
       Date.now() - 4 * 60 * 60 * 1000; // Within 4 hours
 
   return (
-    <Card className="border border-gray-200 bg-white shadow-sm">
-      <CardHeader>
-        <CardTitle className="flex items-center gap-4">
-          <div className="flex-1">
-            <h3 className="font-bold text-gray-900 text-xl">
-              Smart Meal Suggestions
-            </h3>
-            <p className="mt-1 text-gray-600 text-sm">
-              AI-powered recommendations based on your activity
-            </p>
-          </div>
+    <Card className="overflow-hidden border border-border bg-background shadow-sm">
+      <CardHeader className="pb-4">
+        <div className="flex items-center justify-between">
+          <CardTitle className="text-xl font-bold text-foreground">
+            Smart Meal Suggestions
+          </CardTitle>
           <Badge
-            className="border border-[#FD853A] bg-[#FD853A]/10 px-3 py-1 font-medium text-[#FD853A]"
             variant="outline"
+            className="border border-[#FD853A] bg-[#FD853A]/5 px-2.5 py-1 text-xs font-medium text-[#FD853A]"
           >
             AI Powered
           </Badge>
-        </CardTitle>
+        </div>
+        <p className="text-sm text-muted-foreground">
+          Personalized recommendations based on your activity profile
+        </p>
       </CardHeader>
-      <CardContent>
+
+      <CardContent className="p-0">
         {/* Activity Detection Alert */}
         {hasRecentWorkout && (
-          <div className="border border-[#FD853A]/20 bg-[#FD853A]/5 p-6">
-            <div className="mb-4 flex items-center gap-4">
-              <div className="flex h-12 w-12 items-center justify-center bg-[#FD853A]">
-                <Trophy className="h-6 w-6 text-white" />
+          <div className="border-b border-border bg-gradient-to-b from-[#FD853A]/5 to-transparent p-6 last:border-b-0">
+            <div className="mb-4 flex items-start gap-4">
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#FD853A]">
+                <Trophy className="h-5 w-5 text-white" />
               </div>
               <div className="flex-1">
-                <div className="mb-1 flex items-center gap-3">
-                  <span className="font-bold text-gray-900 text-lg">
-                    Workout Detected
-                  </span>
+                <div className="mb-1 flex flex-wrap items-center gap-2">
+                  <h3 className="text-base font-semibold text-foreground">
+                    Recent Workout Detected
+                  </h3>
                   <Badge
-                    className={`${
-                      workoutTypeColors[lastWorkout.type]
-                    } font-medium`}
                     variant="outline"
+                    className={`${workoutTypeColors[lastWorkout.type]} text-xs`}
                   >
                     {lastWorkout.type.toUpperCase()}
                   </Badge>
                 </div>
-                <p className="text-gray-600 text-sm">
-                  Perfect timing for recovery nutrition
+                <p className="text-sm text-muted-foreground">
+                  Optimize your recovery with these nutrition recommendations
                 </p>
               </div>
             </div>
-            <div className="mb-4 grid grid-cols-3 gap-4">
-              <div className="border border-gray-200 bg-white p-4 text-center">
-                <span className="block font-bold text-2xl text-gray-900">
+
+            <div className="grid grid-cols-3 gap-3">
+              <div className="rounded-lg border border-border bg-card p-3 text-center">
+                <div className="mb-1 flex items-center justify-center text-[#FD853A]">
+                  <Clock className="h-4 w-4" />
+                </div>
+                <span className="block text-lg font-semibold text-foreground">
                   {lastWorkout.duration}
                 </span>
-                <p className="font-medium text-gray-600 text-xs">Min</p>
+                <p className="text-xs text-muted-foreground">Minutes</p>
               </div>
-              <div className="border border-gray-200 bg-white p-4 text-center">
-                <span className="block font-bold text-2xl text-gray-900">
+              <div className="rounded-lg border border-border bg-card p-3 text-center">
+                <div className="mb-1 flex items-center justify-center text-[#FD853A]">
+                  <Flame className="h-4 w-4" />
+                </div>
+                <span className="block text-lg font-semibold text-foreground">
                   {lastWorkout.caloriesBurned}
                 </span>
-                <p className="font-medium text-gray-600 text-xs">Calories</p>
+                <p className="text-xs text-muted-foreground">Calories</p>
               </div>
-              <div className="border border-gray-200 bg-white p-4 text-center">
-                <span className="block font-bold text-2xl text-gray-900 capitalize">
+              <div className="rounded-lg border border-border bg-card p-3 text-center">
+                <div className="mb-1 flex items-center justify-center text-[#FD853A]">
+                  <Dumbbell className="h-4 w-4" />
+                </div>
+                <span className="block text-lg font-semibold capitalize text-foreground">
                   {lastWorkout.intensity}
                 </span>
-                <p className="font-medium text-gray-600 text-xs">Intensity</p>
+                <p className="text-xs text-muted-foreground">Intensity</p>
               </div>
             </div>
-            <p className="text-gray-700 text-sm">
-              Here are personalized meal recommendations to optimize your
-              recovery and fuel your next workout.
-            </p>
-            <div className="mt-4">
-              <Button
-                className="w-full bg-[#FD853A] font-medium text-white hover:bg-[#E8743A]"
-                onClick={() => onViewRecipeAction("")}
-                size="sm"
-              >
-                See More
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
-            </div>
+
+            {suggestions.length > 0 && (
+              <div className="mt-2">
+                <div className="flex items-center justify-between">
+                  <h4 className="text-sm font-medium text-foreground">
+                    Recovery Nutrition
+                  </h4>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="h-8 gap-1 text-xs text-[#FD853A] hover:bg-[#FD853A]/10 hover:text-[#FD853A]"
+                    onClick={() => onViewRecipeAction("")}
+                  >
+                    View All
+                    <ArrowRight className="h-3.5 w-3.5" />
+                  </Button>
+                </div>
+              </div>
+            )}
           </div>
         )}
 
         {/* Upcoming Workout Alert */}
         {upcomingWorkout && (
-          <div className="border border-gray-200 bg-gray-50 p-6">
-            <div className="mb-3 flex items-center gap-4">
-              <div className="flex h-10 w-10 items-center justify-center bg-[#FD853A]">
-                <Calendar className="h-5 w-5 text-white" />
+          <div className="border-b border-border bg-card/50 p-6 last:border-b-0">
+            <div className="mb-3 flex items-center gap-3">
+              <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#FD853A]/10">
+                <Calendar className="h-4 w-4 text-[#FD853A]" />
               </div>
               <div className="flex-1">
-                <span className="font-bold text-gray-900 text-lg">
-                  Upcoming Workout
-                </span>
-                <Badge
-                  className="ml-3 border border-gray-300 bg-white font-medium text-gray-700"
-                  variant="outline"
-                >
-                  {new Date(upcomingWorkout.scheduledAt).toLocaleTimeString(
-                    [],
-                    {
-                      hour: "2-digit",
-                      minute: "2-digit",
-                    }
-                  )}
-                </Badge>
+                <div className="flex flex-wrap items-center gap-2">
+                  <h3 className="text-base font-medium text-foreground">
+                    Upcoming {upcomingWorkout.type} Workout
+                  </h3>
+                  <Badge
+                    variant="outline"
+                    className="border-border bg-background text-xs font-normal text-muted-foreground"
+                  >
+                    {new Date(upcomingWorkout.scheduledAt).toLocaleTimeString(
+                      [],
+                      {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      }
+                    )}
+                  </Badge>
+                </div>
               </div>
             </div>
-            <p className="text-gray-700 text-sm">
-              {upcomingWorkout.type} workout in{" "}
-              <span className="font-bold">
+            <p className="text-sm text-muted-foreground">
+              <span className="font-medium text-foreground">
                 {Math.round(
                   (new Date(upcomingWorkout.scheduledAt).getTime() -
                     Date.now()) /
                     (60 * 1000)
                 )}{" "}
                 minutes
-              </span>
-              . Consider pre-workout nutrition below.
+              </span>{" "}
+              until your workout. Consider these pre-workout nutrition options
+              below.
             </p>
           </div>
         )}
 
         {suggestions.length === 0 && (
-          <div className="py-12 text-center">
-            <h3 className="mb-2 font-bold text-gray-900 text-lg">
+          <div className="p-6 text-center last:border-b-0">
+            <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-[#FD853A]/10">
+              <ChefHat className="h-6 w-6 text-[#FD853A]" />
+            </div>
+            <h3 className="mb-2 text-base font-medium text-foreground">
               No Suggestions Available
             </h3>
-            <p className="mx-auto max-w-md text-gray-600 text-sm">
+            <p className="mx-auto max-w-md text-sm text-muted-foreground">
               Connect your health apps and complete a workout to get
               personalized meal recommendations.
             </p>
+          </div>
+        )}
+
+        {suggestions.length > 0 && !hasRecentWorkout && !upcomingWorkout && (
+          <div className="p-6 last:border-b-0">
+            <div className="flex items-center justify-between">
+              <h4 className="text-sm font-medium text-foreground">
+                Recommended Meals
+              </h4>
+              <Button
+                variant="ghost"
+                size="sm"
+                className="h-8 gap-1 text-xs text-[#FD853A] hover:bg-[#FD853A]/10 hover:text-[#FD853A]"
+                onClick={() => onViewRecipeAction("")}
+              >
+                View All
+                <ArrowRight className="h-3.5 w-3.5" />
+              </Button>
+            </div>
           </div>
         )}
       </CardContent>
