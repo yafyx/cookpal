@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import {
   Activity,
@@ -9,12 +9,22 @@ import {
   Smartphone,
   TrendingUp,
   Zap,
-} from 'lucide-react';
-import { useState } from 'react';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import type { HealthAppConnections, HealthData } from '@/lib/types';
+  ChevronRight,
+  RefreshCw,
+} from "lucide-react";
+import { useState } from "react";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
+import { Separator } from "@/components/ui/separator";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import type { HealthAppConnections, HealthData } from "@/lib/types";
 
 // SVG Icons as React Components
 const GoogleFitIcon = ({ className }: { className?: string }) => (
@@ -77,29 +87,29 @@ interface HealthIntegrationProps {
 
 const healthApps = [
   {
-    id: 'googleFit' as const,
-    name: 'Google Fit',
-    description: 'Track steps, workouts & calories',
+    id: "googleFit" as const,
+    name: "Google Fit",
+    description: "Track steps, workouts & calories",
     icon: GoogleFitIcon,
-    color: '#4285F4',
+    color: "#4285F4",
     features: [
-      'Step counting',
-      'Workout tracking',
-      'Calorie monitoring',
-      'Heart rate data',
+      "Step counting",
+      "Workout tracking",
+      "Calorie monitoring",
+      "Heart rate data",
     ],
   },
   {
-    id: 'appleHealth' as const,
-    name: 'Apple Health',
-    description: 'Sync heart rate & activity data',
+    id: "appleHealth" as const,
+    name: "Apple Health",
+    description: "Sync heart rate & activity data",
     icon: AppleHealthIcon,
-    color: '#FF3B30',
+    color: "#FF3B30",
     features: [
-      'Heart rate monitoring',
-      'Sleep tracking',
-      'Nutrition logging',
-      'Mindfulness data',
+      "Heart rate monitoring",
+      "Sleep tracking",
+      "Nutrition logging",
+      "Mindfulness data",
     ],
   },
 ];
@@ -110,32 +120,33 @@ export default function HealthIntegration({
   onConnectAppAction,
 }: HealthIntegrationProps) {
   const [showDetails, setShowDetails] = useState<string | null>(null);
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
   const connectedAppsCount =
     Object.values(healthAppsConnected).filter(Boolean).length;
   const hasAnyConnection = connectedAppsCount > 0;
 
+  const handleRefreshData = () => {
+    setIsRefreshing(true);
+    // Simulate refresh delay
+    setTimeout(() => setIsRefreshing(false), 1500);
+  };
+
   return (
     <div className="space-y-6">
       {/* Health Apps Integration Card */}
-      <Card className="border border-gray-200 bg-white shadow-sm">
-        <CardHeader className="pb-6">
-          <CardTitle className="flex items-center gap-4">
-            <div className="flex h-12 w-12 items-center justify-center rounded-none bg-gray-100">
-              <Smartphone className="h-6 w-6 text-gray-700" />
-            </div>
+      <Card className="overflow-hidden border-border bg-background shadow-sm">
+        <CardHeader className="bg-gradient-to-r from-background to-background/80">
+          <CardTitle className="flex items-center">
             <div className="flex-1">
-              <h3 className="font-bold text-gray-900 text-xl">
+              <h3 className="text-xl font-bold text-foreground">
                 Health App Integration
               </h3>
-              <p className="mt-1 text-gray-600 text-sm">
+              <p className="mt-1 text-sm text-muted-foreground">
                 Connect your fitness apps for personalized insights
               </p>
             </div>
-            <Badge
-              className="border border-gray-300 bg-white px-3 py-1 font-medium text-gray-700"
-              variant="outline"
-            >
+            <Badge className="bg-primary/10 text-primary" variant="outline">
               {connectedAppsCount} connected
             </Badge>
           </CardTitle>
@@ -147,28 +158,36 @@ export default function HealthIntegration({
 
             return (
               <div
-                className={`border p-6 ${
+                className={`rounded-lg border ${
                   isConnected
-                    ? 'border-[#FD853A] bg-[#FD853A]/5'
-                    : 'border-gray-200 bg-white'
-                }`}
+                    ? "border-primary/20 bg-primary/5"
+                    : "border-border bg-background"
+                } p-6 transition-all hover:shadow-sm`}
                 key={app.id}
               >
                 <div className="mb-4 flex items-start justify-between">
                   <div className="flex items-center gap-4">
-                    <IconComponent className="h-8 w-8" />
+                    <div
+                      className={`flex h-10 w-10 items-center justify-center rounded-md ${
+                        isConnected ? "bg-primary/10" : "bg-muted"
+                      }`}
+                    >
+                      <IconComponent className="h-6 w-6" />
+                    </div>
                     <div>
-                      <p className="mb-1 font-bold text-gray-900 text-lg">
+                      <p className="mb-1 text-lg font-bold text-foreground">
                         {app.name}
                       </p>
-                      <p className="text-gray-600 text-sm">{app.description}</p>
+                      <p className="text-sm text-muted-foreground">
+                        {app.description}
+                      </p>
                     </div>
                   </div>
 
                   <div className="flex flex-col items-end gap-2">
                     {isConnected && (
                       <Badge
-                        className="border border-[#FD853A] bg-[#FD853A]/10 px-3 py-1 font-medium text-[#FD853A]"
+                        className="bg-primary/10 px-3 py-1 font-medium text-primary"
                         variant="outline"
                       >
                         <CheckCircle className="mr-1 h-3 w-3" />
@@ -178,14 +197,14 @@ export default function HealthIntegration({
                     <Button
                       className={
                         isConnected
-                          ? 'border border-gray-300 bg-white px-4 font-medium text-gray-700 hover:bg-gray-50'
-                          : 'bg-[#FD853A] px-4 font-medium text-white hover:bg-[#E8743A]'
+                          ? "border-border bg-background font-medium text-foreground hover:bg-muted"
+                          : "bg-primary font-medium text-primary-foreground hover:bg-primary/90"
                       }
                       onClick={() => onConnectAppAction(app.id)}
                       size="sm"
-                      variant={isConnected ? 'outline' : 'default'}
+                      variant={isConnected ? "outline" : "default"}
                     >
-                      {isConnected ? 'Disconnect' : 'Connect'}
+                      {isConnected ? "Disconnect" : "Connect"}
                     </Button>
                   </div>
                 </div>
@@ -194,7 +213,7 @@ export default function HealthIntegration({
                 <div className="mb-4 flex flex-wrap gap-2">
                   {app.features.map((feature) => (
                     <Badge
-                      className="border border-gray-300 bg-white px-2 py-1 font-normal text-gray-600 text-xs"
+                      className="border-border bg-background px-2 py-1 text-xs font-normal text-muted-foreground"
                       key={feature}
                       variant="outline"
                     >
@@ -205,42 +224,58 @@ export default function HealthIntegration({
 
                 {/* Connection Status Details */}
                 {isConnected && (
-                  <div className="mt-4 border border-gray-200 bg-gray-50 p-4">
-                    <div className="flex items-center gap-2 text-gray-700 text-sm">
-                      <CheckCircle className="h-4 w-4 text-[#FD853A]" />
+                  <div className="mt-4 rounded-md border border-border bg-muted/50 p-4">
+                    <div className="flex items-center gap-2 text-sm text-foreground">
+                      <CheckCircle className="h-4 w-4 text-primary" />
                       <span className="font-medium">
                         Syncing data automatically
                       </span>
-                      <button
-                        className="ml-auto p-1 text-gray-600 hover:text-gray-800"
-                        onClick={() =>
-                          setShowDetails(showDetails === app.id ? null : app.id)
-                        }
-                      >
-                        <Settings className="h-4 w-4" />
-                      </button>
+                      <TooltipProvider>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <button
+                              className="ml-auto rounded-md p-1 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+                              onClick={() =>
+                                setShowDetails(
+                                  showDetails === app.id ? null : app.id
+                                )
+                              }
+                            >
+                              <Settings className="h-4 w-4" />
+                            </button>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <p>Manage connection settings</p>
+                          </TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
                     </div>
 
                     {showDetails === app.id && (
-                      <div className="mt-4 space-y-2 text-gray-700 text-sm">
-                        <div className="flex items-center justify-between border border-gray-200 bg-white px-3 py-2">
-                          <span className="font-medium">Last sync:</span>
-                          <span className="font-medium text-[#FD853A]">
+                      <div className="mt-4 space-y-3 text-sm">
+                        <div className="flex items-center justify-between rounded-md border border-border bg-background px-3 py-2">
+                          <span className="font-medium text-muted-foreground">
+                            Last sync:
+                          </span>
+                          <span className="font-medium text-primary">
                             2 minutes ago
                           </span>
                         </div>
-                        <div className="flex items-center justify-between border border-gray-200 bg-white px-3 py-2">
-                          <span className="font-medium">Data points:</span>
-                          <span className="font-medium text-[#FD853A]">
+                        <div className="flex items-center justify-between rounded-md border border-border bg-background px-3 py-2">
+                          <span className="font-medium text-muted-foreground">
+                            Data points:
+                          </span>
+                          <span className="font-medium text-primary">
                             Steps, Heart Rate, Calories
                           </span>
                         </div>
                         <Button
-                          className="mt-3 w-full border border-gray-300 bg-white text-gray-700 hover:bg-gray-50"
+                          className="mt-3 w-full border-border bg-background text-foreground hover:bg-muted"
                           size="sm"
                           variant="outline"
                         >
                           Open {app.name}
+                          <ChevronRight className="ml-1 h-3 w-3" />
                         </Button>
                       </div>
                     )}
@@ -251,36 +286,36 @@ export default function HealthIntegration({
           })}
 
           {!hasAnyConnection && (
-            <div className="py-12 text-center">
-              <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center bg-gray-100">
-                <AlertCircle className="h-8 w-8 text-gray-600" />
+            <div className="rounded-lg border border-border bg-muted/30 py-12 text-center">
+              <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 text-primary">
+                <AlertCircle className="h-8 w-8" />
               </div>
-              <h3 className="mb-3 font-bold text-gray-900 text-xl">
+              <h3 className="mb-3 text-xl font-bold text-foreground">
                 No Health Apps Connected
               </h3>
-              <p className="mx-auto mb-8 max-w-md text-base text-gray-600">
+              <p className="mx-auto mb-8 max-w-md text-base text-muted-foreground">
                 Connect your health apps to get personalized meal suggestions
                 based on your activity and fitness data
               </p>
-              <div className="border border-gray-200 bg-gray-50 p-6">
-                <h4 className="mb-4 font-bold text-gray-900 text-lg">
+              <div className="mx-auto max-w-lg p-6">
+                <h4 className="mb-4 text-lg font-bold text-foreground">
                   Benefits of connecting:
                 </h4>
-                <ul className="mx-auto max-w-sm space-y-3 text-left text-gray-700 text-sm">
+                <ul className="mx-auto max-w-sm space-y-3 text-left text-sm text-muted-foreground">
                   <li className="flex items-center gap-3">
-                    <CheckCircle className="h-4 w-4 flex-shrink-0 text-[#FD853A]" />
+                    <CheckCircle className="h-4 w-4 flex-shrink-0 text-primary" />
                     <span>Post-workout meal recommendations</span>
                   </li>
                   <li className="flex items-center gap-3">
-                    <CheckCircle className="h-4 w-4 flex-shrink-0 text-[#FD853A]" />
+                    <CheckCircle className="h-4 w-4 flex-shrink-0 text-primary" />
                     <span>Calorie-based portion suggestions</span>
                   </li>
                   <li className="flex items-center gap-3">
-                    <CheckCircle className="h-4 w-4 flex-shrink-0 text-[#FD853A]" />
+                    <CheckCircle className="h-4 w-4 flex-shrink-0 text-primary" />
                     <span>Energy-boosting pre-workout snacks</span>
                   </li>
                   <li className="flex items-center gap-3">
-                    <CheckCircle className="h-4 w-4 flex-shrink-0 text-[#FD853A]" />
+                    <CheckCircle className="h-4 w-4 flex-shrink-0 text-primary" />
                     <span>Recovery-focused nutrition plans</span>
                   </li>
                 </ul>
@@ -292,136 +327,146 @@ export default function HealthIntegration({
 
       {/* Today's Health Summary - Only show if connected */}
       {hasAnyConnection && healthData && (
-        <Card className="border border-gray-200 bg-white shadow-sm">
-          <CardHeader className="pb-4">
-            <CardTitle className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center bg-[#FD853A]">
-                <Activity className="h-5 w-5 text-white" />
+        <Card className="overflow-hidden border-border bg-background shadow-sm">
+          <CardHeader className="bg-gradient-to-r from-background to-background/80">
+            <CardTitle className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div>
+                  <h3 className="text-lg font-bold text-foreground">
+                    Today's Health Summary
+                  </h3>
+                  <p className="text-sm text-muted-foreground">
+                    Real-time data from your connected apps
+                  </p>
+                </div>
               </div>
-              <div className="flex-1">
-                <h3 className="font-bold text-gray-900 text-lg">
-                  Today's Health Summary
-                </h3>
-                <p className="text-gray-600 text-sm">
-                  Real-time data from your connected apps
-                </p>
+              <div className="flex items-center gap-2">
+                <Badge
+                  className="bg-primary/10 font-medium text-primary"
+                  variant="outline"
+                >
+                  Live Data
+                </Badge>
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  onClick={handleRefreshData}
+                  disabled={isRefreshing}
+                  className="h-8 w-8 p-0"
+                >
+                  <RefreshCw
+                    className={`h-4 w-4 ${isRefreshing ? "animate-spin" : ""}`}
+                  />
+                  <span className="sr-only">Refresh data</span>
+                </Button>
               </div>
-              <Badge
-                className="border border-[#FD853A] bg-[#FD853A]/10 font-medium text-[#FD853A]"
-                variant="outline"
-              >
-                Live Data
-              </Badge>
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="border border-gray-200 bg-gray-50 p-4">
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+              <div className="rounded-lg border border-border bg-muted/30 p-5">
                 <div className="mb-3 flex items-center gap-2">
-                  <div className="flex h-8 w-8 items-center justify-center bg-[#FD853A]">
-                    <TrendingUp className="h-4 w-4 text-white" />
+                  <div className="flex h-8 w-8 items-center justify-center rounded-md bg-primary text-primary-foreground">
+                    <TrendingUp className="h-4 w-4" />
                   </div>
-                  <span className="font-bold text-gray-700 text-sm">Steps</span>
+                  <span className="text-sm font-bold text-foreground">
+                    Steps
+                  </span>
                 </div>
-                <p className="mb-2 font-bold text-3xl text-gray-900">
+                <p className="mb-2 text-3xl font-bold text-foreground">
                   {healthData.steps.toLocaleString()}
                 </p>
-                <div className="mb-2 flex items-center justify-between text-gray-600 text-xs">
+                <div className="mb-2 flex items-center justify-between text-xs text-muted-foreground">
                   <span className="font-medium">Goal: 10,000</span>
                   <span className="font-bold">
                     {Math.round((healthData.steps / 10_000) * 100)}%
                   </span>
                 </div>
-                <div className="h-2 w-full bg-gray-200">
-                  <div
-                    className="h-2 bg-[#FD853A]"
-                    style={{
-                      width: `${Math.min((healthData.steps / 10_000) * 100, 100)}%`,
-                    }}
-                  />
-                </div>
+                <Progress
+                  value={Math.min((healthData.steps / 10_000) * 100, 100)}
+                  className="h-2"
+                />
               </div>
 
-              <div className="border border-gray-200 bg-gray-50 p-4">
+              <div className="rounded-lg border border-border bg-muted/30 p-5">
                 <div className="mb-3 flex items-center gap-2">
-                  <div className="flex h-8 w-8 items-center justify-center bg-[#FD853A]">
-                    <Zap className="h-4 w-4 text-white" />
+                  <div className="flex h-8 w-8 items-center justify-center rounded-md bg-primary text-primary-foreground">
+                    <Zap className="h-4 w-4" />
                   </div>
-                  <span className="font-bold text-gray-700 text-sm">
+                  <span className="text-sm font-bold text-foreground">
                     Calories
                   </span>
                 </div>
-                <p className="mb-2 font-bold text-3xl text-gray-900">
+                <p className="mb-2 text-3xl font-bold text-foreground">
                   {healthData.caloriesBurned}
                 </p>
-                <div className="mb-2 flex items-center justify-between text-gray-600 text-xs">
+                <div className="mb-2 flex items-center justify-between text-xs text-muted-foreground">
                   <span className="font-medium">Goal: 500</span>
                   <span className="font-bold">
                     {Math.round((healthData.caloriesBurned / 500) * 100)}%
                   </span>
                 </div>
-                <div className="h-2 w-full bg-gray-200">
-                  <div
-                    className="h-2 bg-[#FD853A]"
-                    style={{
-                      width: `${Math.min((healthData.caloriesBurned / 500) * 100, 100)}%`,
-                    }}
-                  />
-                </div>
+                <Progress
+                  value={Math.min((healthData.caloriesBurned / 500) * 100, 100)}
+                  className="h-2"
+                />
               </div>
 
-              <div className="border border-gray-200 bg-gray-50 p-4">
+              <div className="rounded-lg border border-border bg-muted/30 p-5">
                 <div className="mb-3 flex items-center gap-2">
-                  <div className="flex h-8 w-8 items-center justify-center bg-[#FD853A]">
-                    <Heart className="h-4 w-4 text-white" />
+                  <div className="flex h-8 w-8 items-center justify-center rounded-md bg-primary text-primary-foreground">
+                    <Heart className="h-4 w-4" />
                   </div>
-                  <span className="font-bold text-gray-700 text-sm">
+                  <span className="text-sm font-bold text-foreground">
                     Heart Rate
                   </span>
                 </div>
-                <p className="mb-2 font-bold text-3xl text-gray-900">
+                <p className="mb-2 text-3xl font-bold text-foreground">
                   {healthData.heartRate}
                 </p>
-                <p className="font-medium text-gray-600 text-xs">BPM average</p>
+                <p className="text-xs font-medium text-muted-foreground">
+                  BPM average
+                </p>
               </div>
 
-              <div className="border border-gray-200 bg-gray-50 p-4">
+              <div className="rounded-lg border border-border bg-muted/30 p-5">
                 <div className="mb-3 flex items-center gap-2">
-                  <div className="flex h-8 w-8 items-center justify-center bg-[#FD853A]">
-                    <Activity className="h-4 w-4 text-white" />
+                  <div className="flex h-8 w-8 items-center justify-center rounded-md bg-primary text-primary-foreground">
+                    <Activity className="h-4 w-4" />
                   </div>
-                  <span className="font-bold text-gray-700 text-sm">
+                  <span className="text-sm font-bold text-foreground">
                     Active
                   </span>
                 </div>
-                <p className="mb-2 font-bold text-3xl text-gray-900">
+                <p className="mb-2 text-3xl font-bold text-foreground">
                   {healthData.activeMinutes}
                 </p>
-                <p className="font-medium text-gray-600 text-xs">
+                <p className="text-xs font-medium text-muted-foreground">
                   Minutes today
                 </p>
               </div>
             </div>
 
-            {healthData.lastWorkoutTime !== 'No data' && (
-              <div className="mt-4 border border-[#FD853A]/20 bg-[#FD853A]/5 p-4">
-                <h4 className="mb-2 font-bold text-gray-900">Last Workout</h4>
-                <div className="grid grid-cols-2 gap-4 text-sm">
-                  <div>
-                    <span className="text-gray-600">Type:</span>
-                    <span className="ml-2 font-medium text-gray-900 capitalize">
+            {healthData.lastWorkoutTime !== "No data" && (
+              <div className="mt-6 rounded-lg border border-primary/20 bg-primary/5 p-5">
+                <h4 className="mb-3 font-bold text-foreground">Last Workout</h4>
+                <Separator className="mb-3 bg-primary/10" />
+                <div className="grid grid-cols-1 gap-4 text-sm md:grid-cols-2">
+                  <div className="flex items-center justify-between rounded-md border border-border bg-background p-3">
+                    <span className="text-muted-foreground">Type:</span>
+                    <span className="font-medium text-foreground capitalize">
                       {healthData.workoutType}
                     </span>
                   </div>
-                  <div>
-                    <span className="text-gray-600">Duration:</span>
-                    <span className="ml-2 font-medium text-gray-900">
+                  <div className="flex items-center justify-between rounded-md border border-border bg-background p-3">
+                    <span className="text-muted-foreground">Duration:</span>
+                    <span className="font-medium text-foreground">
                       {healthData.workoutDuration} min
                     </span>
                   </div>
-                  <div className="col-span-2">
-                    <span className="text-gray-600">Completed:</span>
-                    <span className="ml-2 font-medium text-gray-900">
+                  <div className="flex items-center justify-between rounded-md border border-border bg-background p-3 md:col-span-2">
+                    <span className="text-muted-foreground">Completed:</span>
+                    <span className="font-medium text-foreground">
                       {healthData.lastWorkoutTime}
                     </span>
                   </div>
