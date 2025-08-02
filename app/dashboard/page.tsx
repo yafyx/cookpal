@@ -1,7 +1,8 @@
 'use client';
 
-import { ExternalLink, HelpCircle, List, ShoppingCart, X } from 'lucide-react';
+import { BarChart3, ExternalLink, HelpCircle, List, X } from 'lucide-react';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { Drawer } from 'vaul';
 import IngredientItem from '@/components/dashboard/IngredientItem';
@@ -18,12 +19,17 @@ import { useInventory, useRecipes } from '@/hooks/use-storage';
 import { inventoryStorage } from '@/lib/storage';
 
 export default function DashboardPage() {
+  const router = useRouter();
   const { loading: inventoryLoading } = useInventory();
   const { recipes, loading: recipesLoading } = useRecipes();
   const [missingIngredients, setMissingIngredients] = useState<string[]>([]);
   const [tooltipOpen, setTooltipOpen] = useState(false);
   const [isGeneratingList, setIsGeneratingList] = useState(false);
   const [showShoppingDrawer, setShowShoppingDrawer] = useState(false);
+
+  const handleNavigateToNutrition = () => {
+    router.push('/nutrition');
+  };
 
   const shoppingPlatforms = [
     {
@@ -229,7 +235,7 @@ export default function DashboardPage() {
                 {/* One-Tap Shopping List Generator */}
                 <div className="pt-2">
                   <Button
-                    className="w-full rounded-xl py-3 font-semibold text-white shadow-lg transition-all duration-300 hover:bg-gray-900 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
+                    className="w-full rounded-lg py-3 font-semibold text-white shadow-lg transition-all duration-300 hover:bg-gray-900 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
                     disabled={isGeneratingList}
                     onClick={handleGenerateShoppingList}
                     size="lg"
@@ -261,6 +267,35 @@ export default function DashboardPage() {
                 </p>
               </div>
             )}
+          </div>
+        </div>
+
+        {/* Nutrition Section */}
+        <div className="space-y-3">
+          <div className="flex items-center gap-2">
+            <h2 className="font-semibold text-black text-lg">
+              Track Your Nutrition
+            </h2>
+            <BarChart3 className="h-5 w-5 text-[#fd853a]" />
+          </div>
+
+          <div className="rounded-xl border border-[#fd853a]/20 bg-gradient-to-r from-[#fd853a]/10 to-[#f2bf23]/10 p-4">
+            <div className="space-y-3 text-center">
+              <div className="font-semibold text-2xl text-[#fd853a]">67.3</div>
+              <div className="text-gray-600 text-sm">
+                Your current nutrition score
+              </div>
+              <div className="text-gray-500 text-xs">
+                You need more protein intake this week
+              </div>
+              <Button
+                className="w-full rounded-lg bg-[#181d27] text-white hover:bg-[#282d37]"
+                onClick={handleNavigateToNutrition}
+                size="sm"
+              >
+                View Detailed Nutrition
+              </Button>
+            </div>
           </div>
         </div>
       </div>
