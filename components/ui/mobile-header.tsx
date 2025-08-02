@@ -65,7 +65,7 @@ export function MobileHeader({
             {logo ? (
               <div className="flex items-center">{logo}</div>
             ) : (
-              <h1 className="font-bold text-[#181d27] text-3xl">{title}</h1>
+              <h1 className="font-bold text-3xl text-[#181d27]">{title}</h1>
             )}
             {subtitle && <p className="text-[#414651] text-sm">{subtitle}</p>}
           </div>
@@ -75,20 +75,20 @@ export function MobileHeader({
         <div className="flex items-center space-x-2">
           {showSearch && (
             <Button
-              className="h-8 w-8"
+              className="h-10 w-10"
               onClick={onSearchClick}
               size="icon"
               variant="ghost"
             >
-              <Search className="h-5 w-5 text-[#414651]" />
+              <Search className="h-6 w-6 text-[#414651]" />
             </Button>
           )}
           {rightAction}
         </div>
       </header>
-      
+
       {/* Spacer div to prevent content from being hidden behind fixed header on mobile */}
-      <div className="h-[72px] md:h-0 flex-shrink-0" />
+      <div className="h-[72px] flex-shrink-0 md:h-0" />
     </>
   );
 }

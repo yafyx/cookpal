@@ -1,5 +1,8 @@
 'use client';
 
+import { HelpCircle } from 'lucide-react';
+import Image from 'next/image';
+import { useEffect, useState } from 'react';
 import IngredientItem from '@/components/dashboard/IngredientItem';
 import RecipeCard from '@/components/dashboard/RecipeCard';
 import BottomNavigation from '@/components/ui/bottom-navigation';
@@ -11,9 +14,6 @@ import {
 } from '@/components/ui/tooltip';
 import { useInventory, useRecipes } from '@/hooks/use-storage';
 import { inventoryStorage } from '@/lib/storage';
-import { HelpCircle } from 'lucide-react';
-import Image from 'next/image';
-import { useEffect, useState } from 'react';
 
 export default function DashboardPage() {
   const { loading: inventoryLoading } = useInventory();
@@ -76,11 +76,11 @@ export default function DashboardPage() {
           logo={
             <Image
               alt="CookPal"
-              className="h-8 w-auto"
-              height={32}
+              className="h-12 w-auto"
+              height={48}
               priority
               src="/cookpal.svg"
-              width={120}
+              width={180}
             />
           }
           showSearch
@@ -100,42 +100,44 @@ export default function DashboardPage() {
         logo={
           <Image
             alt="CookPal"
-            className="h-8 w-auto"
-            height={32}
+            className="h-12 w-auto"
+            height={48}
             priority
             src="/cookpal.svg"
-            width={120}
+            width={180}
           />
         }
         showSearch
       />
 
       {/* Main Content */}
-      <div className="flex-1 space-y-6 px-4">
+      <div className="flex-1 space-y-6 px-4 pt-4">
         {/* Main Title */}
         <h1 className="font-semibold text-2xl text-[#181d27] tracking-tight">
           What dish you wish to cook today?
         </h1>
 
         {/* Recipe Cards Carousel */}
-        <div className="flex gap-2 overflow-x-auto">
-          {recipes.length > 0 ? (
-            recipes
-              .slice(0, 3)
-              .map((recipe) => (
-                <RecipeCard
-                  backgroundImage={recipe.image}
-                  duration="30m"
-                  id={recipe.id}
-                  key={recipe.id}
-                  title={recipe.name}
-                />
-              ))
-          ) : (
-            <div className="flex h-[200px] w-[330px] items-center justify-center rounded-3xl bg-gray-100">
-              <p className="text-gray-500">No recipes available</p>
-            </div>
-          )}
+        <div className="flex snap-x snap-mandatory gap-2 overflow-x-auto scroll-smooth px-4">
+          <div className="flex gap-2">
+            {recipes.length > 0 ? (
+              recipes
+                .slice(0, 3)
+                .map((recipe) => (
+                  <RecipeCard
+                    backgroundImage={recipe.image}
+                    duration="30m"
+                    id={recipe.id}
+                    key={recipe.id}
+                    title={recipe.name}
+                  />
+                ))
+            ) : (
+              <div className="flex h-[200px] w-[330px] items-center justify-center rounded-3xl bg-gray-100">
+                <p className="text-gray-500">No recipes available</p>
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Missing Ingredients Section */}

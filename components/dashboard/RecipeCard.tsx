@@ -1,8 +1,8 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
 import { Timer } from 'lucide-react';
 import Link from 'next/link';
+import { Button } from '@/components/ui/button';
 
 interface RecipeCardProps {
   id?: string;
@@ -19,7 +19,7 @@ export default function RecipeCard({
 }: RecipeCardProps) {
   return (
     <Link
-      className="relative h-[449px] w-[330px] flex-shrink-0 overflow-hidden rounded-3xl"
+      className="relative h-[449px] w-[380px] flex-shrink-0 snap-start overflow-hidden rounded-3xl"
       href={`/recipe/${id}`}
       style={{
         backgroundImage: `linear-gradient(rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.4) 100%), url('${backgroundImage}')`,

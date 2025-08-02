@@ -101,6 +101,264 @@ const DEFAULT_BURGER_RECIPE: Recipe = {
     ],
 };
 
+// Garlic Roasted Chicken recipe
+const DEFAULT_ROASTED_CHICKEN_RECIPE: Recipe = {
+    id: 'roasted-chicken-1',
+    name: 'Garlic Roasted Chicken',
+    creator: 'CookPal',
+    image: '/assets/fcroasted.png',
+    description:
+        'Succulent chicken pieces roasted with whole garlic cloves and aromatic herbs. The garlic becomes sweet and caramelized, creating a rich, flavorful dish perfect for family dinners.',
+    nutrition: {
+        energy: '485Kcal',
+        carbs: '8g',
+        proteins: '42g',
+        fats: '32g',
+    },
+    ingredients: [
+        {
+            id: 'chicken-thighs-1',
+            name: 'Chicken Thighs',
+            quantity: '8 pieces',
+            image: '/assets/ingredients/brisket.png',
+        },
+        {
+            id: 'garlic-1',
+            name: 'Garlic Cloves',
+            quantity: '20 cloves',
+            image: '/assets/ingredients/redonion.png',
+        },
+        {
+            id: 'rosemary-1',
+            name: 'Fresh Rosemary',
+            quantity: '4 sprigs',
+            image: '/assets/ingredients/lettuce.png',
+        },
+        {
+            id: 'thyme-1',
+            name: 'Fresh Thyme',
+            quantity: '6 sprigs',
+            image: '/assets/ingredients/lettuce.png',
+        },
+        {
+            id: 'olive-oil-1',
+            name: 'Olive Oil',
+            quantity: '3 tbsp',
+            image: '/assets/ingredients/brisket.png',
+        },
+        {
+            id: 'bread-1',
+            name: 'Crusty Bread',
+            quantity: '4 slices',
+            image: '/assets/ingredients/bun.png',
+        },
+    ],
+    cookingSteps: [
+        {
+            id: 'step-1',
+            step: 1,
+            instruction: 'Preheat oven to 400°F (200°C).',
+            duration: '5 mins',
+        },
+        {
+            id: 'step-2',
+            step: 2,
+            instruction: 'Season chicken thighs with salt, pepper, and herbs.',
+            duration: '3 mins',
+        },
+        {
+            id: 'step-3',
+            step: 3,
+            instruction: 'Arrange chicken and whole garlic cloves in a roasting pan.',
+            duration: '2 mins',
+        },
+        {
+            id: 'step-4',
+            step: 4,
+            instruction: 'Drizzle with olive oil and roast for 45-50 minutes.',
+            duration: '45 mins',
+        },
+        {
+            id: 'step-5',
+            step: 5,
+            instruction: 'Serve with crusty bread to soak up the juices.',
+            duration: '2 mins',
+        },
+    ],
+};
+
+// Pasta Carbonara recipe
+const DEFAULT_CARBONARA_RECIPE: Recipe = {
+    id: 'carbonara-1',
+    name: 'Classic Pasta Carbonara',
+    creator: 'CookPal',
+    image: '/assets/pastacarbonara.png',
+    description:
+        'Authentic Italian pasta carbonara with creamy egg sauce, crispy pancetta, and freshly grated Parmesan cheese. A simple yet elegant dish that showcases the beauty of Italian cuisine.',
+    nutrition: {
+        energy: '620Kcal',
+        carbs: '65g',
+        proteins: '28g',
+        fats: '32g',
+    },
+    ingredients: [
+        {
+            id: 'spaghetti-1',
+            name: 'Spaghetti',
+            quantity: '400g',
+            image: '/assets/ingredients/bun.png',
+        },
+        {
+            id: 'pancetta-1',
+            name: 'Pancetta',
+            quantity: '150g',
+            image: '/assets/ingredients/brisket.png',
+        },
+        {
+            id: 'eggs-1',
+            name: 'Large Eggs',
+            quantity: '4 pieces',
+            image: '/assets/ingredients/brisket.png',
+        },
+        {
+            id: 'parmesan-1',
+            name: 'Parmesan Cheese',
+            quantity: '100g',
+            image: '/assets/ingredients/cheddarcheese.png',
+        },
+        {
+            id: 'black-pepper-1',
+            name: 'Black Pepper',
+            quantity: '2 tsp',
+            image: '/assets/ingredients/redonion.png',
+        },
+        {
+            id: 'garlic-2',
+            name: 'Garlic Cloves',
+            quantity: '2 cloves',
+            image: '/assets/ingredients/redonion.png',
+        },
+    ],
+    cookingSteps: [
+        {
+            id: 'step-1',
+            step: 1,
+            instruction: 'Bring a large pot of salted water to boil for pasta.',
+            duration: '5 mins',
+        },
+        {
+            id: 'step-2',
+            step: 2,
+            instruction: 'Cook pancetta in a large skillet until crispy.',
+            duration: '8 mins',
+        },
+        {
+            id: 'step-3',
+            step: 3,
+            instruction: 'Cook spaghetti according to package directions.',
+            duration: '10 mins',
+        },
+        {
+            id: 'step-4',
+            step: 4,
+            instruction: 'Whisk eggs, cheese, and pepper in a bowl.',
+            duration: '2 mins',
+        },
+        {
+            id: 'step-5',
+            step: 5,
+            instruction: 'Combine hot pasta with egg mixture and pancetta.',
+            duration: '3 mins',
+        },
+    ],
+};
+
+// Surf & Turf recipe
+const DEFAULT_SURF_TURF_RECIPE: Recipe = {
+    id: 'surf-turf-1',
+    name: 'Surf & Turf',
+    creator: 'CookPal',
+    image: '/assets/surfnturf.png',
+    description:
+        'A luxurious combination of perfectly grilled steak and succulent seafood. This classic surf and turf dish is perfect for special occasions and romantic dinners.',
+    nutrition: {
+        energy: '680Kcal',
+        carbs: '12g',
+        proteins: '58g',
+        fats: '45g',
+    },
+    ingredients: [
+        {
+            id: 'steak-1',
+            name: 'Ribeye Steak',
+            quantity: '250g',
+            image: '/assets/ingredients/brisket.png',
+        },
+        {
+            id: 'shrimp-1',
+            name: 'Large Shrimp',
+            quantity: '8 pieces',
+            image: '/assets/ingredients/brisket.png',
+        },
+        {
+            id: 'garlic-3',
+            name: 'Garlic Cloves',
+            quantity: '4 cloves',
+            image: '/assets/ingredients/redonion.png',
+        },
+        {
+            id: 'butter-1',
+            name: 'Butter',
+            quantity: '3 tbsp',
+            image: '/assets/ingredients/cheddarcheese.png',
+        },
+        {
+            id: 'lemon-1',
+            name: 'Lemon',
+            quantity: '1 piece',
+            image: '/assets/ingredients/tomato.png',
+        },
+        {
+            id: 'herbs-1',
+            name: 'Fresh Herbs',
+            quantity: '2 tbsp',
+            image: '/assets/ingredients/lettuce.png',
+        },
+    ],
+    cookingSteps: [
+        {
+            id: 'step-1',
+            step: 1,
+            instruction: 'Season steak with salt and pepper, let rest at room temperature.',
+            duration: '30 mins',
+        },
+        {
+            id: 'step-2',
+            step: 2,
+            instruction: 'Preheat grill or cast iron skillet to high heat.',
+            duration: '5 mins',
+        },
+        {
+            id: 'step-3',
+            step: 3,
+            instruction: 'Grill steak to desired doneness (4-5 minutes per side for medium-rare).',
+            duration: '10 mins',
+        },
+        {
+            id: 'step-4',
+            step: 4,
+            instruction: 'Cook shrimp with garlic and butter until pink and opaque.',
+            duration: '4 mins',
+        },
+        {
+            id: 'step-5',
+            step: 5,
+            instruction: 'Serve steak and shrimp together with lemon wedges and fresh herbs.',
+            duration: '2 mins',
+        },
+    ],
+};
+
 // Default inventory items
 const DEFAULT_INVENTORY: Ingredient[] = [
     {
@@ -143,6 +401,54 @@ const DEFAULT_INVENTORY: Ingredient[] = [
         id: 'inv-7',
         name: 'Beef Patty',
         quantity: '4 pieces',
+        image: '/assets/ingredients/brisket.png',
+    },
+    {
+        id: 'inv-8',
+        name: 'Chicken Thighs',
+        quantity: '8 pieces',
+        image: '/assets/ingredients/brisket.png',
+    },
+    {
+        id: 'inv-9',
+        name: 'Garlic Cloves',
+        quantity: '30 cloves',
+        image: '/assets/ingredients/redonion.png',
+    },
+    {
+        id: 'inv-10',
+        name: 'Spaghetti',
+        quantity: '500g',
+        image: '/assets/ingredients/bun.png',
+    },
+    {
+        id: 'inv-11',
+        name: 'Pancetta',
+        quantity: '200g',
+        image: '/assets/ingredients/brisket.png',
+    },
+    {
+        id: 'inv-12',
+        name: 'Large Eggs',
+        quantity: '12 pieces',
+        image: '/assets/ingredients/brisket.png',
+    },
+    {
+        id: 'inv-13',
+        name: 'Parmesan Cheese',
+        quantity: '150g',
+        image: '/assets/ingredients/cheddarcheese.png',
+    },
+    {
+        id: 'inv-14',
+        name: 'Ribeye Steak',
+        quantity: '2 pieces',
+        image: '/assets/ingredients/brisket.png',
+    },
+    {
+        id: 'inv-15',
+        name: 'Large Shrimp',
+        quantity: '16 pieces',
         image: '/assets/ingredients/brisket.png',
     },
 ];
@@ -205,7 +511,7 @@ function initializeDefaultData(): void {
     }
 
     if (!existingRecipes) {
-        _setInStorage(STORAGE_KEYS.RECIPES, [DEFAULT_BURGER_RECIPE]);
+        _setInStorage(STORAGE_KEYS.RECIPES, [DEFAULT_BURGER_RECIPE, DEFAULT_ROASTED_CHICKEN_RECIPE, DEFAULT_CARBONARA_RECIPE, DEFAULT_SURF_TURF_RECIPE]);
     }
 }
 
@@ -214,6 +520,9 @@ export const recipeStorage = {
     getAll: (): Recipe[] => {
         const recipes = getFromStorage(STORAGE_KEYS.RECIPES, [
             DEFAULT_BURGER_RECIPE,
+            DEFAULT_ROASTED_CHICKEN_RECIPE,
+            DEFAULT_CARBONARA_RECIPE,
+            DEFAULT_SURF_TURF_RECIPE,
         ]);
         return recipes;
     },
