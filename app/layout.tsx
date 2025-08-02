@@ -1,29 +1,29 @@
-import type { Metadata, Viewport } from 'next';
-import { Inter } from 'next/font/google';
-import './globals.css';
+import type { Metadata, Viewport } from "next";
+import { Inter } from "next/font/google";
+import "./globals.css";
 
 const inter = Inter({
-  variable: '--font-inter',
-  subsets: ['latin'],
-  display: 'swap',
+  variable: "--font-inter",
+  subsets: ["latin"],
+  display: "swap",
 });
 
 export const viewport: Viewport = {
-  width: 'device-width',
+  width: "device-width",
   initialScale: 1,
   maximumScale: 5,
   userScalable: true,
-  themeColor: '#ffffff',
+  themeColor: "#ffffff",
 };
 
 export const metadata: Metadata = {
-  title: 'CookPal - Your Cooking Companion',
+  title: "CookPal - Your Cooking Companion",
   description:
-    'A mobile-first cooking companion app to help you discover, plan, and cook delicious meals',
+    "A mobile-first cooking companion app to help you discover, plan, and cook delicious meals",
   appleWebApp: {
     capable: true,
-    statusBarStyle: 'default',
-    title: 'CookPal',
+    statusBarStyle: "default",
+    title: "CookPal",
   },
   formatDetection: {
     telephone: false,
