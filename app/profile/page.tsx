@@ -56,27 +56,27 @@ export default function ProfilePage() {
   });
 
   const [healthData] = useState<HealthData>({
-    steps: 0,
-    caloriesBurned: 0,
-    heartRate: 0,
-    workoutDuration: 0,
-    lastWorkoutTime: 'No data',
-    workoutType: 'cardio',
-    activeMinutes: 0,
+    steps: 8472,
+    caloriesBurned: 342,
+    heartRate: 72,
+    workoutDuration: 45,
+    lastWorkoutTime: '2 hours ago',
+    workoutType: 'strength',
+    activeMinutes: 28,
   });
 
   const [activityContext] = useState<ActivityContext>({
     lastWorkout: {
-      type: 'cardio',
-      duration: 0,
-      intensity: 'low',
-      completedAt: new Date().toISOString(),
-      caloriesBurned: 0,
+      type: 'strength',
+      duration: 45,
+      intensity: 'moderate',
+      completedAt: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(), // 2 hours ago
+      caloriesBurned: 342,
     },
     dailyActivity: {
-      steps: 0,
-      activeMinutes: 0,
-      sedentaryMinutes: 0,
+      steps: 8472,
+      activeMinutes: 28,
+      sedentaryMinutes: 720, // 12 hours sedentary
     },
   });
 
@@ -157,14 +157,12 @@ export default function ProfilePage() {
     }));
   };
 
-  const handleViewRecipe = (recipeId: string) => {
+  const handleViewRecipe = (_recipeId: string) => {
     // Navigate to recipe details
-    console.log('Viewing recipe:', recipeId);
   };
 
-  const handlePlanMeal = (suggestion: SmartMealSuggestion) => {
+  const handlePlanMeal = (_suggestion: SmartMealSuggestion) => {
     // Add to meal planner
-    console.log('Planning meal:', suggestion);
   };
 
   const hasAnyHealthAppConnected = Object.values(
