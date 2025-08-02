@@ -55,7 +55,7 @@ export default function ProfilePage() {
     },
   });
 
-  const [healthData, setHealthData] = useState<HealthData>({
+  const [healthData] = useState<HealthData>({
     steps: 0,
     caloriesBurned: 0,
     heartRate: 0,
@@ -172,13 +172,13 @@ export default function ProfilePage() {
   ).some(Boolean);
 
   return (
-    <div className="flex min-h-screen w-full flex-col bg-gradient-to-br from-slate-50 via-white to-blue-50/30">
+    <div className="flex min-h-screen w-full flex-col bg-white">
       <MobileHeader title="Profile" />
       <main className="flex-1 overflow-y-auto pb-20">
         <div className="mx-auto max-w-2xl space-y-6 px-4 py-6">
           {/* Profile Header Card */}
-          <Card className="overflow-hidden border-0 bg-white/95 shadow-xl backdrop-blur-md">
-            <CardContent className="p-6">
+          <Card className="overflow-hidden border border-gray-200 bg-white shadow-sm">
+            <CardContent className="p-8">
               <ProfileHeader userProfile={userProfile} />
             </CardContent>
           </Card>
