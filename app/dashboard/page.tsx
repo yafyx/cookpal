@@ -98,31 +98,66 @@ export default function DashboardPage() {
     }
   }, [recipes, recipesLoading]);
 
-  // Get missing ingredients data from recipes (limit to first 3)
+  // Helper function to parse quantity numbers
+  const parseQuantity = (quantityStr: string): number => {
+    const match = quantityStr.match(/(\d+(?:\.\d+)?)/);
+    return match ? Number.parseFloat(match[1]) : 1;
+  };
+
+  // Helper function to get quantity unit
+  const getQuantityUnit = (quantityStr: string): string => {
+    return quantityStr.replace(/^\d+(?:\.\d+)?\s*/, '') || 'piece';
+  };
+
+  // Get missing ingredients data with correct missing quantities
   const missingIngredientsData = missingIngredients
     .map((missingName) => {
-      // Find the ingredient in any recipe to get its image and quantity
+      let totalMissingQuantity = 0;
+      let unit = 'piece';
+      let ingredientId = `missing-${missingName}`;
+      let ingredientImage = '';
+
+      // Calculate total missing quantity across all recipes
       for (const recipe of recipes) {
         const ingredient = recipe.ingredients.find(
           (ing) => ing.name.toLowerCase() === missingName.toLowerCase()
         );
         if (ingredient) {
-          return {
-            id: ingredient.id,
-            name: ingredient.name,
-            quantity: ingredient.quantity,
-            image: ingredient.image,
-          };
+          ingredientId = ingredient.id;
+          ingredientImage = ingredient.image;
+          unit = getQuantityUnit(ingredient.quantity);
+
+          const requiredQuantity = parseQuantity(ingredient.quantity);
+
+          // Check what we have in inventory
+          const inventory = inventoryStorage.getAll();
+          const inventoryItem = inventory.find(
+            (inv) => inv.name.toLowerCase() === missingName.toLowerCase()
+          );
+
+          const availableQuantity = inventoryItem
+            ? parseQuantity(inventoryItem.quantity)
+            : 0;
+          const missingForThisRecipe = Math.max(
+            0,
+            requiredQuantity - availableQuantity
+          );
+
+          totalMissingQuantity += missingForThisRecipe;
         }
       }
-      // Fallback if ingredient not found in any recipe
+
       return {
-        id: `missing-${missingName}`,
+        id: ingredientId,
         name: missingName,
-        quantity: '1 piece',
-        image: '',
+        quantity:
+          totalMissingQuantity > 0
+            ? `${totalMissingQuantity} ${unit}`
+            : `1 ${unit}`,
+        image: ingredientImage,
       };
     })
+    .filter((ingredient) => parseQuantity(ingredient.quantity) > 0) // Only show items we actually need
     .slice(0, 3);
 
   const loading = inventoryLoading || recipesLoading;
@@ -340,22 +375,54 @@ export default function DashboardPage() {
                   </div>
 
                   {/* Shopping List Preview */}
-                  <div className="mb-2 rounded-xl bg-gray-50 p-4">
-                    <h3 className="mb-2 font-medium text-gray-700 text-sm">
-                      Shopping List Preview
-                    </h3>
-                    <div className="flex flex-wrap gap-2">
-                      {missingIngredientsData.map((ingredient) => (
+                  <div className="mb-4 rounded-2xl border border-orange-100 bg-gradient-to-br from-orange-50 to-amber-50 p-5 shadow-sm">
+                    <div className="mb-4 flex items-center gap-2">
+                      <div className="flex h-8 w-8 items-center justify-center rounded-full bg-orange-100">
+                        <List className="h-4 w-4 text-orange-600" />
+                      </div>
+                      <div>
+                        <h3 className="font-semibold text-gray-800 text-sm">
+                          Shopping List Preview
+                        </h3>
+                        <p className="text-gray-500 text-xs">
+                          {missingIngredientsData.length} items to purchase
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="space-y-2">
+                      {missingIngredientsData.map((ingredient, index) => (
                         <div
-                          className="flex items-center gap-2 rounded-full border bg-white px-3 py-1 text-xs"
+                          className="flex items-center justify-between rounded-xl border border-white/80 bg-white/70 px-4 py-3 shadow-sm backdrop-blur-sm transition-all duration-200 hover:bg-white/90 hover:shadow-md"
                           key={ingredient.id}
                         >
-                          <span>{ingredient.name}</span>
-                          <span className="text-gray-500">
-                            ({ingredient.quantity})
-                          </span>
+                          <div className="flex items-center gap-3">
+                            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-100 font-medium text-gray-600 text-xs">
+                              {index + 1}
+                            </div>
+                            <div className="flex flex-col">
+                              <span className="font-medium text-gray-800 text-sm leading-tight">
+                                {ingredient.name}
+                              </span>
+                              <span className="text-gray-500 text-xs">
+                                Need to buy
+                              </span>
+                            </div>
+                          </div>
+                          <div className="text-right">
+                            <span className="font-semibold text-orange-600 text-sm">
+                              {ingredient.quantity}
+                            </span>
+                          </div>
                         </div>
                       ))}
+                    </div>
+
+                    <div className="mt-4 flex items-center gap-2 rounded-lg bg-orange-100/50 px-3 py-2">
+                      <div className="h-2 w-2 animate-pulse rounded-full bg-orange-500" />
+                      <span className="font-medium text-orange-700 text-xs">
+                        Ready to sync with your chosen platform
+                      </span>
                     </div>
                   </div>
 
