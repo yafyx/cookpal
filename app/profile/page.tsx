@@ -175,7 +175,7 @@ export default function ProfilePage() {
       <main className="flex-1 overflow-y-auto pb-20">
         <div className="mx-auto max-w-2xl space-y-6 px-4 py-6">
           {/* Profile Header Card */}
-          <Card className="overflow-hidden border border-gray-200 bg-white shadow-sm">
+          <Card className="overflow-hidden border border-gray-200 bg-white">
             <CardContent className="p-8">
               <ProfileHeader userProfile={userProfile} />
             </CardContent>

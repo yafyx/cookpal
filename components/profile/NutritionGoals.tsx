@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import { Settings, Target } from "lucide-react";
+import { Settings, Target } from 'lucide-react';
 
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import type { UserProfile } from "@/lib/types";
-import { cn } from "@/lib/utils";
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import type { UserProfile } from '@/lib/types';
+import { cn } from '@/lib/utils';
 
 interface NutritionGoalsProps {
   userProfile: UserProfile;
@@ -20,7 +20,7 @@ interface NutritionItemProps {
 
 const NutritionItem = ({ label, value, unit, icon }: NutritionItemProps) => {
   return (
-    <div className="relative overflow-hidden rounded-lg border border-border bg-background transition-all hover:shadow-md">
+    <div className="relative overflow-hidden rounded-lg border border-border bg-background transition-all">
       <div className="absolute top-0 left-0 h-1 w-full bg-gradient-to-r from-[#FD853A] to-[#FD853A]/70" />
       <div className="p-5">
         <div className="mb-4 flex items-center gap-3">
@@ -41,28 +41,28 @@ const NutritionItem = ({ label, value, unit, icon }: NutritionItemProps) => {
 export default function NutritionGoals({ userProfile }: NutritionGoalsProps) {
   const nutritionItems: NutritionItemProps[] = [
     {
-      label: "Calories",
+      label: 'Calories',
       value: userProfile.nutritionGoals.dailyCalories,
-      unit: "kcal/day",
-      icon: "C",
+      unit: 'kcal/day',
+      icon: 'C',
     },
     {
-      label: "Protein",
+      label: 'Protein',
       value: userProfile.nutritionGoals.minProtein,
-      unit: "g/day",
-      icon: "P",
+      unit: 'g/day',
+      icon: 'P',
     },
     {
-      label: "Carbs",
+      label: 'Carbs',
       value: userProfile.nutritionGoals.maxCarbs,
-      unit: "g/day",
-      icon: "C",
+      unit: 'g/day',
+      icon: 'C',
     },
     {
-      label: "Fats",
+      label: 'Fats',
       value: userProfile.nutritionGoals.maxFats,
-      unit: "g/day",
-      icon: "F",
+      unit: 'g/day',
+      icon: 'F',
     },
   ];
 
@@ -75,10 +75,10 @@ export default function NutritionGoals({ userProfile }: NutritionGoalsProps) {
             <Target className="h-6 w-6" />
           </div>
           <div>
-            <h3 className="text-xl font-bold text-foreground">
+            <h3 className="font-bold text-foreground text-xl">
               Daily Nutrition Goals
             </h3>
-            <p className="mt-1 text-sm text-muted-foreground">
+            <p className="mt-1 text-muted-foreground text-sm">
               Track your nutritional targets
             </p>
           </div>
@@ -89,19 +89,19 @@ export default function NutritionGoals({ userProfile }: NutritionGoalsProps) {
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             {nutritionItems.map((item) => (
               <NutritionItem
+                icon={item.icon}
                 key={item.label}
                 label={item.label}
-                value={item.value}
                 unit={item.unit}
-                icon={item.icon}
+                value={item.value}
               />
             ))}
           </div>
 
           <Button
             className={cn(
-              "w-full font-medium",
-              "bg-[#FD853A] hover:bg-[#FD853A]/90 text-white"
+              'w-full font-medium',
+              'bg-[#FD853A] text-white hover:bg-[#FD853A]/90'
             )}
           >
             <Settings className="mr-2 h-4 w-4" />

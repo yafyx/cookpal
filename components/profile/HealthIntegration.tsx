@@ -1,30 +1,30 @@
-"use client";
+'use client';
 
 import {
   Activity,
   AlertCircle,
   CheckCircle,
+  ChevronRight,
   Heart,
+  RefreshCw,
   Settings,
   Smartphone,
   TrendingUp,
   Zap,
-  ChevronRight,
-  RefreshCw,
-} from "lucide-react";
-import { useState } from "react";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
-import { Separator } from "@/components/ui/separator";
+} from 'lucide-react';
+import { useState } from 'react';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Progress } from '@/components/ui/progress';
+import { Separator } from '@/components/ui/separator';
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@/components/ui/tooltip";
-import type { HealthAppConnections, HealthData } from "@/lib/types";
+} from '@/components/ui/tooltip';
+import type { HealthAppConnections, HealthData } from '@/lib/types';
 
 // SVG Icons as React Components
 const GoogleFitIcon = ({ className }: { className?: string }) => (
@@ -87,29 +87,29 @@ interface HealthIntegrationProps {
 
 const healthApps = [
   {
-    id: "googleFit" as const,
-    name: "Google Fit",
-    description: "Track steps, workouts & calories",
+    id: 'googleFit' as const,
+    name: 'Google Fit',
+    description: 'Track steps, workouts & calories',
     icon: GoogleFitIcon,
-    color: "#4285F4",
+    color: '#4285F4',
     features: [
-      "Step counting",
-      "Workout tracking",
-      "Calorie monitoring",
-      "Heart rate data",
+      'Step counting',
+      'Workout tracking',
+      'Calorie monitoring',
+      'Heart rate data',
     ],
   },
   {
-    id: "appleHealth" as const,
-    name: "Apple Health",
-    description: "Sync heart rate & activity data",
+    id: 'appleHealth' as const,
+    name: 'Apple Health',
+    description: 'Sync heart rate & activity data',
     icon: AppleHealthIcon,
-    color: "#FF3B30",
+    color: '#FF3B30',
     features: [
-      "Heart rate monitoring",
-      "Sleep tracking",
-      "Nutrition logging",
-      "Mindfulness data",
+      'Heart rate monitoring',
+      'Sleep tracking',
+      'Nutrition logging',
+      'Mindfulness data',
     ],
   },
 ];
@@ -135,14 +135,14 @@ export default function HealthIntegration({
   return (
     <div className="space-y-6">
       {/* Health Apps Integration Card */}
-      <Card className="overflow-hidden border-border bg-background shadow-sm">
+      <Card className="overflow-hidden border-border bg-background">
         <CardHeader className="bg-gradient-to-r from-background to-background/80">
           <CardTitle className="flex items-center">
             <div className="flex-1">
-              <h3 className="text-xl font-bold text-foreground">
+              <h3 className="font-bold text-foreground text-xl">
                 Health App Integration
               </h3>
-              <p className="mt-1 text-sm text-muted-foreground">
+              <p className="mt-1 text-muted-foreground text-sm">
                 Connect your fitness apps for personalized insights
               </p>
             </div>
@@ -160,8 +160,8 @@ export default function HealthIntegration({
               <div
                 className={`rounded-lg border ${
                   isConnected
-                    ? "border-primary/20 bg-primary/5"
-                    : "border-border bg-background"
+                    ? 'border-primary/20 bg-primary/5'
+                    : 'border-border bg-background'
                 } p-6 transition-all hover:shadow-sm`}
                 key={app.id}
               >
@@ -169,16 +169,16 @@ export default function HealthIntegration({
                   <div className="flex items-center gap-4">
                     <div
                       className={`flex h-10 w-10 items-center justify-center rounded-md ${
-                        isConnected ? "bg-primary/10" : "bg-muted"
+                        isConnected ? 'bg-primary/10' : 'bg-muted'
                       }`}
                     >
                       <IconComponent className="h-6 w-6" />
                     </div>
                     <div>
-                      <p className="mb-1 text-lg font-bold text-foreground">
+                      <p className="mb-1 font-bold text-foreground text-lg">
                         {app.name}
                       </p>
-                      <p className="text-sm text-muted-foreground">
+                      <p className="text-muted-foreground text-sm">
                         {app.description}
                       </p>
                     </div>
@@ -197,14 +197,14 @@ export default function HealthIntegration({
                     <Button
                       className={
                         isConnected
-                          ? "border-border bg-background font-medium text-foreground hover:bg-muted"
-                          : "bg-primary font-medium text-primary-foreground hover:bg-primary/90"
+                          ? 'border-border bg-background font-medium text-foreground hover:bg-muted'
+                          : 'bg-primary font-medium text-primary-foreground hover:bg-primary/90'
                       }
                       onClick={() => onConnectAppAction(app.id)}
                       size="sm"
-                      variant={isConnected ? "outline" : "default"}
+                      variant={isConnected ? 'outline' : 'default'}
                     >
-                      {isConnected ? "Disconnect" : "Connect"}
+                      {isConnected ? 'Disconnect' : 'Connect'}
                     </Button>
                   </div>
                 </div>
@@ -213,7 +213,7 @@ export default function HealthIntegration({
                 <div className="mb-4 flex flex-wrap gap-2">
                   {app.features.map((feature) => (
                     <Badge
-                      className="border-border bg-background px-2 py-1 text-xs font-normal text-muted-foreground"
+                      className="border-border bg-background px-2 py-1 font-normal text-muted-foreground text-xs"
                       key={feature}
                       variant="outline"
                     >
@@ -225,7 +225,7 @@ export default function HealthIntegration({
                 {/* Connection Status Details */}
                 {isConnected && (
                   <div className="mt-4 rounded-md border border-border bg-muted/50 p-4">
-                    <div className="flex items-center gap-2 text-sm text-foreground">
+                    <div className="flex items-center gap-2 text-foreground text-sm">
                       <CheckCircle className="h-4 w-4 text-primary" />
                       <span className="font-medium">
                         Syncing data automatically
@@ -290,7 +290,7 @@ export default function HealthIntegration({
               <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 text-primary">
                 <AlertCircle className="h-8 w-8" />
               </div>
-              <h3 className="mb-3 text-xl font-bold text-foreground">
+              <h3 className="mb-3 font-bold text-foreground text-xl">
                 No Health Apps Connected
               </h3>
               <p className="mx-auto mb-8 max-w-md text-base text-muted-foreground">
@@ -298,10 +298,10 @@ export default function HealthIntegration({
                 based on your activity and fitness data
               </p>
               <div className="mx-auto max-w-lg p-6">
-                <h4 className="mb-4 text-lg font-bold text-foreground">
+                <h4 className="mb-4 font-bold text-foreground text-lg">
                   Benefits of connecting:
                 </h4>
-                <ul className="mx-auto max-w-sm space-y-3 text-left text-sm text-muted-foreground">
+                <ul className="mx-auto max-w-sm space-y-3 text-left text-muted-foreground text-sm">
                   <li className="flex items-center gap-3">
                     <CheckCircle className="h-4 w-4 flex-shrink-0 text-primary" />
                     <span>Post-workout meal recommendations</span>
@@ -327,15 +327,15 @@ export default function HealthIntegration({
 
       {/* Today's Health Summary - Only show if connected */}
       {hasAnyConnection && healthData && (
-        <Card className="overflow-hidden border-border bg-background shadow-sm">
+        <Card className="overflow-hidden border-border bg-background">
           <CardHeader className="bg-gradient-to-r from-background to-background/80">
             <CardTitle className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <div>
-                  <h3 className="text-lg font-bold text-foreground">
+                  <h3 className="font-bold text-foreground text-lg">
                     Today's Health Summary
                   </h3>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-muted-foreground text-sm">
                     Real-time data from your connected apps
                   </p>
                 </div>
@@ -348,14 +348,14 @@ export default function HealthIntegration({
                   Live Data
                 </Badge>
                 <Button
+                  className="h-8 w-8 p-0"
+                  disabled={isRefreshing}
+                  onClick={handleRefreshData}
                   size="sm"
                   variant="ghost"
-                  onClick={handleRefreshData}
-                  disabled={isRefreshing}
-                  className="h-8 w-8 p-0"
                 >
                   <RefreshCw
-                    className={`h-4 w-4 ${isRefreshing ? "animate-spin" : ""}`}
+                    className={`h-4 w-4 ${isRefreshing ? 'animate-spin' : ''}`}
                   />
                   <span className="sr-only">Refresh data</span>
                 </Button>
@@ -369,22 +369,22 @@ export default function HealthIntegration({
                   <div className="flex h-8 w-8 items-center justify-center rounded-md bg-primary text-primary-foreground">
                     <TrendingUp className="h-4 w-4" />
                   </div>
-                  <span className="text-sm font-bold text-foreground">
+                  <span className="font-bold text-foreground text-sm">
                     Steps
                   </span>
                 </div>
-                <p className="mb-2 text-3xl font-bold text-foreground">
+                <p className="mb-2 font-bold text-3xl text-foreground">
                   {healthData.steps.toLocaleString()}
                 </p>
-                <div className="mb-2 flex items-center justify-between text-xs text-muted-foreground">
+                <div className="mb-2 flex items-center justify-between text-muted-foreground text-xs">
                   <span className="font-medium">Goal: 10,000</span>
                   <span className="font-bold">
                     {Math.round((healthData.steps / 10_000) * 100)}%
                   </span>
                 </div>
                 <Progress
-                  value={Math.min((healthData.steps / 10_000) * 100, 100)}
                   className="h-2"
+                  value={Math.min((healthData.steps / 10_000) * 100, 100)}
                 />
               </div>
 
@@ -393,22 +393,22 @@ export default function HealthIntegration({
                   <div className="flex h-8 w-8 items-center justify-center rounded-md bg-primary text-primary-foreground">
                     <Zap className="h-4 w-4" />
                   </div>
-                  <span className="text-sm font-bold text-foreground">
+                  <span className="font-bold text-foreground text-sm">
                     Calories
                   </span>
                 </div>
-                <p className="mb-2 text-3xl font-bold text-foreground">
+                <p className="mb-2 font-bold text-3xl text-foreground">
                   {healthData.caloriesBurned}
                 </p>
-                <div className="mb-2 flex items-center justify-between text-xs text-muted-foreground">
+                <div className="mb-2 flex items-center justify-between text-muted-foreground text-xs">
                   <span className="font-medium">Goal: 500</span>
                   <span className="font-bold">
                     {Math.round((healthData.caloriesBurned / 500) * 100)}%
                   </span>
                 </div>
                 <Progress
-                  value={Math.min((healthData.caloriesBurned / 500) * 100, 100)}
                   className="h-2"
+                  value={Math.min((healthData.caloriesBurned / 500) * 100, 100)}
                 />
               </div>
 
@@ -417,14 +417,14 @@ export default function HealthIntegration({
                   <div className="flex h-8 w-8 items-center justify-center rounded-md bg-primary text-primary-foreground">
                     <Heart className="h-4 w-4" />
                   </div>
-                  <span className="text-sm font-bold text-foreground">
+                  <span className="font-bold text-foreground text-sm">
                     Heart Rate
                   </span>
                 </div>
-                <p className="mb-2 text-3xl font-bold text-foreground">
+                <p className="mb-2 font-bold text-3xl text-foreground">
                   {healthData.heartRate}
                 </p>
-                <p className="text-xs font-medium text-muted-foreground">
+                <p className="font-medium text-muted-foreground text-xs">
                   BPM average
                 </p>
               </div>
@@ -434,20 +434,20 @@ export default function HealthIntegration({
                   <div className="flex h-8 w-8 items-center justify-center rounded-md bg-primary text-primary-foreground">
                     <Activity className="h-4 w-4" />
                   </div>
-                  <span className="text-sm font-bold text-foreground">
+                  <span className="font-bold text-foreground text-sm">
                     Active
                   </span>
                 </div>
-                <p className="mb-2 text-3xl font-bold text-foreground">
+                <p className="mb-2 font-bold text-3xl text-foreground">
                   {healthData.activeMinutes}
                 </p>
-                <p className="text-xs font-medium text-muted-foreground">
+                <p className="font-medium text-muted-foreground text-xs">
                   Minutes today
                 </p>
               </div>
             </div>
 
-            {healthData.lastWorkoutTime !== "No data" && (
+            {healthData.lastWorkoutTime !== 'No data' && (
               <div className="mt-6 rounded-lg border border-primary/20 bg-primary/5 p-5">
                 <h4 className="mb-3 font-bold text-foreground">Last Workout</h4>
                 <Separator className="mb-3 bg-primary/10" />

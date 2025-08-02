@@ -13,7 +13,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 export default function AccountSettings() {
   return (
-    <Card className="border border-gray-200 bg-white shadow-sm">
+    <Card className="border border-gray-200 bg-white">
       <CardHeader className="pb-6">
         <CardTitle className="flex items-center gap-4">
           <div className="flex h-12 w-12 items-center justify-center bg-gray-100">
